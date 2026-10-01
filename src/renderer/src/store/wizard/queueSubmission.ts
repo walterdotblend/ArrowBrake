@@ -1,6 +1,6 @@
 import {DEFAULTS} from '@shared/constants.js'
 import {allDownloadProfiles, downloadProfileLabel, downloadProfileRefFor, resolveActiveDownloadProfile, resolveDownloadProfile, resolveDownloadProfileBaseDir, resolveDownloadProfileOutputDir, type ResolvedDownloadProfile} from '@shared/downloadProfiles.js'
-import type {DownloadProfile, DownloadProfileRef, NativeAudioPreference, PlaylistEntry, PlaylistSelection, ProbeResult, QueueItem, QueueLane} from '@shared/types.js'
+import type {DownloadProfile, DownloadProfileRef, NativeAudioPreference, PlaylistEntry, PlaylistSelection, ProbeResult, QueueItem, QueueLane, VideoEncode} from '@shared/types.js'
 import type {PreparedJob} from '@shared/preparedJob.js'
 import type {EmbedOptions, SubtitleOptions} from '@shared/preparedJob.js'
 import {prepareJob} from '@shared/prepareJob.js'
@@ -48,7 +48,8 @@ function buildSingleQueueItemFromState(state: AppState, lane: QueueLane): QueueI
 	const videoResolution = resolveVideoResolution(selectedVideoFormatId, wizardFormats, 'audio-only')
 
 	const formatId = buildFormatId(selectedVideoFormatId, audioSelection)
-	const audioConvert = buildAudioConvertPayload(audioSelection)
+	const videoEncode = state.wizardEncodeEnabled && state.wizardVideoEncode.enabled ? state.wizardVideoEncode : undefined
+	const audioConvert = state.wizardEncodeEnabled ? buildAudioConvertPayload(audioSelection) : undefined
 	const formatLabel = buildFormatLabel(selectedVideoFormatId, videoResolution, audioSelection, audioFormats, activePreset)
 
 	const nativeAudioId = audioSelection.kind === 'native' ? audioSelection.formatId : null
@@ -71,6 +72,7 @@ function buildSingleQueueItemFromState(state: AppState, lane: QueueLane): QueueI
 		extractorKey: state.wizardExtractorKey,
 		formatId,
 		audioConvert,
+		videoEncode,
 		activePreset,
 		expectedBytes,
 		filenameTemplate,
@@ -103,21 +105,29 @@ function buildSingleQueueItemFromState(state: AppState, lane: QueueLane): QueueI
 	}
 }
 
-function resolvePlaylistFormatLabel(s: PlaylistSelection): string {
+function resolvePlaylistFormatLabel(s: PlaylistSelection, videoEncode?: VideoEncode): string {
 	if (s.kind === 'audio') {
 		if (s.format === 'best') return i18next.t('playlistPresets.audioFormat.best')
 		return i18next.t('playlistPresets.audioFormatBitrate', {format: s.format.toUpperCase(), kbps: s.bitrateKbps ?? 192})
 	}
 	const tierLabel = i18next.t(`playlistPresets.tier.${s.tier}` as const)
-	if (s.codec === 'mp4') return `${i18next.t('playlistPresets.videoFormat.mp4')} · ${tierLabel}`
-	return tierLabel
+	const base = s.codec === 'mp4' ? `${i18next.t('playlistPresets.videoFormat.mp4')} · ${tierLabel}` : tierLabel
+	if (videoEncode?.enabled) {
+		return `${base} [${videoEncode.container.toUpperCase()} · ${videoEncode.codec.toUpperCase()}]`
+	}
+	return base
 }
 
 function buildPlaylistQueueItem(entry: PlaylistEntry, state: AppState, playlistGroupId: string, lane: QueueLane, displayIndex?: number): QueueItem {
 	const {playlistSelection} = state
 	if (!playlistSelection) throw new Error('playlist selection missing')
 
-	const formatLabel = resolvePlaylistFormatLabel(playlistSelection)
+	// If encode is disabled, audio must stay native 'best'
+	const effectivePlaylistSelection: PlaylistSelection = !state.wizardEncodeEnabled && playlistSelection.kind === 'audio' ? {kind: 'audio', format: 'best'} : playlistSelection
+
+	const videoEncode = state.wizardEncodeEnabled && state.wizardVideoEncode.enabled ? state.wizardVideoEncode : undefined
+
+	const formatLabel = resolvePlaylistFormatLabel(effectivePlaylistSelection, videoEncode)
 	const template = resolveJobFilenameTemplate(undefined, state.settings?.common?.filenameTemplate)
 	// Display number within the sorted selected set (001..N contiguous). Passed
 	// only as template metadata — never written back onto the entry, whose
@@ -131,7 +141,18 @@ function buildPlaylistQueueItem(entry: PlaylistEntry, state: AppState, playlistG
 	const embed: EmbedOptions = {chapters: state.wizardEmbedChapters, metadata: state.wizardEmbedMetadata, thumbnail: state.wizardEmbedThumbnail, description: state.wizardWriteDescription, thumbnailSidecar: state.wizardWriteThumbnail}
 
 	const nativeAudioPreference = state.settings?.common?.nativeAudioPreference ?? DEFAULTS.nativeAudioPreference
-	const job = prepareJob({mode: 'playlist', extractor: state.wizardExtractor, extractorKey: state.wizardExtractorKey, playlistSelection, nativeAudioPreference, filenameTemplate, sponsorBlockMode: state.wizardSponsorBlockMode, sponsorBlockCategories: state.wizardSponsorBlockCategories, embed})
+	const job = prepareJob({
+		mode: 'playlist',
+		extractor: state.wizardExtractor,
+		extractorKey: state.wizardExtractorKey,
+		playlistSelection: effectivePlaylistSelection,
+		nativeAudioPreference,
+		videoEncode,
+		filenameTemplate,
+		sponsorBlockMode: state.wizardSponsorBlockMode,
+		sponsorBlockCategories: state.wizardSponsorBlockCategories,
+		embed
+	})
 
 	return {
 		id: generateId(),
@@ -269,6 +290,7 @@ function profileJob(resolved: ResolvedDownloadProfile, extractor: string, extrac
 		extractorKey,
 		mediaIntent: resolved.intent,
 		nativeAudioPreference,
+		videoEncode: resolved.profile.videoEncode?.enabled ? resolved.profile.videoEncode : undefined,
 		filenameTemplate,
 		subtitles: resolved.subtitles,
 		sponsorBlockMode: resolved.sponsorBlock.mode,

@@ -119,7 +119,10 @@ describe('infoDictSchema — null normalization + _type discrimination', () => {
 
 describe('audioConvertSchema', () => {
 	it.each([
+		{target: 'mp3' as const, bitrateKbps: 64},
+		{target: 'mp3' as const, bitrateKbps: 96},
 		{target: 'mp3' as const, bitrateKbps: 128 as const},
+		{target: 'mp3' as const, bitrateKbps: 160},
 		{target: 'mp3' as const, bitrateKbps: 192 as const},
 		{target: 'mp3' as const, bitrateKbps: 256 as const},
 		{target: 'mp3' as const, bitrateKbps: 320 as const},
@@ -131,7 +134,7 @@ describe('audioConvertSchema', () => {
 		expect(audioConvertSchema.safeParse(value).success).toBe(true)
 	})
 
-	it.each([{target: 'flac'}, {target: 'mp3'}, {target: 'mp3', bitrateKbps: 96}, {target: 'mp3', bitrateKbps: 256000}, {}])('rejects %j', value => {
+	it.each([{target: 'flac'}, {target: 'mp3'}, {target: 'mp3', bitrateKbps: 16}, {target: 'mp3', bitrateKbps: 256000}, {}])('rejects %j', value => {
 		expect(audioConvertSchema.safeParse(value).success).toBe(false)
 	})
 

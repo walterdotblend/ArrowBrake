@@ -32,6 +32,15 @@ export interface AudioConvert {
 	bitrateKbps?: number
 }
 
+export interface VideoRecode {
+	container: string
+	codec?: string
+	rateControl?: 'crf' | 'bitrate'
+	crf?: number
+	bitrateKbps?: number
+	preset?: string
+}
+
 export interface PlaylistScope {
 	items: {kind: 'app-limit'} | {kind: 'first'; count: number} | {kind: 'range'; from: number; to: number}
 }
@@ -68,6 +77,7 @@ export interface CallerMediaWorkflowInput {
 	output: CallerOutput
 	selection?: {formatId?: string; formatSelector?: string; formatSort?: string; mergeOutputFormat?: string; skipDownload?: boolean}
 	audio?: {convert?: AudioConvert}
+	video?: {recode?: VideoRecode}
 	subtitles?: {embed?: boolean; languages: string[]; writeAuto?: boolean}
 	sponsorBlock?: SponsorBlockPlan
 	extractor?: {youtube?: {playerClient?: string[]}}
@@ -609,10 +619,38 @@ function appendCallerMediaSelectionArgs(args: string[], input: CallerMediaWorkfl
 	if (selection?.formatSelector) {
 		args.push('-f', selection.formatSelector)
 		if (selection.formatSort) args.push('-S', selection.formatSort)
-		if (selection.mergeOutputFormat && !embedSubs) args.push('--merge-output-format', selection.mergeOutputFormat)
-		return
+		if (selection.mergeOutputFormat && !embedSubs && !input.video?.recode) args.push('--merge-output-format', selection.mergeOutputFormat)
+	} else if (selection?.formatId) {
+		args.push('-f', selection.formatId)
 	}
-	if (selection?.formatId) args.push('-f', selection.formatId)
+
+	if (input.video?.recode) {
+		const recode = input.video.recode
+		args.push('--recode-video', recode.container)
+		const ppaParts: string[] = []
+		if (recode.codec && recode.codec !== 'copy') {
+			const codecMap: Record<string, string> = {h264: 'libx264', hevc: 'libx265', h265: 'libx265', vp9: 'libvpx-vp9', av1: 'libsvtav1'}
+			const ffmpegCodec = codecMap[recode.codec] ?? recode.codec
+			ppaParts.push(`-c:v ${ffmpegCodec}`)
+		} else if (recode.codec === 'copy') {
+			ppaParts.push('-c:v copy')
+		}
+
+		if (recode.codec !== 'copy') {
+			if (recode.rateControl === 'bitrate' && recode.bitrateKbps) {
+				ppaParts.push(`-b:v ${recode.bitrateKbps}k -maxrate ${recode.bitrateKbps}k -bufsize ${recode.bitrateKbps * 2}k`)
+			} else if (recode.crf !== undefined) {
+				ppaParts.push(`-crf ${recode.crf}`)
+			}
+			if (recode.preset) {
+				ppaParts.push(`-preset ${recode.preset}`)
+			}
+		}
+
+		if (ppaParts.length > 0) {
+			args.push('--postprocessor-args', `VideoConvertor:${ppaParts.join(' ')}`)
+		}
+	}
 }
 
 function appendCallerOutputArgs(args: string[], input: CallerMediaWorkflowInput, skipDownload: boolean): void {

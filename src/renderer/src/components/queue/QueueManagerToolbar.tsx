@@ -1,7 +1,7 @@
 import type {ReactNode} from 'react'
 import type {Column} from '@tanstack/react-table'
 import type {TFunction} from 'i18next'
-import {Columns3, Inbox, Pause, Play, Trash2, X} from 'lucide-react'
+import {Columns3, Inbox, Pause, Play, Trash2, X, Zap} from 'lucide-react'
 import type {QueueItem} from '@shared/types.js'
 import {cn} from '@renderer/lib/utils.js'
 import {Button} from '../ui/button.js'
@@ -30,6 +30,12 @@ interface QueueManagerToolbarProps {
 }
 
 export function QueueManagerToolbar({t, queue, selectedItems, selectedCount, filter, columns, onFilterChange, onSelectedAction, schedulerPaused, onPauseAll, onResumeAll, onCancelAll, onClearCompleted}: QueueManagerToolbarProps): ReactNode {
+	const encodingItems = queue.filter(item => item.status === 'running' && item.lastStatus?.key === 'convertingVideo')
+	const totalFps = encodingItems.reduce((sum, item) => {
+		const match = /,\s*(\d+)\s*fps/i.exec(item.progressDetail ?? '')
+		return sum + (match ? Number(match[1]) : 0)
+	}, 0)
+
 	return (
 		<>
 			<div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/70 pb-3">
@@ -77,6 +83,17 @@ export function QueueManagerToolbar({t, queue, selectedItems, selectedCount, fil
 					})}
 				</div>
 				<div className="flex flex-wrap items-center gap-2">
+					{totalFps > 0 && (
+						<div
+							className="inline-flex h-7 items-center gap-1.5 rounded-full border border-purple-500/40 bg-purple-500/15 px-2.5 text-[11px] font-medium text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] animate-in fade-in"
+							data-testid="queue-total-fps"
+							title={t('queue.totalFpsTooltip', {count: encodingItems.length})}
+						>
+							<Zap size={12} className="text-purple-400 fill-purple-400 animate-pulse" aria-hidden />
+							<span className="font-semibold tabular-nums">{totalFps} FPS</span>
+							<span className="text-[10px] opacity-75 font-mono">({t('queue.totalFpsTasks', {count: encodingItems.length})})</span>
+						</div>
+					)}
 					<Popover>
 						<PopoverTrigger
 							render={

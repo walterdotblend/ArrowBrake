@@ -5,11 +5,11 @@
 		"logs": "日志",
 		"saveDiagnostics": "保存诊断文件",
 		"saveDiagnosticsDescription": "将日志和应用信息汇总到“下载”文件夹中的一个文件里，可直接附加到 GitHub issue。你的用户文件夹名称会被移除；视频链接和标题会保留。",
-		"feedbackNudge": "喜欢 Arroxy 吗?我很想听听你的想法! 💬",
+		"feedbackNudge": "喜欢 ArrowBrake 吗?我很想听听你的想法! 💬",
 		"zoomIn": "放大",
 		"zoomOut": "缩小"
 	},
-	"about": {"button": "关于", "openTitle": "关于 Arroxy", "tagline": "适用于 YouTube 和其他 2000+ 网站的快速友好下载器。", "websiteLink": "官网", "githubLink": "GitHub", "licenseLine": "MIT 许可证 · 作者 Antonio Orionus", "thirdPartyNotices": "查看第三方声明"},
+	"about": {"button": "关于", "openTitle": "关于 ArrowBrake", "tagline": "适用于 YouTube 和其他 2000+ 网站的快速友好下载器。", "websiteLink": "官网", "githubLink": "GitHub", "licenseLine": "MIT 许可证 · 作者 Antonio Orionus", "thirdPartyNotices": "查看第三方声明"},
 	"titleBar": {"close": "关闭", "minimize": "最小化", "maximize": "最大化", "restore": "还原"},
 	"splash": {"greeting": "嘿,欢迎回来!", "warmup": "正在准备下载…", "downloading": "正在下载 {{binary}}…", "verifying": "正在检查 {{binary}}…", "verifyFirstCheck": "本版本的首次检查——这次会比较慢，通常需要一分钟左右。", "cancel": "遇到问题？手动设置", "warmupFailedNoDiag": "初始化失败。打开设置日志查看详情。"},
 	"repair": {
@@ -99,7 +99,7 @@
 			"nestedPlaylistHint_other": "其中 {{count}} 项是播放列表，不是视频 — 逐个粘贴它们的链接即可下载。",
 			"probeLimitAlertTitle": "播放列表扫描已达上限",
 			"probeLimitAlertTitleGeneric": "扫描已达上限",
-			"probeLimitAlertDesc": "Arroxy 发现超过 {{count}} 个项目，当前扫描上限隐藏了其余内容。",
+			"probeLimitAlertDesc": "ArrowBrake 发现超过 {{count}} 个项目，当前扫描上限隐藏了其余内容。",
 			"multiProfileEntry": "为每一项分配配置",
 			"multiProfileEntryTooltip": "跳过画质、SponsorBlock、输出和保存 — 改为为每一项分配下载配置",
 			"removeFromListCount_one": "从列表中移除 {{count}} 项",
@@ -112,7 +112,7 @@
 		},
 		"bulk": {
 			"title": "批量 URL",
-			"description": "粘贴视频、播放列表、频道、搜索或音频 URL。Arroxy 会在加入队列前清理重复项。",
+			"description": "粘贴视频、播放列表、频道、搜索或音频 URL。ArrowBrake 会在加入队列前清理重复项。",
 			"textareaLabel": "URL 列表",
 			"textareaPlaceholder": "https://video.example/one\nhttps://video.example/two\nhttps://video.example/three",
 			"acceptedCount": "就绪",
@@ -132,11 +132,11 @@
 			"pickFromPlaylist": "从 Playlist 中挑选",
 			"quickWholePlaylist": "下载整个播放列表",
 			"playlistLimit": "播放列表探测限制：{{count}} 个项目",
-			"quickLimitDescription": "Arroxy 在将播放列表、频道或搜索结果加入队列前最多扫描的条目数。",
+			"quickLimitDescription": "ArrowBrake 在将播放列表、频道或搜索结果加入队列前最多扫描的条目数。",
 			"singleTooltip": "使用 yt-dlp 单视频模式，因此会忽略此 URL 附带的播放列表。",
 			"quickSingleTooltip": "将一个下载加入队列，并忽略此 URL 附带的播放列表。",
 			"playlistTooltip": "使用 yt-dlp 播放列表模式，并在显示选择器前获取到你的探测限制。",
-			"quickPlaylistTooltip": "使用当前的快速下载配置，将每个已加载的播放列表条目加入队列。如果扫描达到你的上限，Arroxy 会在加入队列前询问。"
+			"quickPlaylistTooltip": "使用当前的快速下载配置，将每个已加载的播放列表条目加入队列。如果扫描达到你的上限，ArrowBrake 会在加入队列前询问。"
 		},
 		"url": {
 			"heading": "从 URL 下载",
@@ -182,12 +182,12 @@
 			"bulkButton": "批量 URL",
 			"bulkTooltip": "添加多个 URL 并加入队列。",
 			"features": {
-				"heading": "Arroxy 能下载什么",
+				"heading": "ArrowBrake 能下载什么",
 				"youtube": {"heading": "YouTube", "video": "视频", "channel": "频道", "playlist": "播放列表", "short": "Shorts", "music": "音乐", "podcast": "播客"},
 				"anySite": {"heading": "2000+ 个网站", "video": "视频", "videoPlaylist": "视频播放列表", "musicPlaylist": "音乐播放列表"},
 				"always": {"audioOnly": "纯音频", "subtitles": "字幕"}
 			},
-			"mascotIdle": "丢个链接，让 Arroxy 来拉取 ✨",
+			"mascotIdle": "丢个链接，让 ArrowBrake 来拉取 ✨",
 			"mascotBusy": "正在后台下载… 我可以同时处理多个任务 😎",
 			"advanced": "高级",
 			"settings": {"inputHeading": "输入", "behaviorHeading": "下载行为", "behaviorDescription": "全局行为，同样影响由配置驱动的下载。"},
@@ -204,7 +204,7 @@
 			},
 			"hotkey": {
 				"sectionTitle": "全局快捷键",
-				"sectionDescription": "在任意应用复制链接即可下载，无需打开 Arroxy。",
+				"sectionDescription": "在任意应用复制链接即可下载，无需打开 ArrowBrake。",
 				"toggle": "启用全局快捷键",
 				"toggleDescription": "剪贴板中有视频链接时按下快捷键。",
 				"changeShortcut": "更改快捷键",
@@ -212,7 +212,7 @@
 				"test": "测试",
 				"conflict": "此快捷键已被其他应用占用 — 请另选一个。",
 				"hintLabel": "或按",
-				"hintTooltip": "在任意位置复制视频链接，按下此快捷键，Arroxy 就会使用当前配置将其加入队列 — 无需切换窗口。",
+				"hintTooltip": "在任意位置复制视频链接，按下此快捷键，ArrowBrake 就会使用当前配置将其加入队列 — 无需切换窗口。",
 				"hintTooltipSettings": "在设置中更改或关闭它。",
 				"reset": "恢复默认"
 			},
@@ -240,14 +240,14 @@
 			"proxy": {"label": "Proxy URL", "description": "通过代理路由流量 — 适用于地区限制内容。", "placeholder": "http://host:port", "clear": "清除"},
 			"backdrop": {
 				"panelTitle": "外观与性能",
-				"panelDescription": "选择 Arroxy 在动画背景中使用多少动态效果。",
+				"panelDescription": "选择 ArrowBrake 在动画背景中使用多少动态效果。",
 				"modeLabel": "背景质量",
 				"modeDescription": "从最丰富的动画效果切换到最佳性能。",
 				"cssOnlyLabel": "最佳性能",
 				"cssOnlyDescription": "仅使用 CSS，不进行 canvas 渲染。",
 				"gpuLabel": "最美观",
 				"gpuDescription": "支持时使用动画 WebGL 背景。",
-				"runtimeFallbackNotice": "此设备不支持硬件 WebGL，因此 Arroxy 正在使用性能背景。"
+				"runtimeFallbackNotice": "此设备不支持硬件 WebGL，因此 ArrowBrake 正在使用性能背景。"
 			},
 			"limitRate": {
 				"label": "下载速度限制",
@@ -260,7 +260,7 @@
 			},
 			"playlistProbeLimit": {
 				"label": "要扫描的播放列表项目数",
-				"description": "打开播放列表、频道或搜索结果时，Arroxy 最多加载的条目数。",
+				"description": "打开播放列表、频道或搜索结果时，ArrowBrake 最多加载的条目数。",
 				"option": "{{count}} 个项目",
 				"current": "当前上限：{{count}} 个项目",
 				"customValue": "自定义：{{count}} 个项目",
@@ -270,7 +270,7 @@
 				"customDialogCancel": "取消",
 				"customDialogSave": "保存上限",
 				"invalid": "请输入 1 到 5000 之间的整数",
-				"tooltip": "对应 yt-dlp 的 --playlist-end 参数：Arroxy 在构建选择器时仅请求这么多播放列表、频道或搜索条目。"
+				"tooltip": "对应 yt-dlp 的 --playlist-end 参数：ArrowBrake 在构建选择器时仅请求这么多播放列表、频道或搜索条目。"
 			},
 			"nativeAudioPreference": {"label": "原生音频偏好", "description": "控制“最佳原生”会选择什么。手动音频行和 M4A/AAC 仍保持显式选择。", "compatible": "兼容立体声", "surround": "优先环绕声 / Dolby"},
 			"autoRetry": {"label": "重试失败的下载", "description": "在网络或服务器故障后自动重试，每次尝试之间等待更久。被网站拦截的下载永远不会自动重试。", "unit": "次"},
@@ -278,12 +278,12 @@
 			"downloadConnections": {"label": "下载连接数", "description": "同时获取视频的多个部分，加快大文件下载。数值越高，被网站限制的可能性越大。", "unit": "个连接"},
 			"networkPacing": {
 				"heading": "温和下载",
-				"description": "在每次下载时添加小等待，使 Arroxy 不会过于频繁地访问网站。数值单位为秒。",
-				"presetLabel": "Arroxy 应该多谨慎？",
+				"description": "在每次下载时添加小等待，使 ArrowBrake 不会过于频繁地访问网站。数值单位为秒。",
+				"presetLabel": "ArrowBrake 应该多谨慎？",
 				"tooltip": "这些等待发生在每次下载内部。同时进行的下载数量在「同时下载数」中单独设置。",
 				"summary": "等待：{{requests}} 次检查间隔，{{downloads}} 媒体开始前，{{subtitles}} 字幕文件前。",
 				"presets": {"off": "关闭", "balanced": "均衡", "careful": "谨慎", "custom": "自定义"},
-				"tooltips": {"off": "仅使用 Arroxy 为媒体和字幕保留的小基准暂停。", "balanced": "默认。在请求之间和媒体开始前添加短暂停顿。", "careful": "为大型播放列表或经常触达限制的网络添加更长的暂停。", "custom": "自行调整每次下载的高级控制参数。"},
+				"tooltips": {"off": "仅使用 ArrowBrake 为媒体和字幕保留的小基准暂停。", "balanced": "默认。在请求之间和媒体开始前添加短暂停顿。", "careful": "为大型播放列表或经常触达限制的网络添加更长的暂停。", "custom": "自行调整每次下载的高级控制参数。"},
 				"fields": {"sleepRequests": "元数据检查之间的等待", "sleepInterval": "媒体开始前暂停：最小值", "maxSleepInterval": "媒体开始前暂停：最大值", "sleepSubtitles": "字幕文件前等待"},
 				"units": {"seconds": "秒"}
 			},
@@ -292,9 +292,9 @@
 		},
 		"quickProgress": {
 			"title": "正在准备快速下载",
-			"description": "Arroxy 正在读取链接并应用 {{profileName}}。",
+			"description": "ArrowBrake 正在读取链接并应用 {{profileName}}。",
 			"currentFallback": "当前链接",
-			"waitHint": "Arroxy 准备队列时请保持此窗口打开。",
+			"waitHint": "ArrowBrake 准备队列时请保持此窗口打开。",
 			"failedCount_one": "{{count}} 个失败",
 			"failedCount_other": "{{count}} 个失败",
 			"cancel": "取消准备",
@@ -526,7 +526,7 @@
 		}
 	},
 	"update": {
-		"message": {"generic": "Arroxy {{version}} 可用 — 当前为 {{currentVersion}}。", "homebrew": "Arroxy {{version}} 可用 — 请用 Homebrew 更新。", "macosDirect": "Arroxy {{version}} 可用 — 下载新的 DMG。", "portable": "Arroxy {{version}} 可用 — 下载新的构建。"},
+		"message": {"generic": "ArrowBrake {{version}} 可用 — 当前为 {{currentVersion}}。", "homebrew": "ArrowBrake {{version}} 可用 — 请用 Homebrew 更新。", "macosDirect": "ArrowBrake {{version}} 可用 — 下载新的 DMG。", "portable": "ArrowBrake {{version}} 可用 — 下载新的构建。"},
 		"install": "安装并重启",
 		"downloading": "下载中…",
 		"download": "下载 ↗",
@@ -537,7 +537,7 @@
 		"installFailed": "更新失败",
 		"retry": "重试"
 	},
-	"releaseNotes": {"title": "Arroxy {{version}} 新增内容", "description": "你正在运行新的更新。以下是亮点。", "fullNotes": "完整发行说明 ↗", "continue": "继续"},
+	"releaseNotes": {"title": "ArrowBrake {{version}} 新增内容", "description": "你正在运行新的更新。以下是亮点。", "fullNotes": "完整发行说明 ↗", "continue": "继续"},
 	"status": {
 		"preparingBinaries": "正在准备二进制文件…",
 		"mintingToken": "正在生成 YouTube 令牌…",
@@ -578,15 +578,15 @@
 			"queued": "已从剪贴板添加下载",
 			"alreadyQueued": "已在队列中 — 未重复添加",
 			"invalidClipboard": "剪贴板中没有链接 — 请先复制一个",
-			"multipleUrls": "已复制多个链接 — 请在 Arroxy 中使用「批量 URL」",
-			"needsReview": "该链接需要快速确认 — 打开 Arroxy 并重新粘贴",
+			"multipleUrls": "已复制多个链接 — 请在 ArrowBrake 中使用「批量 URL」",
+			"needsReview": "该链接需要快速确认 — 打开 ArrowBrake 并重新粘贴",
 			"busy": "正在处理上一个链接",
-			"submissionFailed": "无法添加该链接 — 请在 Arroxy 中重试"
+			"submissionFailed": "无法添加该链接 — 请在 ArrowBrake 中重试"
 		}
 	},
 	"errors": {
 		"ytdlp": {
-			"botBlock": "触发了机器人保护。你所使用的 IP 很可能已被标记（数据中心地址段或繁忙的 VPN 出口）。请更换 IP 或选择其他 VPN 节点后重试。如果持续失败，这可能是 YouTube 临时性的变动——Arroxy 会在启动时自动更新 yt-dlp，一旦上游发布修复，会自动生效。",
+			"botBlock": "触发了机器人保护。你所使用的 IP 很可能已被标记（数据中心地址段或繁忙的 VPN 出口）。请更换 IP 或选择其他 VPN 节点后重试。如果持续失败，这可能是 YouTube 临时性的变动——ArrowBrake 会在启动时自动更新 yt-dlp，一旦上游发布修复，会自动生效。",
 			"ipBlock": "你的 IP 地址似乎被 YouTube 屏蔽。请稍后再试或使用 VPN。",
 			"rateLimit": "YouTube 正在限制请求频率。等一分钟后再重试。",
 			"ageRestricted": "该视频有年龄限制,未登录账号无法下载。",
@@ -597,7 +597,7 @@
 			"chunkTransferFailure": "服务器在传输过程中反复中断下载，yt-dlp 多次重试后放弃。此问题通常出现在最大的视频格式（4K HDR / 高码率 VP9）上。请重试、切换网络或 VPN，或选择分辨率较低的格式。",
 			"missingDependency": "yt-dlp 找不到 ffmpeg 或 ffprobe。请修复内置二进制文件，或设置 FFmpeg 位置，然后重试。",
 			"postprocessFailure": "yt-dlp 已完成下载，但后处理（合并 / mux / 转换）失败。这通常是 ffmpeg 的临时问题——请重试，如果仍然失败，请尝试其他格式组合。",
-			"parse": "无法解析网站的响应。yt-dlp 的提取器可能已过时。Arroxy 会在启动时自动更新 yt-dlp——请几分钟后再重试，等待修复发布。",
+			"parse": "无法解析网站的响应。yt-dlp 的提取器可能已过时。ArrowBrake 会在启动时自动更新 yt-dlp——请几分钟后再重试，等待修复发布。",
 			"network": "网络错误。请检查你的连接并重试。",
 			"drmProtected": "该视频受 DRM 保护。yt-dlp 无法去除 DRM，因此无法下载该文件。",
 			"loginRequired": "该视频需要已登录的账号。请设置 cookies.txt（设置 → Cookies）后重试。",
@@ -623,28 +623,28 @@
 		"mp4Cap": "YouTube 不提供 1080p 以上的 H.264 — 自动限制为 1080p"
 	},
 	"formatLabel": {"audioFallback": "音频", "audioOnlyDot": "仅音频 · {{audio}}", "videoDot": "{{resolution}} · {{audio}}"},
-	"tray": {"tooltip": "Arroxy", "menu": {"statusIdle": "空闲", "statusActive_one": "1个下载中 · {{percent}}%", "statusActive_other": "{{count}}个下载中 · {{percent}}%", "downloadFromClipboard": "从剪贴板下载", "open": "打开 Arroxy", "quit": "退出 Arroxy"}},
+	"tray": {"tooltip": "ArrowBrake", "menu": {"statusIdle": "空闲", "statusActive_one": "1个下载中 · {{percent}}%", "statusActive_other": "{{count}}个下载中 · {{percent}}%", "downloadFromClipboard": "从剪贴板下载", "open": "打开 ArrowBrake", "quit": "退出 ArrowBrake"}},
 	"dialogs": {
 		"quitWithActiveDownloads": {"message_one": "正在进行 {{count}} 个下载", "message_other": "正在进行 {{count}} 个下载", "detail": "暂停以便稍后继续，或取消以丢弃进度。", "confirm": "取消下载并退出", "pause": "暂停下载并退出", "keep": "继续下载"},
-		"closeToTray": {"message": "关闭时将 Arroxy 最小化到系统托盘？", "detail": "Arroxy 将继续运行并完成活动下载。可在高级设置中更改。", "hide": "最小化到托盘", "quit": "退出", "remember": "不再询问"},
-		"rendererCrashed": {"message": "Arroxy 遇到了一个问题", "detail": "渲染进程崩溃（{{reason}}）。请重新加载以重试。", "reload": "重新加载", "quit": "退出"}
+		"closeToTray": {"message": "关闭时将 ArrowBrake 最小化到系统托盘？", "detail": "ArrowBrake 将继续运行并完成活动下载。可在高级设置中更改。", "hide": "最小化到托盘", "quit": "退出", "remember": "不再询问"},
+		"rendererCrashed": {"message": "ArrowBrake 遇到了一个问题", "detail": "渲染进程崩溃（{{reason}}）。请重新加载以重试。", "reload": "重新加载", "quit": "退出"}
 	},
 	"share": {
-		"title": "分享 Arroxy",
-		"description": "Arroxy 免费且开源。分享它可以帮助更多人发现它。",
+		"title": "分享 ArrowBrake",
+		"description": "ArrowBrake 免费且开源。分享它可以帮助更多人发现它。",
 		"copyLink": "复制链接",
 		"copied": "已复制！",
-		"defaultMessage": "Arroxy — 适用于 Windows、macOS 和 Linux 的免费开源视频下载器。支持 YouTube、Vimeo、Twitch 及 2000+ 个网站。\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
-		"footerTooltip": "分享 Arroxy",
+		"defaultMessage": "ArrowBrake — 适用于 Windows、macOS 和 Linux 的免费开源视频下载器。支持 YouTube、Vimeo、Twitch 及 2000+ 个网站。\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
+		"footerTooltip": "分享 ArrowBrake",
 		"footerLabel": "分享",
-		"shareAction": "分享 Arroxy"
+		"shareAction": "分享 ArrowBrake"
 	},
 	"filenameTemplate": {
 		"label": "文件名模板",
 		"description": "选择下载文件的命名方式。点击标记即可插入。使用 / 可将下载内容分类到文件夹。",
 		"profileOverrideLabel": "文件名模板",
 		"profileOverrideDescription": "留空则沿用全局模板。",
-		"idWarning": "缺少 {id} 时，Arroxy 无法检测已下载的播放列表项，也无法生成 .m3u 播放列表。",
+		"idWarning": "缺少 {id} 时，ArrowBrake 无法检测已下载的播放列表项，也无法生成 .m3u 播放列表。",
 		"m3uDisabled": "不可用，因为你的文件名模板未包含 {id}，或将下载内容分类到了文件夹。",
 		"previewSingle": "单个视频",
 		"previewPlaylist": "在播放列表中",

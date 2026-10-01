@@ -13,6 +13,7 @@ import type {
 	DownloadProfile,
 	DownloadProfileRef,
 	FormatOption,
+	GpuAcceleration,
 	GraphicsPolicy,
 	HotkeyAccelerator,
 	HotkeyRegistrationStatus,
@@ -40,6 +41,7 @@ import type {
 	SponsorBlockCategory,
 	SupportedLang,
 	UiTheme,
+	VideoEncode,
 	WizardMode,
 	WizardStepName
 } from '@shared/types.js'
@@ -201,6 +203,8 @@ export interface FormatPickerSlice {
 	wizardSubtitleSkipped: boolean
 	wizardSubtitleMode: SubtitleMode
 	wizardSubtitleFormat: SubtitleFormat
+	wizardEncodeEnabled: boolean
+	wizardVideoEncode: VideoEncode
 
 	setSelectedVideoFormatId: (id: string) => void
 	setAudioSelection: (sel: AudioSelection) => void
@@ -208,6 +212,8 @@ export interface FormatPickerSlice {
 	toggleSubtitleLanguage: (lang: string) => void
 	setSubtitleMode: (mode: SubtitleMode) => void
 	setSubtitleFormat: (format: SubtitleFormat) => void
+	setWizardEncodeEnabled: (enabled: boolean) => void
+	setWizardVideoEncode: (videoEncode: Partial<VideoEncode>) => void
 }
 
 // OutputConfig — output dir / subfolder / SponsorBlock / output artifact flags.
@@ -355,6 +361,9 @@ export interface SystemSlice {
 	setPacingSleepSubtitles: (value: number | undefined) => Promise<void>
 	setDownloadConnections: (value: number) => Promise<void>
 	setConcurrentDownloads: (value: number) => Promise<void>
+	setConcurrentEncodes: (value: number) => Promise<void>
+	setGpuAcceleration: (value: GpuAcceleration) => Promise<void>
+	setGpuDeviceIndex: (value: number) => Promise<void>
 	setAutoRetryAttempts: (value: number) => Promise<void>
 	setClipboardWatchEnabled: (enabled: boolean) => Promise<void>
 	setHotkeyEnabled: (enabled: boolean) => Promise<void>

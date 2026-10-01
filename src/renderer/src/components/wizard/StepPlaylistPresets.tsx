@@ -2,6 +2,9 @@ import {useEffect, type ReactNode} from 'react'
 import {useTranslation} from 'react-i18next'
 import {type PlaylistAudioFormat, type PlaylistVideoTier, type PlaylistSelection, AUDIO_BITRATES, DEFAULT_PLAYLIST_SELECTION, PLAYLIST_VIDEO_TIERS} from '@shared/schemas.js'
 import {SMART_TV_MP4_BLOCKED_TIERS, SMART_TV_MP4_MAX_TIER} from '../../store/wizard/downloadProfileDraft.js'
+import {Checkbox} from '../ui/checkbox.js'
+import {Tooltip, TooltipContent, TooltipTrigger} from '../ui/tooltip.js'
+import {VideoEncodeCard} from './format/VideoEncodeCard.js'
 import {useAppStore} from '../../store/useAppStore.js'
 import {Button} from '../ui/button.js'
 import {Item, ItemContent, ItemDescription, ItemGroup, ItemTitle} from '../ui/item.js'
@@ -18,7 +21,7 @@ const SECTION_LABEL = 'text-[9px] font-bold uppercase tracking-[0.12em] text-[va
 
 export function StepPlaylistPresets(): ReactNode {
 	const {t} = useTranslation()
-	const {playlistSelection, setPlaylistSelection, advance, back, skipToConfirm, selectedPlaylistItemIds} = useAppStore()
+	const {playlistSelection, setPlaylistSelection, wizardEncodeEnabled, setWizardEncodeEnabled, wizardVideoEncode, setWizardVideoEncode, advance, back, skipToConfirm, selectedPlaylistItemIds} = useAppStore()
 
 	const sel: PlaylistSelection = playlistSelection ?? DEFAULT_PLAYLIST_SELECTION
 
@@ -58,12 +61,12 @@ export function StepPlaylistPresets(): ReactNode {
 		if (format === 'best') {
 			setPlaylistSelection({kind: 'audio', format: 'best'})
 		} else {
-			const bitrate: (typeof AUDIO_BITRATES)[number] = sel.format !== 'best' ? (sel.bitrateKbps ?? 192) : 192
+			const bitrate: number = sel.format !== 'best' ? (sel.bitrateKbps ?? 192) : 192
 			setPlaylistSelection({kind: 'audio', format, bitrateKbps: bitrate})
 		}
 	}
 
-	function setBitrate(kbps: (typeof AUDIO_BITRATES)[number]): void {
+	function setBitrate(kbps: number): void {
 		if (sel.kind !== 'audio' || sel.format === 'best') return
 		setPlaylistSelection({kind: 'audio', format: sel.format, bitrateKbps: kbps})
 	}
@@ -73,7 +76,7 @@ export function StepPlaylistPresets(): ReactNode {
 	const currentTier = sel.kind === 'video' ? sel.tier : 'best'
 	const currentAudioFormat = sel.kind === 'audio' ? sel.format : 'best'
 	const currentBitrate = sel.kind === 'audio' && sel.format !== 'best' ? (sel.bitrateKbps ?? 192) : 192
-	const showBitrate = sel.kind === 'audio' && LOSSY_AUDIO.has(sel.format)
+	const showBitrate = wizardEncodeEnabled && sel.kind === 'audio' && LOSSY_AUDIO.has(sel.format)
 	const showMp4Cap = sel.kind === 'video' && sel.codec === 'mp4'
 
 	return (
@@ -85,6 +88,35 @@ export function StepPlaylistPresets(): ReactNode {
 
 			<ScrollArea className="h-[calc(100vh-272px)] min-h-[280px]">
 				<div className="flex flex-col gap-4 p-1">
+					{/* Checkbox Codificar */}
+					<div className="flex items-center justify-between rounded-xl border border-[var(--border-strong)] bg-card/40 px-3.5 py-2.5 shadow-sm">
+						<div className="flex items-center gap-2.5">
+							<Checkbox
+								id="playlist-encode-toggle"
+								checked={wizardEncodeEnabled}
+								onCheckedChange={checked => {
+									const enabled = checked === true
+									setWizardEncodeEnabled(enabled)
+									if (!enabled && sel.kind === 'audio' && sel.format !== 'best') {
+										setPlaylistSelection({kind: 'audio', format: 'best'})
+									}
+								}}
+							/>
+							<label htmlFor="playlist-encode-toggle" className="cursor-pointer select-none">
+								<span className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+									{t('wizard.formats.encodeCheckbox.label')}
+									<span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-mono text-primary font-medium">{t('wizard.formats.encodeCheckbox.tag')}</span>
+								</span>
+								<span className="block text-[11px] text-[var(--text-subtle)]">{t('wizard.formats.encodeCheckbox.descriptionPlaylist')}</span>
+							</label>
+						</div>
+						{!wizardEncodeEnabled ? (
+							<span className="text-[11px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">{t('wizard.formats.encodeCheckbox.directBadge')}</span>
+						) : (
+							<span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">{t('wizard.formats.encodeCheckbox.reencodeBadge')}</span>
+						)}
+					</div>
+
 					{/* Type toggle */}
 					<div>
 						<p className={SECTION_LABEL}>{t('wizard.playlistPresets.subhead')}</p>
@@ -107,6 +139,9 @@ export function StepPlaylistPresets(): ReactNode {
 
 					{currentKind === 'video' && (
 						<>
+							{/* Video Encode Card when Codificar is enabled */}
+							{wizardEncodeEnabled && <VideoEncodeCard videoEncode={wizardVideoEncode} onChange={setWizardVideoEncode} />}
+
 							{/* Compatibility toggle */}
 							<div>
 								<p className={SECTION_LABEL}>{t('playlistPresets.type.video')}</p>
@@ -184,21 +219,27 @@ export function StepPlaylistPresets(): ReactNode {
 								<ItemGroup className="grid grid-cols-2 gap-2">
 									{AUDIO_FORMATS.map(fmt => {
 										const selected = currentAudioFormat === fmt
-										return (
+										const isBlocked = fmt !== 'best' && !wizardEncodeEnabled
+										const item = (
 											<Item
 												key={fmt}
 												variant="outline"
 												role="button"
-												tabIndex={0}
+												tabIndex={isBlocked ? -1 : 0}
 												aria-pressed={selected}
-												onClick={() => setAudioFormat(fmt)}
+												aria-disabled={isBlocked}
+												onClick={() => {
+													if (isBlocked) return
+													setAudioFormat(fmt)
+												}}
 												onKeyDown={e => {
+													if (isBlocked) return
 													if (e.key === 'Enter' || e.key === ' ') {
 														e.preventDefault()
 														setAudioFormat(fmt)
 													}
 												}}
-												className={cn('cursor-pointer hover:bg-muted/40', selected && 'border-primary bg-primary/5 shadow-[0_0_0_2px_var(--brand-dim)]')}
+												className={cn('cursor-pointer hover:bg-muted/40', selected && 'border-primary bg-primary/5 shadow-[0_0_0_2px_var(--brand-dim)]', isBlocked && 'cursor-not-allowed opacity-40 hover:bg-transparent')}
 											>
 												<ItemContent>
 													<ItemTitle>{t(`playlistPresets.audioFormat.${fmt}`)}</ItemTitle>
@@ -206,6 +247,15 @@ export function StepPlaylistPresets(): ReactNode {
 												</ItemContent>
 											</Item>
 										)
+										if (isBlocked) {
+											return (
+												<Tooltip key={fmt}>
+													<TooltipTrigger render={props => <div {...props}>{item}</div>} />
+													<TooltipContent>{t('wizard.formats.encodeCheckbox.playlistAudioTooltip', {format: fmt.toUpperCase()})}</TooltipContent>
+												</Tooltip>
+											)
+										}
+										return item
 									})}
 								</ItemGroup>
 							</div>
@@ -213,10 +263,32 @@ export function StepPlaylistPresets(): ReactNode {
 							{/* Bitrate chips — lossy formats only */}
 							{showBitrate && (
 								<div>
-									<p className={SECTION_LABEL}>{t('wizard.formats.convert.bitrate')}</p>
-									<div className="flex flex-wrap gap-2">
+									<div className="flex items-center justify-between mb-1.5">
+										<p className={SECTION_LABEL}>{t('wizard.formats.convert.bitrate')}</p>
+										<div className="flex items-center gap-1.5">
+											<span className="text-[10px] text-muted-foreground">Custom:</span>
+											<input
+												type="number"
+												min={32}
+												max={512}
+												step={16}
+												placeholder="kbps"
+												value={currentBitrate}
+												onChange={e => {
+													const val = Number.parseInt(e.target.value, 10)
+													if (!Number.isNaN(val) && val >= 32 && val <= 512) {
+														setBitrate(val)
+													}
+												}}
+												className="h-6 w-16 rounded border border-input bg-background px-1.5 text-right text-xs font-mono focus:outline-none focus:ring-1 focus:ring-primary"
+												aria-label="Custom playlist bitrate kbps"
+											/>
+											<span className="text-[10px] text-muted-foreground">kbps</span>
+										</div>
+									</div>
+									<div className="flex flex-wrap gap-1.5">
 										{AUDIO_BITRATES.map(kbps => (
-											<Button key={kbps} type="button" variant={currentBitrate === kbps ? 'default' : 'outline'} size="sm" onClick={() => setBitrate(kbps)} className={cn('rounded-full px-3', currentBitrate === kbps && 'shadow-[0_4px_14px_var(--brand-glow)]')}>
+											<Button key={kbps} type="button" variant={currentBitrate === kbps ? 'default' : 'outline'} size="sm" onClick={() => setBitrate(kbps)} className={cn('rounded-full px-2.5 py-1 text-xs', currentBitrate === kbps && 'shadow-[0_4px_14px_var(--brand-glow)]')}>
 												{kbps}K
 											</Button>
 										))}

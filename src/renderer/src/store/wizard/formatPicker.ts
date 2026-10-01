@@ -8,7 +8,7 @@
 // language toggling and bitrate stickiness.
 
 import {DEFAULTS} from '@shared/constants.js'
-import {DEFAULT_AUDIO_BITRATE} from '@shared/schemas.js'
+import {DEFAULT_AUDIO_BITRATE, DEFAULT_VIDEO_ENCODE} from '@shared/schemas.js'
 import type {AppSettings, AudioSelection, FormatOption, Preset, SubtitleMap} from '@shared/types.js'
 import {isDolbyNativeAudio, isDrcNativeAudio, preferredNativeAudioId} from '@shared/nativeAudioPreference.js'
 import type {FormatPickerSlice, GetState, SetState} from '../types.js'
@@ -152,6 +152,28 @@ export function createFormatPickerSlice(set: SetState, get: GetState): FormatPic
 		wizardSubtitleSkipped: false,
 		wizardSubtitleMode: DEFAULTS.subtitleMode,
 		wizardSubtitleFormat: DEFAULTS.subtitleFormat,
+		wizardEncodeEnabled: false,
+		wizardVideoEncode: DEFAULT_VIDEO_ENCODE,
+
+		setWizardEncodeEnabled: enabled =>
+			set(state => {
+				const nextVideoEncode = {...state.wizardVideoEncode, enabled}
+				let audioSelection = state.audioSelection
+				if (!enabled && (state.audioSelection.kind === 'convert-lossy' || state.audioSelection.kind === 'convert-lossless')) {
+					const bestAudio = preferredNativeAudioId(
+						state.wizardFormats.filter(f => f.isAudioOnly),
+						state.settings?.common?.nativeAudioPreference ?? DEFAULTS.nativeAudioPreference
+					)
+					audioSelection = bestAudio === null ? {kind: 'none'} : {kind: 'native', formatId: bestAudio}
+				}
+				let playlistSelection = state.playlistSelection
+				if (!enabled && playlistSelection?.kind === 'audio' && playlistSelection.format !== 'best') {
+					playlistSelection = {...playlistSelection, format: 'best'}
+				}
+				return {wizardEncodeEnabled: enabled, wizardVideoEncode: nextVideoEncode, audioSelection, ...(playlistSelection ? {playlistSelection} : {})}
+			}),
+
+		setWizardVideoEncode: videoEncode => set(state => ({wizardVideoEncode: {...state.wizardVideoEncode, ...videoEncode}})),
 
 		// Invariant: (video !== '') && (audio.kind === 'convert-lossy' | 'convert-lossless') is invalid —
 		// convert (-x) is mutually exclusive with video+audio merging. Reconcile here

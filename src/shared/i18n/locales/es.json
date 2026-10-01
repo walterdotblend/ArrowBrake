@@ -5,11 +5,11 @@
 		"logs": "Registros",
 		"saveDiagnostics": "Guardar archivo de diagnóstico",
 		"saveDiagnosticsDescription": "Reúne los registros y los datos de la app en un solo archivo en Descargas, listo para adjuntarlo a un issue de GitHub. Se elimina el nombre de la carpeta de usuario; los enlaces y títulos de los videos se mantienen.",
-		"feedbackNudge": "¿Disfrutando Arroxy? ¡Me encantaría saber de ti! 💬",
+		"feedbackNudge": "¿Disfrutando ArrowBrake? ¡Me encantaría saber de ti! 💬",
 		"zoomIn": "Acercar",
 		"zoomOut": "Alejar"
 	},
-	"about": {"button": "Acerca de", "openTitle": "Acerca de Arroxy", "tagline": "Descargador rápido y amigable para YouTube y más de 2000 sitios.", "websiteLink": "Sitio web", "githubLink": "GitHub", "licenseLine": "Licencia MIT · por Antonio Orionus", "thirdPartyNotices": "Ver avisos de terceros"},
+	"about": {"button": "Acerca de", "openTitle": "Acerca de ArrowBrake", "tagline": "Descargador rápido y amigable para YouTube y más de 2000 sitios.", "websiteLink": "Sitio web", "githubLink": "GitHub", "licenseLine": "Licencia MIT · por Antonio Orionus", "thirdPartyNotices": "Ver avisos de terceros"},
 	"titleBar": {"close": "Cerrar", "minimize": "Minimizar", "maximize": "Maximizar", "restore": "Restaurar"},
 	"splash": {
 		"greeting": "¡Hey, bienvenido de vuelta!",
@@ -116,7 +116,7 @@
 			"nestedPlaylistHint_other": "{{count}} de estos son listas, no videos — pega sus enlaces de uno en uno para descargarlas.",
 			"probeLimitAlertTitle": "El escaneo de la playlist está limitado",
 			"probeLimitAlertTitleGeneric": "El escaneo está limitado",
-			"probeLimitAlertDesc": "Arroxy encontró más de {{count}} elementos, por lo que el límite de escaneo actual está ocultando el resto.",
+			"probeLimitAlertDesc": "ArrowBrake encontró más de {{count}} elementos, por lo que el límite de escaneo actual está ocultando el resto.",
 			"multiProfileEntry": "Asignar perfiles por elemento",
 			"multiProfileEntryTooltip": "Omite Calidad, SponsorBlock, Salida y Guardar — asigna en su lugar un perfil de descarga por elemento",
 			"removeFromListCount_one": "Quitar {{count}} de la lista",
@@ -129,7 +129,7 @@
 		},
 		"bulk": {
 			"title": "URLs en lote",
-			"description": "Pega URLs de vídeo, playlist, canal, búsqueda o audio. Arroxy limpiará los duplicados antes de enviarlos a la cola.",
+			"description": "Pega URLs de vídeo, playlist, canal, búsqueda o audio. ArrowBrake limpiará los duplicados antes de enviarlos a la cola.",
 			"textareaLabel": "Lista de URLs",
 			"textareaPlaceholder": "https://video.example/one\nhttps://video.example/two\nhttps://video.example/three",
 			"acceptedCount": "Listas",
@@ -149,11 +149,11 @@
 			"pickFromPlaylist": "Elegir de la Playlist",
 			"quickWholePlaylist": "Descargar toda la lista",
 			"playlistLimit": "Límite de análisis de playlist: {{count}} elementos",
-			"quickLimitDescription": "Cantidad máxima de elementos que Arroxy escanea antes de poner en cola una lista, un canal o un resultado de búsqueda.",
+			"quickLimitDescription": "Cantidad máxima de elementos que ArrowBrake escanea antes de poner en cola una lista, un canal o un resultado de búsqueda.",
 			"singleTooltip": "Usa el modo de vídeo único de yt-dlp para ignorar la playlist adjunta a esta URL.",
 			"quickSingleTooltip": "Pone en cola una descarga e ignora la lista adjunta a esta URL.",
 			"playlistTooltip": "Usa el modo playlist de yt-dlp y carga hasta tu límite de análisis antes de mostrar el selector.",
-			"quickPlaylistTooltip": "Pone en cola cada elemento cargado de la lista con el perfil de Descarga rápida activo. Si el escaneo alcanza tu límite, Arroxy pregunta antes de ponerlos en cola."
+			"quickPlaylistTooltip": "Pone en cola cada elemento cargado de la lista con el perfil de Descarga rápida activo. Si el escaneo alcanza tu límite, ArrowBrake pregunta antes de ponerlos en cola."
 		},
 		"url": {
 			"heading": "Descargar desde URL",
@@ -199,12 +199,12 @@
 			"bulkButton": "URLs en lote",
 			"bulkTooltip": "Añade y pon en cola varias URLs.",
 			"features": {
-				"heading": "Qué puede bajar Arroxy",
+				"heading": "Qué puede bajar ArrowBrake",
 				"youtube": {"heading": "YouTube", "video": "Vídeos", "channel": "Canales", "playlist": "Listas", "short": "Shorts", "music": "Música", "podcast": "Podcasts"},
 				"anySite": {"heading": "2000+ sitios", "video": "Vídeos", "videoPlaylist": "Playlists de vídeo", "musicPlaylist": "Playlists de música"},
 				"always": {"audioOnly": "Solo audio", "subtitles": "Subtítulos"}
 			},
-			"mascotIdle": "Suelta un enlace y deja que Arroxy lo traiga ✨",
+			"mascotIdle": "Suelta un enlace y deja que ArrowBrake lo traiga ✨",
 			"mascotBusy": "Descargando en segundo plano… puedo hacer varias cosas a la vez 😎",
 			"advanced": "Avanzado",
 			"settings": {"inputHeading": "Entrada", "behaviorHeading": "Comportamiento de descarga", "behaviorDescription": "Comportamiento global que también afecta a las descargas controladas por perfiles."},
@@ -221,7 +221,7 @@
 			},
 			"hotkey": {
 				"sectionTitle": "Atajo global",
-				"sectionDescription": "Descarga el enlace que copies, desde cualquier app, sin abrir Arroxy.",
+				"sectionDescription": "Descarga el enlace que copies, desde cualquier app, sin abrir ArrowBrake.",
 				"toggle": "Activar atajo global",
 				"toggleDescription": "Pulsa el atajo con un enlace de vídeo en el portapapeles.",
 				"changeShortcut": "Cambiar atajo",
@@ -229,7 +229,7 @@
 				"test": "Probar",
 				"conflict": "Ese atajo ya lo usa otra aplicación — elige otro.",
 				"hintLabel": "O pulsa",
-				"hintTooltip": "Copia un enlace de vídeo en cualquier lugar, pulsa este atajo y Arroxy lo añadirá a la cola con tu perfil activo — no necesitas cambiar de ventana.",
+				"hintTooltip": "Copia un enlace de vídeo en cualquier lugar, pulsa este atajo y ArrowBrake lo añadirá a la cola con tu perfil activo — no necesitas cambiar de ventana.",
 				"hintTooltipSettings": "Cámbialo o desactívalo en Ajustes.",
 				"reset": "Restablecer predeterminado"
 			},
@@ -257,14 +257,14 @@
 			"proxy": {"label": "Proxy URL", "description": "Enruta el tráfico a través de un proxy — útil para contenido con restricciones geográficas.", "placeholder": "http://host:port", "clear": "Borrar"},
 			"backdrop": {
 				"panelTitle": "Apariencia y rendimiento",
-				"panelDescription": "Elige cuánto movimiento usa Arroxy para el fondo animado.",
+				"panelDescription": "Elige cuánto movimiento usa ArrowBrake para el fondo animado.",
 				"modeLabel": "Calidad del fondo",
 				"modeDescription": "Pasa del aspecto más animado al mejor rendimiento.",
 				"cssOnlyLabel": "Mejor rendimiento",
 				"cssOnlyDescription": "Solo CSS, sin renderizado de canvas.",
 				"gpuLabel": "Más bonito",
 				"gpuDescription": "Fondo WebGL animado cuando es compatible.",
-				"runtimeFallbackNotice": "WebGL por hardware no está disponible en este dispositivo, así que Arroxy usa el fondo de mejor rendimiento."
+				"runtimeFallbackNotice": "WebGL por hardware no está disponible en este dispositivo, así que ArrowBrake usa el fondo de mejor rendimiento."
 			},
 			"limitRate": {
 				"label": "Límite de velocidad de descarga",
@@ -277,7 +277,7 @@
 			},
 			"playlistProbeLimit": {
 				"label": "Elementos de playlist a escanear",
-				"description": "Número máximo de entradas que Arroxy carga al abrir una playlist, canal o resultado de búsqueda.",
+				"description": "Número máximo de entradas que ArrowBrake carga al abrir una playlist, canal o resultado de búsqueda.",
 				"option": "{{count}} elementos",
 				"current": "Límite actual: {{count}} elementos",
 				"customValue": "Personalizado: {{count}} elementos",
@@ -287,21 +287,81 @@
 				"customDialogCancel": "Cancelar",
 				"customDialogSave": "Guardar límite",
 				"invalid": "Usa un número entero del 1 al 5000",
-				"tooltip": "Se corresponde con yt-dlp --playlist-end: Arroxy solo solicita este número de entradas de playlist, canal o búsqueda al construir el selector."
+				"tooltip": "Se corresponde con yt-dlp --playlist-end: ArrowBrake solo solicita este número de entradas de playlist, canal o búsqueda al construir el selector."
 			},
 			"nativeAudioPreference": {"label": "Preferencia de audio nativo", "description": "Controla lo que elige «Mejor nativo». Las filas de audio manuales y M4A/AAC siguen siendo explícitas.", "compatible": "Estéreo compatible", "surround": "Preferir surround / Dolby"},
 			"autoRetry": {"label": "Reintentar descargas fallidas", "description": "Vuelve a intentarlo automáticamente tras un fallo de red o del servidor, esperando más entre cada intento. Las descargas bloqueadas por el sitio nunca se reintentan automáticamente.", "unit": "veces"},
 			"concurrentDownloads": {"label": "Descargas a la vez", "description": "Cuántos elementos de la cola se descargan al mismo tiempo. Más a la vez termina antes una cola larga, pero aumenta la probabilidad de que el sitio te limite.", "unit": "descargas"},
+			"concurrentEncodes": {"label": "Codificaciones a la vez", "description": "Cuántos elementos se codifican en segundo plano al mismo tiempo. Libera puestos de descarga para que otras descargas continúen mientras se codifica.", "unit": "tareas"},
+			"gpuAcceleration": {
+				"label": "Aceleración por hardware (GPU)",
+				"description": "Elige el motor de aceleración de tarjeta gráfica preferido para la codificación de vídeo.",
+				"options": {
+					"auto": "Automático (Mejor hardware disponible)",
+					"nvidia": "NVIDIA NVENC (CUDA / NVDEC)",
+					"intel": "Intel QuickSync (QSV)",
+					"amd": "AMD AMF",
+					"cpu": "Desactivado (Solo CPU)"
+				}
+			},
+			"videoEncode": {
+				"cardTitle": "Ajustes de codificación de vídeo (FFmpeg)",
+				"container": "Formato / Contenedor",
+				"containerTooltip": "Formato del archivo de salida (MKV es compatible con todos los códecs).",
+				"codec": "Códec de vídeo",
+				"codecTooltip": "Algoritmo de compresión de vídeo. Las opciones con NVENC/QSV/AMF usan tu tarjeta gráfica para codificar mucho más rápido.",
+				"autoGpuTip": "⚡ Auto detecta la aceleración por GPU si está disponible, con respaldo seguro por CPU.",
+				"rateControl": "Control de tasa:",
+				"rateControlTooltip": "Calidad constante (CRF) equilibra la calidad visual en cada fotograma. Bitrate fija una tasa de datos constante.",
+				"crfMode": "Calidad constante (CRF)",
+				"bitrateMode": "Bitrate específico",
+				"speed": "Velocidad:",
+				"speedTooltip": "Equilibrio entre velocidad y compresión. Más rápido = codifica antes pero con archivo más pesado. Más lento = mejor compresión y menor peso.",
+				"presetUltrafast": "Ultra rápido",
+				"presetFast": "Rápido",
+				"presetMedium": "Medio",
+				"presetSlow": "Lento",
+				"crfValue": "Valor CRF:",
+				"crfHint": "(0 = sin pérdida, 23 = estándar, 51 = menor calidad)",
+				"bitrateValue": "Tasa de bits:",
+				"presets": "Preajustes:",
+				"incompatibleTooltip": "No es compatible con el formato {{container}}",
+				"groupAuto": "Automático",
+				"groupNvidia": "NVIDIA NVENC (Aceleración GPU)",
+				"groupIntel": "Intel QuickSync (QSV)",
+				"groupAmd": "AMD AMF (Radeon)",
+				"groupCpu": "CPU / Software",
+				"groupDirect": "Sin recodificar (Copia directa)",
+				"estimatedSize": "Peso estimado:",
+				"estimatedRate": "Tasa estimada:",
+				"sizeReduction": "reducción",
+				"sizeIncrease": "aumento",
+				"perMinute": "/ min",
+				"relativeSize": "~{{percent}}% del peso original",
+				"relativeReduction": "↓ {{percent}}% reducción",
+				"quickPresets": {
+					"label": "Preajustes rápidos:",
+					"h264Compat": "H.264 · Máxima compatibilidad (~75% peso)",
+					"h264CompatTooltip": "Compatibilidad universal en cualquier TV, móvil o reproductor antiguo con ~75% del peso.",
+					"av1Efficient": "AV1 · Máxima eficiencia (~50% peso)",
+					"av1EfficientBadge": "Recomendado",
+					"av1EfficientTooltip": "Misma calidad visual con la mitad de peso gracias al códec AV1.",
+					"av1Light": "AV1 · Ultraligero (~25% peso)",
+					"av1LightTooltip": "Peso mínimo con buena calidad — ahorra hasta un 75% de espacio."
+				},
+				"noticeAv1": "⚠️ Nota: AV1 ofrece la mejor compresión, pero puede no ser compatible o requerir mucha CPU en dispositivos antiguos o económicos al reproducir a más de FullHD (1080p).",
+				"noticeHevc": "⚠️ Nota: H.265/HEVC ofrece alta compresión, pero puede presentar problemas de compatibilidad en algunos reproductores antiguos o navegadores al reproducir en 4K."
+			},
 			"downloadConnections": {"label": "Conexiones de descarga", "description": "Acelera las descargas grandes obteniendo varias partes de un vídeo a la vez. Los valores altos aumentan la probabilidad de que el sitio te limite.", "unit": "conexiones"},
 			"networkPacing": {
 				"heading": "Descargas suaves",
-				"description": "Añade pequeñas pausas durante cada descarga para que Arroxy no sobrecargue el sitio. Los valores están en segundos.",
-				"presetLabel": "¿Qué tan cauteloso debe ser Arroxy?",
+				"description": "Añade pequeñas pausas durante cada descarga para que ArrowBrake no sobrecargue el sitio. Los valores están en segundos.",
+				"presetLabel": "¿Qué tan cauteloso debe ser ArrowBrake?",
 				"tooltip": "Estas pausas ocurren dentro de cada descarga. Cuántas descargas se ejecutan a la vez se configura por separado, en «Descargas a la vez».",
 				"summary": "Pausas: {{requests}} entre comprobaciones, {{downloads}} antes de iniciar el medio, {{subtitles}} antes de archivos de subtítulos.",
 				"presets": {"off": "Desactivado", "balanced": "Equilibrado", "careful": "Cuidadoso", "custom": "Personalizado"},
 				"tooltips": {
-					"off": "Usa solo las pequeñas pausas base que Arroxy mantiene para medios y subtítulos.",
+					"off": "Usa solo las pequeñas pausas base que ArrowBrake mantiene para medios y subtítulos.",
 					"balanced": "Por defecto. Añade pausas cortas entre peticiones y antes de iniciar el medio.",
 					"careful": "Añade pausas más largas para playlists grandes o redes que frecuentemente alcanzan límites.",
 					"custom": "Ajusta tú mismo los controles avanzados por descarga."
@@ -314,9 +374,9 @@
 		},
 		"quickProgress": {
 			"title": "Preparando descarga rápida",
-			"description": "Arroxy está leyendo el enlace y aplicando {{profileName}}.",
+			"description": "ArrowBrake está leyendo el enlace y aplicando {{profileName}}.",
 			"currentFallback": "Enlace actual",
-			"waitHint": "Mantén esto abierto mientras Arroxy prepara la cola.",
+			"waitHint": "Mantén esto abierto mientras ArrowBrake prepara la cola.",
 			"failedCount_one": "{{count}} falló",
 			"failedCount_other": "{{count}} fallaron",
 			"cancel": "Cancelar preparación",
@@ -368,6 +428,17 @@
 			"skipToConfirm": "Saltar a confirmar",
 			"skipToConfirmTooltip": "Usa tus preferencias guardadas para todos los pasos restantes. Para cambiar una opción, continúa paso a paso — tu elección se guardará para la próxima vez.",
 			"quality": {"high": "Calidad alta", "medium": "Calidad media", "low": "Calidad baja"},
+			"encodeCheckbox": {
+				"label": "Codificar",
+				"tag": "FFmpeg",
+				"description": "Habilitar codificación de vídeo (códec, contenedor, CRF/bitrate) y conversión de audio (MP3/Opus/WAV)",
+				"descriptionPlaylist": "Habilitar codificación de vídeo (códec, contenedor, CRF/bitrate) y conversión de audio (MP3/Opus/M4A)",
+				"directBadge": "Descarga directa activa",
+				"reencodeBadge": "Recodificación activa",
+				"audioTooltip": "Activa la opción «Codificar» arriba para elegir tasa de bits de audio",
+				"convertTooltip": "Activa «Codificar» para habilitar la conversión de audio",
+				"playlistAudioTooltip": "Activa «Codificar» para convertir audio a {{format}}"
+			},
 			"convert": {
 				"label": "Convertir",
 				"uncompressed": "Convertir · sin compresión",
@@ -468,6 +539,7 @@
 			"panel": {
 				"identity": {"title": "Identidad del perfil", "description": "Nombre e icono que se muestran en Descarga rápida, URLs en lote y listas de perfiles."},
 				"downloadType": {"title": "Tipo de descarga", "description": "Elige la forma principal en que quieres descargar."},
+				"videoEncode": {"title": "Codificación de vídeo (FFmpeg)", "description": "Recodifica el vídeo con un contenedor, códec y tasa de bits o calidad específica."},
 				"advanced": {"title": "Opciones avanzadas", "description": "Los perfiles heredan el destino global salvo que definas una anulación del perfil."},
 				"output": {"title": "Opciones de salida"},
 				"sponsorBlock": {"title": "SponsorBlock"}
@@ -477,7 +549,9 @@
 				"icon": "Icono del perfil",
 				"compatibility": "Compatibilidad",
 				"resolution": "Resolución",
-				"quality": "Calidad",
+				"quality": "Quality",
+				"videoEncodeSwitch": "Codificar vídeo",
+				"videoEncodeSwitchDesc": "Aplica recodificación con FFmpeg tras la descarga en lugar de guardar el flujo original",
 				"source": "Origen",
 				"subfolderName": "Nombre de la subcarpeta",
 				"name": "Nombre del perfil",
@@ -534,6 +608,9 @@
 		"empty": "Las descargas en cola aparecerán aquí",
 		"filtersLabel": "Filtros de estado de la cola",
 		"filterAll": "Todo",
+		"filterEncoding": "Codificando",
+		"totalFpsTooltip": "{{count}} vídeo(s) codificándose a la vez",
+		"totalFpsTasks": "{{count}} tareas",
 		"selectedActionsLabel": "Elementos seleccionados",
 		"globalActionsLabel": "Todos los elementos",
 		"selectionSummary": "{{selected}} seleccionados · {{total}} en total",
@@ -577,6 +654,8 @@
 			"statusProbing": "Obteniendo detalles",
 			"statusPending": "Esperando",
 			"statusRunning": "Descargando",
+			"statusEncoding": "Codificando",
+			"statusEncodingPending": "En cola (Codificación)",
 			"statusHeld": "Retenido",
 			"statusPaused": "Pausado",
 			"statusDone": "Listo",
@@ -586,10 +665,10 @@
 	},
 	"update": {
 		"message": {
-			"generic": "Arroxy {{version}} está disponible — tienes {{currentVersion}}.",
-			"homebrew": "Arroxy {{version}} está disponible — actualiza con Homebrew.",
-			"macosDirect": "Arroxy {{version}} está disponible — descarga el nuevo DMG.",
-			"portable": "Arroxy {{version}} está disponible — descarga la nueva compilación."
+			"generic": "ArrowBrake {{version}} está disponible — tienes {{currentVersion}}.",
+			"homebrew": "ArrowBrake {{version}} está disponible — actualiza con Homebrew.",
+			"macosDirect": "ArrowBrake {{version}} está disponible — descarga el nuevo DMG.",
+			"portable": "ArrowBrake {{version}} está disponible — descarga la nueva compilación."
 		},
 		"install": "Instalar y reiniciar",
 		"downloading": "Descargando…",
@@ -601,7 +680,7 @@
 		"installFailed": "Actualización fallida",
 		"retry": "Reintentar"
 	},
-	"releaseNotes": {"title": "Novedades de Arroxy {{version}}", "description": "Estás usando una actualización reciente. Estos son los puntos destacados.", "fullNotes": "Notas de la versión completas ↗", "continue": "Continuar"},
+	"releaseNotes": {"title": "Novedades de ArrowBrake {{version}}", "description": "Estás usando una actualización reciente. Estos son los puntos destacados.", "fullNotes": "Notas de la versión completas ↗", "continue": "Continuar"},
 	"status": {
 		"preparingBinaries": "Preparando binarios…",
 		"mintingToken": "Generando token de YouTube…",
@@ -611,6 +690,7 @@
 		"mergingFormats": "Combinando audio y video…",
 		"extractingAudio": "Convirtiendo audio…",
 		"convertingVideo": "Convirtiendo vídeo…",
+		"encodingPending": "Esperando turno de codificación…",
 		"embeddingMetadata": "Incrustando metadatos…",
 		"movingFiles": "Moviendo archivos…",
 		"fetchingSubtitles": "Obteniendo subtítulos…",
@@ -642,15 +722,15 @@
 			"queued": "Descarga añadida desde el portapapeles",
 			"alreadyQueued": "Ya está en la cola — no se añadió otra copia",
 			"invalidClipboard": "No hay ningún enlace en el portapapeles — copia uno primero",
-			"multipleUrls": "Se copiaron varios enlaces — usa «URLs en lote» en Arroxy",
-			"needsReview": "Ese enlace necesita una revisión rápida — abre Arroxy y pégalo de nuevo",
+			"multipleUrls": "Se copiaron varios enlaces — usa «URLs en lote» en ArrowBrake",
+			"needsReview": "Ese enlace necesita una revisión rápida — abre ArrowBrake y pégalo de nuevo",
 			"busy": "Aún se está procesando el enlace anterior",
-			"submissionFailed": "No se pudo añadir ese enlace — inténtalo de nuevo en Arroxy"
+			"submissionFailed": "No se pudo añadir ese enlace — inténtalo de nuevo en ArrowBrake"
 		}
 	},
 	"errors": {
 		"ytdlp": {
-			"botBlock": "La protección contra bots se activó. La IP que estás usando probablemente está marcada (rango de datacenter o salida de VPN con mucho tráfico). Cambia tu IP o elige un punto de salida de VPN diferente y vuelve a intentarlo. Si sigue fallando, puede ser un cambio temporal de YouTube — Arroxy actualiza yt-dlp automáticamente al iniciar, por lo que la corrección llegará sola en cuanto esté disponible en el repositorio.",
+			"botBlock": "La protección contra bots se activó. La IP que estás usando probablemente está marcada (rango de datacenter o salida de VPN con mucho tráfico). Cambia tu IP o elige un punto de salida de VPN diferente y vuelve a intentarlo. Si sigue fallando, puede ser un cambio temporal de YouTube — ArrowBrake actualiza yt-dlp automáticamente al iniciar, por lo que la corrección llegará sola en cuanto esté disponible en el repositorio.",
 			"ipBlock": "Tu dirección IP parece estar bloqueada por YouTube. Inténtalo más tarde o usa una VPN.",
 			"rateLimit": "YouTube está limitando las solicitudes. Espera un minuto y reintenta.",
 			"ageRestricted": "Este vídeo tiene restricción de edad y no se puede descargar sin una cuenta iniciada.",
@@ -661,7 +741,7 @@
 			"chunkTransferFailure": "El servidor cortó la descarga repetidamente y yt-dlp se rindió tras varios intentos. Esto suele ocurrir con los formatos de mayor tamaño (4K HDR / VP9 de alta tasa de bits). Vuelve a intentarlo, cambia de red/VPN o elige un formato de menor resolución.",
 			"missingDependency": "yt-dlp no pudo encontrar ffmpeg ni ffprobe. Repara los binarios incluidos o configura una ubicación de FFmpeg y vuelve a intentarlo.",
 			"postprocessFailure": "yt-dlp terminó la descarga, pero el post-procesado (mezcla / mux / conversión) falló. A menudo es un problema transitorio de ffmpeg — reintenta, y si persiste prueba con otra combinación de formatos.",
-			"parse": "No se pudo analizar la respuesta del sitio. Es posible que el extractor de yt-dlp esté desfasado. Arroxy actualiza yt-dlp automáticamente al iniciar — reintenta en unos minutos cuando llegue el arreglo.",
+			"parse": "No se pudo analizar la respuesta del sitio. Es posible que el extractor de yt-dlp esté desfasado. ArrowBrake actualiza yt-dlp automáticamente al iniciar — reintenta en unos minutos cuando llegue el arreglo.",
 			"network": "Error de red. Comprueba tu conexión y reintenta.",
 			"drmProtected": "Este vídeo está protegido con DRM. yt-dlp no puede eliminar el DRM, por lo que el archivo no se puede descargar.",
 			"loginRequired": "Este vídeo requiere una cuenta con sesión iniciada. Configura un cookies.txt (Ajustes → Cookies) y vuelve a intentarlo.",
@@ -697,28 +777,28 @@
 		"mp4Cap": "H.264 por encima de 1080p no está disponible en YouTube — se limita automáticamente a 1080p"
 	},
 	"formatLabel": {"audioFallback": "Audio", "audioOnlyDot": "Solo audio · {{audio}}", "videoDot": "{{resolution}} · {{audio}}"},
-	"tray": {"tooltip": "Arroxy", "menu": {"statusIdle": "Inactivo", "statusActive_one": "1 descargando · {{percent}}%", "statusActive_other": "{{count}} descargando · {{percent}}%", "downloadFromClipboard": "Descargar del portapapeles", "open": "Abrir Arroxy", "quit": "Salir de Arroxy"}},
+	"tray": {"tooltip": "ArrowBrake", "menu": {"statusIdle": "Inactivo", "statusActive_one": "1 descargando · {{percent}}%", "statusActive_other": "{{count}} descargando · {{percent}}%", "downloadFromClipboard": "Descargar del portapapeles", "open": "Abrir ArrowBrake", "quit": "Salir de ArrowBrake"}},
 	"dialogs": {
 		"quitWithActiveDownloads": {"message_one": "{{count}} descarga en curso", "message_other": "{{count}} descargas en curso", "detail": "Pausa para reanudar más tarde, o cancela para descartar el progreso.", "confirm": "Cancelar descargas y salir", "pause": "Pausar descargas y salir", "keep": "Seguir descargando"},
-		"closeToTray": {"message": "¿Ocultar Arroxy en la bandeja del sistema al cerrar?", "detail": "Arroxy sigue ejecutándose y termina las descargas activas. Cámbialo en Ajustes avanzados.", "hide": "Ocultar en bandeja", "quit": "Salir", "remember": "No volver a preguntar"},
-		"rendererCrashed": {"message": "Arroxy encontró un problema", "detail": "El proceso de renderizado falló ({{reason}}). Recarga para intentarlo de nuevo.", "reload": "Recargar", "quit": "Salir"}
+		"closeToTray": {"message": "¿Ocultar ArrowBrake en la bandeja del sistema al cerrar?", "detail": "ArrowBrake sigue ejecutándose y termina las descargas activas. Cámbialo en Ajustes avanzados.", "hide": "Ocultar en bandeja", "quit": "Salir", "remember": "No volver a preguntar"},
+		"rendererCrashed": {"message": "ArrowBrake encontró un problema", "detail": "El proceso de renderizado falló ({{reason}}). Recarga para intentarlo de nuevo.", "reload": "Recargar", "quit": "Salir"}
 	},
 	"share": {
-		"title": "Compartir Arroxy",
-		"description": "Arroxy es gratuito y de código abierto. Compartirlo ayuda a que más personas lo descubran.",
+		"title": "Compartir ArrowBrake",
+		"description": "ArrowBrake es gratuito y de código abierto. Compartirlo ayuda a que más personas lo descubran.",
 		"copyLink": "Copiar enlace",
 		"copied": "¡Copiado!",
-		"defaultMessage": "Arroxy — Descargador de vídeos gratuito y de código abierto para Windows, macOS y Linux. Funciona con YouTube, Vimeo, Twitch y más de 2000 sitios.\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
-		"footerTooltip": "Compartir Arroxy",
+		"defaultMessage": "ArrowBrake — Descargador de vídeos gratuito y de código abierto para Windows, macOS y Linux. Funciona con YouTube, Vimeo, Twitch y más de 2000 sitios.\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
+		"footerTooltip": "Compartir ArrowBrake",
 		"footerLabel": "Compartir",
-		"shareAction": "Compartir Arroxy"
+		"shareAction": "Compartir ArrowBrake"
 	},
 	"filenameTemplate": {
 		"label": "Plantilla de nombre de archivo",
 		"description": "Elige cómo se nombran los archivos descargados. Haz clic en un token para insertarlo. Usa / para ordenar las descargas en carpetas.",
 		"profileOverrideLabel": "Plantilla de nombre de archivo",
 		"profileOverrideDescription": "Déjalo vacío para heredar la plantilla global.",
-		"idWarning": "Sin {id}, Arroxy no puede detectar elementos de la lista ya descargados ni generar listas .m3u.",
+		"idWarning": "Sin {id}, ArrowBrake no puede detectar elementos de la lista ya descargados ni generar listas .m3u.",
 		"m3uDisabled": "No disponible porque tu plantilla de nombre no incluye {id} o clasifica las descargas en carpetas.",
 		"previewSingle": "Vídeo único",
 		"previewPlaylist": "En una lista de reproducción",

@@ -12,7 +12,7 @@ import type {ListSelectionAction} from '../shared/listSelection.js'
 import {useRowSelectionInteractions} from '../shared/useRowSelectionInteractions.js'
 import {saveQueueTablePreferences, sanitizeQueueTablePreferences, type QueueTableColumnId, type QueueTablePreferences} from './queueTablePreferences.js'
 import {createQueueManagerState, currentViewportWidth, queueManagerReducer} from './queueManagerState.js'
-import {COLUMN_LABEL_KEYS, actionButtonDisabled, type QueueSelectedAction} from './queueManagerActions.js'
+import {COLUMN_LABEL_KEYS, actionButtonDisabled, isEncodingQueueItem, type QueueSelectedAction} from './queueManagerActions.js'
 import {QueueManagerToolbar} from './QueueManagerToolbar.js'
 import {QueueManagerTable} from './QueueManagerTable.js'
 import {useQueueManagerColumns} from './useQueueManagerColumns.js'
@@ -53,7 +53,12 @@ export function QueueManagerTab(): ReactNode {
 	}, [])
 	const scrollRef = useRef<HTMLDivElement>(null)
 
-	const filteredQueue = useMemo(() => (filter === 'all' ? queue : queue.filter(item => item.status === filter)), [filter, queue])
+	const filteredQueue = useMemo(() => {
+		if (filter === 'all') return queue
+		if (filter === 'encoding') return queue.filter(isEncodingQueueItem)
+		if (filter === 'running') return queue.filter(item => item.status === 'running' && !isEncodingQueueItem(item))
+		return queue.filter(item => item.status === filter)
+	}, [filter, queue])
 	// The scheduler-pause flag has no per-item symptom (pending rows simply stay
 	// "Waiting"), so the banner is the only feedback surface — show it while the
 	// queue is globally paused and anything is actually waiting for it.

@@ -1,14 +1,21 @@
 {
-	"name": "arroxy",
+	"name": "arrowbrake",
 	"version": "0.4.17",
 	"private": true,
-	"description": "Arroxy - YouTube downloader app",
+	"description": "ArrowBrake - Fast YouTube downloader with GPU video encoding",
 	"type": "module",
 	"main": "out/main/index.js",
 	"packageManager": "bun@1.4.0",
-	"engines": {"node": "24.16.0", "bun": "1.4.0"},
+	"engines": {
+		"node": "24.16.0",
+		"bun": "1.4.0"
+	},
 	"workspaces": ["packages/*"],
-	"author": {"name": "Antonio Orionus", "email": "orionusAI@proton.me", "url": "https://x.com/OrionusAI"},
+	"author": {
+		"name": "Antonio Orionus",
+		"email": "orionusAI@proton.me",
+		"url": "https://x.com/OrionusAI"
+	},
 	"license": "MIT",
 	"scripts": {
 		"agents:skills:restore": "bunx skills experimental_install && bun run agents:sync",
@@ -187,6 +194,7 @@
 		"@types/react-dom": "19.2.4",
 		"@types/yauzl": "3.4.0",
 		"@vitejs/plugin-react": "6.0.5",
+		"cac": "^7.0.0",
 		"concurrently": "10.0.5",
 		"electron": "43.4.0",
 		"electron-builder": "26.15.7",

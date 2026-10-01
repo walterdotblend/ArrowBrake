@@ -37,6 +37,12 @@ export type {
 	AudioTrackQuality,
 	AudioConvert,
 	AudioSelection,
+	VideoEncodeContainer,
+	VideoEncodeCodec,
+	VideoEncodeRateControl,
+	VideoEncodePreset,
+	VideoEncode,
+	GpuAcceleration,
 	CloseBehavior,
 	CookiesMode,
 	CookiesBrowser,
@@ -57,6 +63,12 @@ export type {
 	RuntimeBinaryManifestEntry,
 	RuntimeBinaryIndex,
 	WizardStepName
+} from './schemas.js'
+
+export {
+	DEFAULT_VIDEO_ENCODE,
+	VIDEO_ENCODE_CONTAINERS,
+	VIDEO_ENCODE_CODECS
 } from './schemas.js'
 
 export type {StatusKey} from './schemas.js'
@@ -83,6 +95,7 @@ import type {
 	CookiesBrowser,
 	NetworkPacingPreset,
 	NativeAudioPreference,
+	GpuAcceleration,
 	QueueArtifactKind,
 	QueueSelectionAction,
 	QueueActionSkippedItem as SchemaQueueActionSkippedItem,
@@ -140,6 +153,9 @@ export interface CommonSettings {
 	pacingSleepSubtitles?: number
 	downloadConnections?: number
 	concurrentDownloads?: number
+	concurrentEncodes?: number
+	gpuAcceleration?: GpuAcceleration
+	gpuDeviceIndex?: number
 	autoRetryAttempts?: number
 	clipboardWatchEnabled: boolean
 	hotkeyEnabled: boolean

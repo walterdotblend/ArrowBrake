@@ -33,6 +33,7 @@ import {ToggleGroup, ToggleGroupItem} from '../ui/toggle-group.js'
 import {ProfileSwitchRow} from './DownloadProfileSwitchRow.js'
 import {SubtitleLanguagePicker} from './SubtitleLanguagePicker.js'
 import {FilenameTemplateField} from '../shared/FilenameTemplateField.js'
+import {VideoEncodeCard} from './format/VideoEncodeCard.js'
 
 interface SelectOption<T extends string> {
 	value: T
@@ -240,6 +241,13 @@ export function DownloadProfileEditor({commonPaths, globalDestination = '', glob
 		mediaMode,
 		codec,
 		resolution,
+		videoEncodeEnabled,
+		videoEncodeContainer,
+		videoEncodeCodec,
+		videoEncodeRateControl,
+		videoEncodeCrf,
+		videoEncodeBitrateKbps,
+		videoEncodePreset,
 		audioFormat,
 		audioQuality,
 		subtitleEnabled,
@@ -472,6 +480,33 @@ export function DownloadProfileEditor({commonPaths, globalDestination = '', glob
 									</ProfilePanel>
 								) : null}
 							</div>
+
+							{showVideo ? (
+								<ProfilePanel title={t('wizard.profileEditor.panel.videoEncode.title')} description={t('wizard.profileEditor.panel.videoEncode.description')}>
+									<FieldGroup className="gap-3">
+										<ProfileSwitchRow
+											id="profile-video-encode-enabled"
+											label={t('wizard.profileEditor.field.videoEncodeSwitch')}
+											description={t('wizard.profileEditor.field.videoEncodeSwitchDesc')}
+											checked={videoEncodeEnabled}
+											onCheckedChange={next => updateDraft({type: 'set-video-encode-enabled', videoEncodeEnabled: next})}
+										/>
+										{videoEncodeEnabled && (
+											<VideoEncodeCard
+												videoEncode={{enabled: true, container: videoEncodeContainer, codec: videoEncodeCodec, rateControl: videoEncodeRateControl, crf: videoEncodeCrf, bitrateKbps: videoEncodeBitrateKbps, preset: videoEncodePreset}}
+												onChange={next => {
+													if (next.container) updateDraft({type: 'set-video-encode-container', videoEncodeContainer: next.container})
+													if (next.codec) updateDraft({type: 'set-video-encode-codec', videoEncodeCodec: next.codec})
+													if (next.rateControl) updateDraft({type: 'set-video-encode-rate-control', videoEncodeRateControl: next.rateControl})
+													if (next.crf !== undefined) updateDraft({type: 'set-video-encode-crf', videoEncodeCrf: next.crf})
+													if (next.bitrateKbps !== undefined) updateDraft({type: 'set-video-encode-bitrate-kbps', videoEncodeBitrateKbps: next.bitrateKbps})
+													if (next.preset) updateDraft({type: 'set-video-encode-preset', videoEncodePreset: next.preset})
+												}}
+											/>
+										)}
+									</FieldGroup>
+								</ProfilePanel>
+							) : null}
 
 							{subtitlesOnly ? (
 								<Alert variant="info" className="py-2 text-[12px]">

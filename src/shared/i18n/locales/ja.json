@@ -5,11 +5,11 @@
 		"logs": "ログ",
 		"saveDiagnostics": "診断ファイルを保存",
 		"saveDiagnosticsDescription": "ログとアプリの情報を「ダウンロード」フォルダー内の1つのファイルにまとめます。GitHub の Issue にそのまま添付できます。ユーザーフォルダー名は削除されますが、動画のリンクとタイトルは残ります。",
-		"feedbackNudge": "Arroxyを楽しんでくれてる?ぜひ感想を聞かせて! 💬",
+		"feedbackNudge": "ArrowBrakeを楽しんでくれてる?ぜひ感想を聞かせて! 💬",
 		"zoomIn": "拡大",
 		"zoomOut": "縮小"
 	},
-	"about": {"button": "情報", "openTitle": "Arroxy について", "tagline": "YouTube と 2000 以上の他サイトに対応する、高速で使いやすいダウンローダー。", "websiteLink": "公式サイト", "githubLink": "GitHub", "licenseLine": "MIT ライセンス · 作者 Antonio Orionus", "thirdPartyNotices": "サードパーティ通知を表示"},
+	"about": {"button": "情報", "openTitle": "ArrowBrake について", "tagline": "YouTube と 2000 以上の他サイトに対応する、高速で使いやすいダウンローダー。", "websiteLink": "公式サイト", "githubLink": "GitHub", "licenseLine": "MIT ライセンス · 作者 Antonio Orionus", "thirdPartyNotices": "サードパーティ通知を表示"},
 	"titleBar": {"close": "閉じる", "minimize": "最小化", "maximize": "最大化", "restore": "元に戻す"},
 	"splash": {
 		"greeting": "やあ、おかえり!",
@@ -116,7 +116,7 @@
 			"nestedPlaylistHint_other": "このうち {{count}} 件は動画ではなくプレイリストです — ダウンロードするにはリンクを 1 つずつ貼り付けてください。",
 			"probeLimitAlertTitle": "プレイリストのスキャンが上限に達しました",
 			"probeLimitAlertTitleGeneric": "スキャン上限に達しました",
-			"probeLimitAlertDesc": "Arroxy は {{count}} 件を超えるアイテムを検出しましたが、現在のスキャン上限により残りは表示されていません。",
+			"probeLimitAlertDesc": "ArrowBrake は {{count}} 件を超えるアイテムを検出しましたが、現在のスキャン上限により残りは表示されていません。",
 			"multiProfileEntry": "アイテムごとにプロファイルを割り当て",
 			"multiProfileEntryTooltip": "画質、SponsorBlock、出力、保存先をスキップ — 代わりにアイテムごとにダウンロードプロファイルを割り当てます",
 			"removeFromListCount_one": "リストから{{count}}件削除",
@@ -129,7 +129,7 @@
 		},
 		"bulk": {
 			"title": "一括 URL",
-			"description": "動画、プレイリスト、チャンネル、検索、または音声の URL を貼り付けてください。Arroxy はキューに追加する前に重複を整理します。",
+			"description": "動画、プレイリスト、チャンネル、検索、または音声の URL を貼り付けてください。ArrowBrake はキューに追加する前に重複を整理します。",
 			"textareaLabel": "URL リスト",
 			"textareaPlaceholder": "https://video.example/one\nhttps://video.example/two\nhttps://video.example/three",
 			"acceptedCount": "準備完了",
@@ -149,11 +149,11 @@
 			"pickFromPlaylist": "Playlist から選ぶ",
 			"quickWholePlaylist": "プレイリスト全体をダウンロード",
 			"playlistLimit": "プレイリスト取得上限: {{count}} 件",
-			"quickLimitDescription": "プレイリスト、チャンネル、検索結果をキューに追加する前に Arroxy がスキャンする最大項目数です。",
+			"quickLimitDescription": "プレイリスト、チャンネル、検索結果をキューに追加する前に ArrowBrake がスキャンする最大項目数です。",
 			"singleTooltip": "yt-dlp の単一動画モードを使い、この URL に付いたプレイリストを無視します。",
 			"quickSingleTooltip": "1 件のダウンロードをキューに追加し、この URL に付いているプレイリストは無視します。",
 			"playlistTooltip": "yt-dlp のプレイリストモードを使い、選択画面を出す前に上限まで取得します。",
-			"quickPlaylistTooltip": "読み込まれた各プレイリスト項目を、有効なクイックダウンロードプロファイルでキューに追加します。スキャンが上限に達した場合、キューに追加する前に Arroxy が確認します。"
+			"quickPlaylistTooltip": "読み込まれた各プレイリスト項目を、有効なクイックダウンロードプロファイルでキューに追加します。スキャンが上限に達した場合、キューに追加する前に ArrowBrake が確認します。"
 		},
 		"url": {
 			"heading": "URL からダウンロード",
@@ -199,12 +199,12 @@
 			"bulkButton": "一括 URL",
 			"bulkTooltip": "複数の URL を追加してキューに入れます。",
 			"features": {
-				"heading": "Arroxyで取得できるもの",
+				"heading": "ArrowBrakeで取得できるもの",
 				"youtube": {"heading": "YouTube", "video": "動画", "channel": "チャンネル", "playlist": "プレイリスト", "short": "Shorts", "music": "音楽", "podcast": "ポッドキャスト"},
 				"anySite": {"heading": "2000以上のサイト", "video": "動画", "videoPlaylist": "動画プレイリスト", "musicPlaylist": "音楽プレイリスト"},
 				"always": {"audioOnly": "音声のみ", "subtitles": "字幕"}
 			},
-			"mascotIdle": "リンクを入れて、あとは Arroxy に引っぱってもらおう ✨",
+			"mascotIdle": "リンクを入れて、あとは ArrowBrake に引っぱってもらおう ✨",
 			"mascotBusy": "バックグラウンドでダウンロード中… マルチタスクは得意なんだ 😎",
 			"advanced": "詳細設定",
 			"settings": {"inputHeading": "入力", "behaviorHeading": "ダウンロードの動作", "behaviorDescription": "プロフィールによるダウンロードにも影響する全体の動作です。"},
@@ -221,7 +221,7 @@
 			},
 			"hotkey": {
 				"sectionTitle": "グローバルホットキー",
-				"sectionDescription": "コピーしたリンクを、Arroxy を開かずにどのアプリからでもダウンロードします。",
+				"sectionDescription": "コピーしたリンクを、ArrowBrake を開かずにどのアプリからでもダウンロードします。",
 				"toggle": "グローバルホットキーを有効にする",
 				"toggleDescription": "クリップボードに動画リンクがある状態でショートカットを押してください。",
 				"changeShortcut": "ショートカットを変更",
@@ -229,7 +229,7 @@
 				"test": "テスト",
 				"conflict": "このショートカットは別のアプリで使用中です — 別のものを選んでください。",
 				"hintLabel": "または押す",
-				"hintTooltip": "どこででも動画リンクをコピーしてこのショートカットを押すと、Arroxyがアクティブなプロフィールでキューに追加します — ウィンドウを切り替える必要はありません。",
+				"hintTooltip": "どこででも動画リンクをコピーしてこのショートカットを押すと、ArrowBrakeがアクティブなプロフィールでキューに追加します — ウィンドウを切り替える必要はありません。",
 				"hintTooltipSettings": "設定で変更または無効にできます。",
 				"reset": "デフォルトにリセット"
 			},
@@ -257,14 +257,14 @@
 			"proxy": {"label": "Proxy URL", "description": "プロキシ経由でトラフィックを転送 — 地域制限コンテンツに有効。", "placeholder": "http://host:port", "clear": "クリア"},
 			"backdrop": {
 				"panelTitle": "外観とパフォーマンス",
-				"panelDescription": "アニメーション背景で Arroxy が使用する動きの量を選びます。",
+				"panelDescription": "アニメーション背景で ArrowBrake が使用する動きの量を選びます。",
 				"modeLabel": "背景の品質",
 				"modeDescription": "最も動きのある表示から最高のパフォーマンスへ調整します。",
 				"cssOnlyLabel": "最高のパフォーマンス",
 				"cssOnlyDescription": "CSS のみ、canvas レンダリングなし。",
 				"gpuLabel": "最も美しい",
 				"gpuDescription": "対応環境ではアニメーション WebGL 背景を使用します。",
-				"runtimeFallbackNotice": "このデバイスではハードウェア WebGL を利用できないため、Arroxy はパフォーマンス用の背景を使用しています。"
+				"runtimeFallbackNotice": "このデバイスではハードウェア WebGL を利用できないため、ArrowBrake はパフォーマンス用の背景を使用しています。"
 			},
 			"limitRate": {
 				"label": "ダウンロード速度制限",
@@ -277,7 +277,7 @@
 			},
 			"playlistProbeLimit": {
 				"label": "スキャンするプレイリストの項目数",
-				"description": "プレイリスト、チャンネル、または検索結果を開いたときに Arroxy が読み込む最大エントリ数。",
+				"description": "プレイリスト、チャンネル、または検索結果を開いたときに ArrowBrake が読み込む最大エントリ数。",
 				"option": "{{count}} 件",
 				"current": "現在の上限：{{count}} 件",
 				"customValue": "カスタム：{{count}} 件",
@@ -287,7 +287,7 @@
 				"customDialogCancel": "キャンセル",
 				"customDialogSave": "上限を保存",
 				"invalid": "1 から 5000 の整数を入力してください",
-				"tooltip": "yt-dlp の --playlist-end に対応します：Arroxy はピッカーを構築する際、この件数のプレイリスト・チャンネル・検索エントリのみ取得します。"
+				"tooltip": "yt-dlp の --playlist-end に対応します：ArrowBrake はピッカーを構築する際、この件数のプレイリスト・チャンネル・検索エントリのみ取得します。"
 			},
 			"nativeAudioPreference": {"label": "ネイティブ音声の設定", "description": "「最高のネイティブ」が選ぶ音声を制御します。手動の音声行と M4A/AAC は明示的な選択のままです。", "compatible": "互換性重視のステレオ", "surround": "サラウンド / Dolby を優先"},
 			"autoRetry": {"label": "失敗したダウンロードを再試行", "description": "ネットワークやサーバーの一時的な問題のあと、自動的に再試行します。試行ごとに待ち時間が長くなります。サイトにブロックされたダウンロードは自動再試行されません。", "unit": "回"},
@@ -295,13 +295,13 @@
 			"downloadConnections": {"label": "ダウンロード接続数", "description": "動画の複数の部分を同時に取得して、大きなダウンロードを高速化します。値を大きくすると、サイトから制限される可能性が高まります。", "unit": "接続"},
 			"networkPacing": {
 				"heading": "やさしいダウンロード",
-				"description": "各ダウンロード中に小さな待機を追加して、Arroxy がサイトに過度にアクセスしないようにします。値は秒単位です。",
-				"presetLabel": "Arroxy はどのくらい慎重にしますか？",
+				"description": "各ダウンロード中に小さな待機を追加して、ArrowBrake がサイトに過度にアクセスしないようにします。値は秒単位です。",
+				"presetLabel": "ArrowBrake はどのくらい慎重にしますか？",
 				"tooltip": "これらの待機は各ダウンロードの内部で発生します。同時に実行するダウンロード数は「同時ダウンロード数」で別に設定します。",
 				"summary": "待機：{{requests}} チェック間、{{downloads}} メディア開始前、{{subtitles}} 字幕ファイル前。",
 				"presets": {"off": "オフ", "balanced": "バランス", "careful": "慎重", "custom": "カスタム"},
 				"tooltips": {
-					"off": "Arroxyがメディアと字幕のために保持している小さなベースライン一時停止のみを使用します。",
+					"off": "ArrowBrakeがメディアと字幕のために保持している小さなベースライン一時停止のみを使用します。",
 					"balanced": "デフォルト。リクエストの間とメディア開始前に短い一時停止を追加します。",
 					"careful": "大きなプレイリストや頻繁に制限に引っかかるネットワーク向けに長い一時停止を追加します。",
 					"custom": "ダウンロードごとの高度なコントロールを自分で調整します。"
@@ -314,9 +314,9 @@
 		},
 		"quickProgress": {
 			"title": "クイックダウンロードを準備中",
-			"description": "Arroxy がリンクを読み取り、{{profileName}} を適用しています。",
+			"description": "ArrowBrake がリンクを読み取り、{{profileName}} を適用しています。",
 			"currentFallback": "現在のリンク",
-			"waitHint": "Arroxy がキューを準備している間、この画面を開いたままにしてください。",
+			"waitHint": "ArrowBrake がキューを準備している間、この画面を開いたままにしてください。",
 			"failedCount_one": "{{count}} 件失敗",
 			"failedCount_other": "{{count}} 件失敗",
 			"cancel": "準備をキャンセル",
@@ -586,10 +586,10 @@
 	},
 	"update": {
 		"message": {
-			"generic": "Arroxy {{version}} が利用可能です — 現在は {{currentVersion}} です。",
-			"homebrew": "Arroxy {{version}} が利用可能です — Homebrew で更新してください。",
-			"macosDirect": "Arroxy {{version}} が利用可能です — 新しい DMG をダウンロードしてください。",
-			"portable": "Arroxy {{version}} が利用可能です — 新しいビルドをダウンロードしてください。"
+			"generic": "ArrowBrake {{version}} が利用可能です — 現在は {{currentVersion}} です。",
+			"homebrew": "ArrowBrake {{version}} が利用可能です — Homebrew で更新してください。",
+			"macosDirect": "ArrowBrake {{version}} が利用可能です — 新しい DMG をダウンロードしてください。",
+			"portable": "ArrowBrake {{version}} が利用可能です — 新しいビルドをダウンロードしてください。"
 		},
 		"install": "インストールして再起動",
 		"downloading": "ダウンロード中…",
@@ -601,7 +601,7 @@
 		"installFailed": "更新に失敗しました",
 		"retry": "再試行"
 	},
-	"releaseNotes": {"title": "Arroxy {{version}} の新機能", "description": "新しいアップデートを実行中です。主な変更点はこちらです。", "fullNotes": "完全なリリースノート ↗", "continue": "続行"},
+	"releaseNotes": {"title": "ArrowBrake {{version}} の新機能", "description": "新しいアップデートを実行中です。主な変更点はこちらです。", "fullNotes": "完全なリリースノート ↗", "continue": "続行"},
 	"status": {
 		"preparingBinaries": "バイナリを準備中…",
 		"mintingToken": "YouTubeトークンを生成中…",
@@ -642,15 +642,15 @@
 			"queued": "クリップボードからダウンロードを追加しました",
 			"alreadyQueued": "すでにキューにあります — 追加されていません",
 			"invalidClipboard": "クリップボードにリンクがありません — 先にコピーしてください",
-			"multipleUrls": "複数のリンクがコピーされました — Arroxyの「一括 URL」を使ってください",
-			"needsReview": "このリンクには簡単な確認が必要です — Arroxyを開いて再度貼り付けてください",
+			"multipleUrls": "複数のリンクがコピーされました — ArrowBrakeの「一括 URL」を使ってください",
+			"needsReview": "このリンクには簡単な確認が必要です — ArrowBrakeを開いて再度貼り付けてください",
 			"busy": "前のリンクをまだ処理中です",
-			"submissionFailed": "そのリンクを追加できませんでした — Arroxyでもう一度お試しください"
+			"submissionFailed": "そのリンクを追加できませんでした — ArrowBrakeでもう一度お試しください"
 		}
 	},
 	"errors": {
 		"ytdlp": {
-			"botBlock": "ボット対策が発動しました。使用中のIPはデータセンター範囲またはVPN出口として検出されている可能性があります。IPを変更するか別のVPNエンドポイントを選択して再試行してください。それでも失敗する場合はYouTube側の一時的な変更の可能性があります。ArroxyはYouTube起動時にyt-dlpを自動更新するため、上流が修正をリリースすれば自動的に適用されます。",
+			"botBlock": "ボット対策が発動しました。使用中のIPはデータセンター範囲またはVPN出口として検出されている可能性があります。IPを変更するか別のVPNエンドポイントを選択して再試行してください。それでも失敗する場合はYouTube側の一時的な変更の可能性があります。ArrowBrakeはYouTube起動時にyt-dlpを自動更新するため、上流が修正をリリースすれば自動的に適用されます。",
 			"ipBlock": "IPアドレスがYouTubeにブロックされているようです。あとで試すか、VPNを使用してください。",
 			"rateLimit": "YouTubeがリクエストを制限しています。1分待ってから再試行してください。",
 			"ageRestricted": "この動画は年齢制限があり、ログインアカウントなしではダウンロードできません。",
@@ -661,7 +661,7 @@
 			"chunkTransferFailure": "サーバーがストリームの途中で接続を何度も切断し、yt-dlpは再試行を繰り返した末に断念しました。最も大きなビデオフォーマット（4K HDR / 高ビットレート VP9）で起こりやすい問題です。再試行するか、ネットワークまたは VPN を切り替えるか、解像度の低いフォーマットを選択してください。",
 			"missingDependency": "yt-dlp が ffmpeg または ffprobe を見つけられませんでした。同梱バイナリを修復するか FFmpeg の場所を設定してから、再試行してください。",
 			"postprocessFailure": "yt-dlp はダウンロードを完了しましたが、後処理（マージ / mux / 変換）に失敗しました。多くの場合、これは一時的な ffmpeg の問題です。再試行し、それでも続く場合は別のフォーマットの組み合わせを試してください。",
-			"parse": "サイトからの応答を解析できませんでした。yt-dlp の抽出機能が古くなっている可能性があります。Arroxy は起動時に yt-dlp を自動更新します — 修正版が配信されるまで数分待ってから再試行してください。",
+			"parse": "サイトからの応答を解析できませんでした。yt-dlp の抽出機能が古くなっている可能性があります。ArrowBrake は起動時に yt-dlp を自動更新します — 修正版が配信されるまで数分待ってから再試行してください。",
 			"network": "ネットワークエラーです。接続を確認して再試行してください。",
 			"drmProtected": "この動画はDRM保護されています。yt-dlpはDRMを解除できないため、ファイルをダウンロードできません。",
 			"loginRequired": "この動画にはサインイン済みのアカウントが必要です。cookies.txt を設定して (設定 → Cookies) 再試行してください。",
@@ -697,7 +697,7 @@
 		"mp4Cap": "YouTube では 1080p 超の H.264 は利用できません — 自動的に 1080p に制限されます"
 	},
 	"formatLabel": {"audioFallback": "音声", "audioOnlyDot": "音声のみ · {{audio}}", "videoDot": "{{resolution}} · {{audio}}"},
-	"tray": {"tooltip": "Arroxy", "menu": {"statusIdle": "アイドル", "statusActive_one": "1件ダウンロード中 · {{percent}}%", "statusActive_other": "{{count}}件ダウンロード中 · {{percent}}%", "downloadFromClipboard": "クリップボードからダウンロード", "open": "Arroxyを開く", "quit": "Arroxyを終了"}},
+	"tray": {"tooltip": "ArrowBrake", "menu": {"statusIdle": "アイドル", "statusActive_one": "1件ダウンロード中 · {{percent}}%", "statusActive_other": "{{count}}件ダウンロード中 · {{percent}}%", "downloadFromClipboard": "クリップボードからダウンロード", "open": "ArrowBrakeを開く", "quit": "ArrowBrakeを終了"}},
 	"dialogs": {
 		"quitWithActiveDownloads": {
 			"message_one": "ダウンロード{{count}}件を実行中",
@@ -707,25 +707,25 @@
 			"pause": "ダウンロードを一時停止して終了",
 			"keep": "ダウンロードを続ける"
 		},
-		"closeToTray": {"message": "閉じるときにArroxyをシステムトレイに格納しますか？", "detail": "Arroxyは実行を続け、アクティブなダウンロードを完了します。詳細設定で変更できます。", "hide": "トレイに格納", "quit": "終了", "remember": "次回から表示しない"},
-		"rendererCrashed": {"message": "Arroxyで問題が発生しました", "detail": "レンダラープロセスがクラッシュしました ({{reason}})。再読み込みしてもう一度お試しください。", "reload": "再読み込み", "quit": "終了"}
+		"closeToTray": {"message": "閉じるときにArrowBrakeをシステムトレイに格納しますか？", "detail": "ArrowBrakeは実行を続け、アクティブなダウンロードを完了します。詳細設定で変更できます。", "hide": "トレイに格納", "quit": "終了", "remember": "次回から表示しない"},
+		"rendererCrashed": {"message": "ArrowBrakeで問題が発生しました", "detail": "レンダラープロセスがクラッシュしました ({{reason}})。再読み込みしてもう一度お試しください。", "reload": "再読み込み", "quit": "終了"}
 	},
 	"share": {
-		"title": "Arroxyをシェア",
-		"description": "Arroxyは無料でオープンソースです。シェアすることでより多くの人に届けることができます。",
+		"title": "ArrowBrakeをシェア",
+		"description": "ArrowBrakeは無料でオープンソースです。シェアすることでより多くの人に届けることができます。",
 		"copyLink": "リンクをコピー",
 		"copied": "コピーしました！",
-		"defaultMessage": "Arroxy — Windows・macOS・Linux 向けの無料オープンソース動画ダウンローダー。YouTube、Vimeo、Twitch、2000 以上のサイトに対応。\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
-		"footerTooltip": "Arroxy を共有",
+		"defaultMessage": "ArrowBrake — Windows・macOS・Linux 向けの無料オープンソース動画ダウンローダー。YouTube、Vimeo、Twitch、2000 以上のサイトに対応。\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
+		"footerTooltip": "ArrowBrake を共有",
 		"footerLabel": "共有",
-		"shareAction": "Arroxy を共有"
+		"shareAction": "ArrowBrake を共有"
 	},
 	"filenameTemplate": {
 		"label": "ファイル名テンプレート",
 		"description": "ダウンロードしたファイルの名前の付け方を選びます。トークンをクリックすると挿入されます。/ を使うとフォルダーに振り分けられます。",
 		"profileOverrideLabel": "ファイル名テンプレート",
 		"profileOverrideDescription": "空欄のままにすると全体のテンプレートを引き継ぎます。",
-		"idWarning": "{id} がないと、Arroxy はダウンロード済みのプレイリスト項目を検出できず、.m3u プレイリストも作成できません。",
+		"idWarning": "{id} がないと、ArrowBrake はダウンロード済みのプレイリスト項目を検出できず、.m3u プレイリストも作成できません。",
 		"m3uDisabled": "ファイル名テンプレートに {id} が含まれていないか、ダウンロードをフォルダーに振り分けているため使えません。",
 		"previewSingle": "単体の動画",
 		"previewPlaylist": "プレイリスト内",

@@ -315,6 +315,13 @@ if (hasSingleInstanceLock) {
 		// pass, so a restart honors the user's limit instead of falling back to
 		// the built-in cap for the first batch.
 		queueService.setConcurrentDownloads(initialSettings.common.concurrentDownloads ?? NORMAL_LANE_CAP)
+		queueService.setConcurrentEncodes(initialSettings.common.concurrentEncodes ?? 1)
+		if (initialSettings.common.gpuAcceleration) {
+			queueService.setGpuAcceleration(initialSettings.common.gpuAcceleration)
+		}
+		if (initialSettings.common.gpuDeviceIndex !== undefined) {
+			queueService.setGpuDeviceIndex(initialSettings.common.gpuDeviceIndex)
+		}
 		// Must precede init() too — init re-arms retries persisted across the
 		// restart, and does nothing unless auto-retry is already configured.
 		queueService.setAutoRetryAttempts(initialSettings.common.autoRetryAttempts ?? 0)

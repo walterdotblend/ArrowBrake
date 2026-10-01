@@ -53,6 +53,8 @@ import type {ProbeInfoJsonCache} from './ProbeInfoJsonCache.js'
 import {changeQueueOutputTarget} from './queueOutputTargetMove.js'
 import {QueueArtifactCleanup} from './download/queueArtifactCleanup.js'
 import {applyQueueSelectionAction} from './queueSelectionActionApply.js'
+import {EncodeQueueService, type EncodeProgressUpdate} from './encode/EncodeQueueService.js'
+import type {GpuAcceleration} from '@shared/types.js'
 
 const logger = log.scope('queue')
 
@@ -128,6 +130,7 @@ export class QueueService extends EventEmitter {
 	// read `this.playlist`, whose assignment order relative to field
 	// initializers depends on the parameter-property emit.
 	private readonly playlistM3u: QueuePlaylistM3u
+	readonly encodeService: EncodeQueueService
 
 	constructor(
 		private readonly queueStore: QueueStore,
@@ -135,14 +138,77 @@ export class QueueService extends EventEmitter {
 		private normalCap = NORMAL_LANE_CAP,
 		private maxConcurrent = MAX_CONCURRENT_DOWNLOADS,
 		private readonly playlist?: {manifestStore: PlaylistManifestStore; writeM3u: (manifest: PlaylistManifest) => Promise<void>},
-		private readonly probeInfoJsonCache?: ProbeInfoJsonCache
+		private readonly probeInfoJsonCache?: ProbeInfoJsonCache,
+		encodeService?: EncodeQueueService
 	) {
 		super()
+		this.encodeService = encodeService ?? new EncodeQueueService(() => this.downloadService.ffmpegPath)
 		this.artifactCleanup = new QueueArtifactCleanup(probeInfoJsonCache)
 		this.playlistM3u = new QueuePlaylistM3u(this.playlist)
 		this.downloadService.on('status', (event: StatusEvent) => this.consumeStatusEvent(event))
 		this.downloadService.on('progress', (event: ProgressEvent) => this.consumeProgressEvent(event))
 		this.downloadService.on('artifact', (event: QueueArtifactEvent) => this.consumeArtifactEvent(event))
+
+		this.encodeService.on('status', ({itemId, statusKey, params}: {itemId: string; statusKey: StatusKey; params?: Record<string, string | number>}) => {
+			const item = this.findItem(itemId)
+			if (!item) return
+			this.commit({
+				kind: 'patch',
+				itemId,
+				reason: `encode:status:${statusKey}`,
+				patcher: prev => ({...prev, lastStatus: {key: statusKey, params}, progressDetail: null})
+			})
+		})
+
+		this.encodeService.on('progress', (update: EncodeProgressUpdate) => {
+			const item = this.findItem(update.itemId)
+			if (!item) return
+			this.commit({
+				kind: 'event',
+				itemId: update.itemId,
+				evt: {
+					kind: 'progress',
+					percent: update.percent,
+					detail: update.detail
+				}
+			})
+		})
+
+		this.encodeService.on('completed', ({itemId, finalPath}: {itemId: string; finalPath: string}) => {
+			const item = this.findItem(itemId)
+			if (!item) return
+			logger.info('Encode completed, finalizing queue item', {itemId, finalPath})
+			this.consumeArtifactEvent({
+				jobId: item.lastJobId ?? itemId,
+				path: finalPath,
+				kind: 'media',
+				at: nowIso()
+			})
+			this.commit({
+				kind: 'event',
+				itemId,
+				evt: {
+					kind: 'completed',
+					finishedAt: nowIso(),
+					lastStatusKey: STATUS_KEY.complete
+				}
+			})
+		})
+
+		this.encodeService.on('failed', ({itemId, error}: {itemId: string; error: LocalizedError}) => {
+			const item = this.findItem(itemId)
+			if (!item) return
+			logger.error('Encode failed for item', {itemId, error})
+			this.commit({
+				kind: 'event',
+				itemId,
+				evt: {
+					kind: 'failed',
+					error,
+					lastStatusKey: STATUS_KEY.unknownStartupFailure
+				}
+			})
+		})
 	}
 
 	async init(): Promise<void> {
@@ -223,6 +289,12 @@ export class QueueService extends EventEmitter {
 
 		if (item.status === QUEUE_STATUS.pending) {
 			this.commit({kind: 'event', itemId, evt: {kind: 'paused-held'}})
+			return ok(undefined)
+		}
+
+		if (this.encodeService.isItemInQueue(itemId)) {
+			await this.encodeService.pause(itemId)
+			this.commit({kind: 'event', itemId, evt: {kind: 'paused-active'}})
 			return ok(undefined)
 		}
 
@@ -309,6 +381,18 @@ export class QueueService extends EventEmitter {
 		this.recomputeSchedule()
 	}
 
+	setConcurrentEncodes(value: number): void {
+		this.encodeService.setMaxConcurrent(value)
+	}
+
+	setGpuAcceleration(value: GpuAcceleration): void {
+		this.encodeService.setGpuAcceleration(value)
+	}
+
+	setGpuDeviceIndex(value: number): void {
+		this.encodeService.setGpuDeviceIndex(value)
+	}
+
 	setAutoRetryAttempts(value: number): void {
 		this.autoRetry.setAttempts(value, this.items)
 	}
@@ -327,6 +411,20 @@ export class QueueService extends EventEmitter {
 
 		if (item.status !== QUEUE_STATUS.pausedActive) {
 			return fail(createAppError('validation', `cannot resume item in status ${item.status}`))
+		}
+
+		const preparedJob = item.job
+		const needsEncode = (preparedJob.kind === 'single-format' || preparedJob.kind === 'ranged-format') && preparedJob.videoEncode?.enabled === true
+		const mediaArtifact = item.artifacts.find(a => a.kind === 'media')
+		if (needsEncode && mediaArtifact?.path && (item.lastStatus?.key === STATUS_KEY.convertingVideo || item.lastStatus?.key === STATUS_KEY.encodingPending)) {
+			this.commit({kind: 'event', itemId, evt: {kind: 'resumed'}})
+			this.encodeService.enqueue({
+				itemId: item.id,
+				inputPath: mediaArtifact.path,
+				videoEncode: preparedJob.videoEncode!,
+				title: item.title
+			})
+			return ok(undefined)
 		}
 
 		// Try in-session resume first; if main has no record (cross-restart),
@@ -360,6 +458,9 @@ export class QueueService extends EventEmitter {
 				try {
 					for (const id of ids) {
 						const item = this.findItem(id)
+						if (this.encodeService.isItemInQueue(id)) {
+							await this.encodeService.cancel(id)
+						}
 						if (item) await this.artifactCleanup.cleanup(item)
 						if (this.findItem(id)?.status === QUEUE_STATUS.probing) this.probeAbortHook(id)
 						const jobId = item?.lastJobId
@@ -383,6 +484,13 @@ export class QueueService extends EventEmitter {
 		this.autoRetry.clear(itemId)
 
 		if (item.status === QUEUE_STATUS.pending || item.status === QUEUE_STATUS.pausedHeld) {
+			await this.artifactCleanup.cleanup(item)
+			this.commit({kind: 'event', itemId, evt: {kind: 'cancelled'}})
+			return ok(undefined)
+		}
+
+		if (this.encodeService.isItemInQueue(itemId)) {
+			await this.encodeService.cancel(itemId)
 			await this.artifactCleanup.cleanup(item)
 			this.commit({kind: 'event', itemId, evt: {kind: 'cancelled'}})
 			return ok(undefined)
@@ -493,6 +601,33 @@ export class QueueService extends EventEmitter {
 			// priority jobs are user-driven bursts, no need to throttle the queue
 			// after they wrap.
 			if (item.lane === 'normal') this.sleep.arm()
+
+			const preparedJob = item.job
+			const needsEncode = (preparedJob.kind === 'single-format' || preparedJob.kind === 'ranged-format') && preparedJob.videoEncode?.enabled === true
+			const mediaArtifact = item.artifacts.find(a => a.kind === 'media') ?? this.items.find(i => i.id === item.id)?.artifacts.find(a => a.kind === 'media')
+
+			if (needsEncode && mediaArtifact?.path) {
+				logger.info('Download complete, delegating to independent encode queue', {itemId: item.id, mediaPath: mediaArtifact.path})
+				this.commit({
+					kind: 'patch',
+					itemId: item.id,
+					reason: 'downloadComplete:handoffEncode',
+					patcher: prev => ({
+						...prev,
+						lastStatus: {key: STATUS_KEY.encodingPending},
+						progressPercent: 0,
+						progressDetail: 'En cola de codificación…'
+					})
+				})
+				this.encodeService.enqueue({
+					itemId: item.id,
+					inputPath: mediaArtifact.path,
+					videoEncode: preparedJob.videoEncode!,
+					title: item.title
+				})
+				return
+			}
+
 			this.commit({kind: 'event', itemId: item.id, evt: {kind: 'completed', finishedAt: nowIso(), lastStatusKey: event.statusKey, params: event.params}})
 			return
 		}
@@ -526,16 +661,24 @@ export class QueueService extends EventEmitter {
 	// buffering. Without this gate, the late progress event would re-populate
 	// `progressDetail` and the UI would flip from "Merging formats…" back to
 	// "downloading at X MB/s" — visible regression on every fast job.
-	private static readonly POST_DOWNLOAD_PHASES: ReadonlySet<StatusKey> = new Set([STATUS_KEY.mergingFormats, STATUS_KEY.extractingAudio, STATUS_KEY.convertingVideo, STATUS_KEY.embeddingMetadata, STATUS_KEY.movingFiles])
+	private static readonly POST_DOWNLOAD_PHASES: ReadonlySet<StatusKey> = new Set([STATUS_KEY.mergingFormats, STATUS_KEY.extractingAudio, STATUS_KEY.embeddingMetadata, STATUS_KEY.movingFiles])
 
 	consumeProgressEvent(event: ProgressEvent): void {
 		const item = this.findByJobId(event.jobId)
 		if (!item) return
+
+		const lastKey = item.lastStatus?.key
+		if (lastKey === STATUS_KEY.convertingVideo || lastKey === STATUS_KEY.encodingPending) {
+			const percent = event.percent !== undefined ? event.percent : item.progressPercent
+			const detail = event.line || item.progressDetail
+			this.commit({kind: 'event', itemId: item.id, evt: {kind: 'progress', percent, ...(detail ? {detail} : {})}})
+			return
+		}
+
 		// Drop progress arriving while item is in a post-download phase (see
 		// POST_DOWNLOAD_PHASES). Also drop the pending coalesced progress for
 		// this item — a phase patch already cleared it via emitImmediate, but a
 		// racing progress event could have re-enqueued before this guard ran.
-		const lastKey = item.lastStatus?.key
 		if (lastKey && QueueService.POST_DOWNLOAD_PHASES.has(lastKey)) {
 			this.pendingProgress.delete(item.id)
 			return
@@ -663,6 +806,13 @@ export class QueueService extends EventEmitter {
 
 	// scheduler --------------------------------------------------------------
 
+	private isItemDownloading(it: QueueItem): boolean {
+		if (it.status !== QUEUE_STATUS.running && it.status !== QUEUE_STATUS.pausedActive) return false
+		if (it.lastStatus?.key === STATUS_KEY.convertingVideo || it.lastStatus?.key === STATUS_KEY.encodingPending) return false
+		if (this.encodeService.isItemInQueue(it.id)) return false
+		return true
+	}
+
 	private recomputeSchedule(): void {
 		// Global pause: scheduler is dormant. Per-item explicit start/resume
 		// still spawn directly via spawnViaStart — they don't go through here.
@@ -671,8 +821,8 @@ export class QueueService extends EventEmitter {
 			return
 		}
 		const now = Date.now()
-		let activeCount = this.spawning.size + this.items.filter(i => i.status === QUEUE_STATUS.running || i.status === QUEUE_STATUS.pausedActive).length
-		let normalRunning = this.items.filter(i => i.status === QUEUE_STATUS.running && i.lane === 'normal').length
+		let activeCount = this.spawning.size + this.items.filter(i => (i.status === QUEUE_STATUS.running || i.status === QUEUE_STATUS.pausedActive) && this.isItemDownloading(i)).length
+		let normalRunning = this.items.filter(i => i.status === QUEUE_STATUS.running && this.isItemDownloading(i) && i.lane === 'normal').length
 		for (const s of this.spawning) {
 			const item = this.findItem(s)
 			if (item?.lane === 'normal') normalRunning++

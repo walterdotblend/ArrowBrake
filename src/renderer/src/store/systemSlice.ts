@@ -524,6 +524,18 @@ export function createSystemSlice(set: SetState, get: GetState): SystemSlice {
 			await applyCommonPatchAsync(get, set, 'concurrentDownloads', {concurrentDownloads: value})
 		},
 
+		setConcurrentEncodes: async value => {
+			await applyCommonPatchAsync(get, set, 'concurrentEncodes', {concurrentEncodes: value})
+		},
+
+		setGpuAcceleration: async value => {
+			await applyCommonPatchAsync(get, set, 'gpuAcceleration', {gpuAcceleration: value})
+		},
+
+		setGpuDeviceIndex: async value => {
+			await applyCommonPatchAsync(get, set, 'gpuDeviceIndex', {gpuDeviceIndex: value})
+		},
+
 		setAutoRetryAttempts: async value => {
 			await applyCommonPatchAsync(get, set, 'autoRetryAttempts', {autoRetryAttempts: value})
 		},

@@ -1,7 +1,7 @@
 import {DEFAULTS} from './constants.js'
 import {mediaIntentSpec, playlistSelectionToMediaIntent} from './mediaIntent.js'
 import type {EmbedOptions, ExtractorIdentity, PreparedJob, SponsorBlockOptions, SubtitleOptions} from './preparedJob.js'
-import type {AudioConvert, MediaIntent, NativeAudioPreference, PlaylistSelection, Preset, SponsorBlockCategory, SponsorBlockMode} from './schemas.js'
+import type {AudioConvert, MediaIntent, NativeAudioPreference, PlaylistSelection, Preset, SponsorBlockCategory, SponsorBlockMode, VideoEncode} from './schemas.js'
 
 // Pure builder. Lives in `src/shared/` (not renderer) so future QueueStore
 // migrations in main can synthesize jobs without a renderer dependency.
@@ -15,6 +15,7 @@ export interface PrepareJobInput extends ExtractorIdentity {
 	// single-mode inputs (set when mode === 'single')
 	formatId?: string
 	audioConvert?: AudioConvert
+	videoEncode?: VideoEncode
 	activePreset?: Preset | null
 	expectedBytes?: number
 	// playlist-mode inputs (set when mode === 'playlist')
@@ -40,7 +41,7 @@ export function prepareJob(input: PrepareJobInput): PreparedJob {
 		if (!intent) throw new Error('prepareJob: playlist mode requires mediaIntent')
 		if (!input.filenameTemplate) throw new Error('prepareJob: playlist mode requires filenameTemplate')
 		const spec = mediaIntentSpec(intent, input.nativeAudioPreference ?? DEFAULTS.nativeAudioPreference)
-		return {kind: 'ranged-format', ...identity, intent, formatSelector: spec.formatSelector, formatSort: spec.formatSort, mergeOutputFormat: spec.mergeOutputFormat, audioConvert: spec.audioConvert, filenameTemplate: input.filenameTemplate, subtitles, sponsorBlock, embed: input.embed}
+		return {kind: 'ranged-format', ...identity, intent, formatSelector: spec.formatSelector, formatSort: spec.formatSort, mergeOutputFormat: spec.mergeOutputFormat, audioConvert: spec.audioConvert, videoEncode: input.videoEncode, filenameTemplate: input.filenameTemplate, subtitles, sponsorBlock, embed: input.embed}
 	}
 
 	const hasMedia = !!input.formatId || !!input.audioConvert || (!!input.activePreset && input.activePreset !== 'subtitle-only')
@@ -56,7 +57,7 @@ export function prepareJob(input: PrepareJobInput): PreparedJob {
 	}
 
 	if (!input.formatId) throw new Error('prepareJob: single-format requires formatId')
-	return {kind: 'single-format', ...identity, formatId: input.formatId, preset: input.activePreset ?? 'custom', ...filenameTemplate, subtitles, sponsorBlock, embed: input.embed, expectedBytes: input.expectedBytes}
+	return {kind: 'single-format', ...identity, formatId: input.formatId, preset: input.activePreset ?? 'custom', ...filenameTemplate, subtitles, sponsorBlock, embed: input.embed, expectedBytes: input.expectedBytes, videoEncode: input.videoEncode}
 }
 
 function toSponsorBlockOptions(mode: SponsorBlockMode, categories: SponsorBlockCategory[]): SponsorBlockOptions {

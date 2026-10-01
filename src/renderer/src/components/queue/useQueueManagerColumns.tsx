@@ -107,13 +107,19 @@ export function useQueueManagerColumns({expandedIds, onToggleExpanded, t}: {expa
 					enableHiding: false,
 					cell: info => {
 						const item = info.row.original
-						const meta = STATUS_META[item.status]
+						const isEncoding = item.status === 'running' && item.lastStatus?.key === 'convertingVideo'
+						const isEncodingPending = item.status === 'running' && item.lastStatus?.key === 'encodingPending'
+						const meta = isEncoding
+							? {className: 'text-purple-400 bg-purple-500/15 border border-purple-500/35 shadow-[0_0_8px_rgba(168,85,247,0.2)]', icon: <Loader2 size={12} className="animate-spin text-purple-400" aria-hidden />}
+							: isEncodingPending
+								? {className: 'text-amber-500 dark:text-amber-400 bg-amber-500/10 border border-amber-500/30', icon: <Clock size={12} aria-hidden />}
+								: STATUS_META[item.status]
 						const detail = rowStatusDetail(item, t)
 						return (
 							<div className="flex min-w-[8rem] flex-col gap-1">
 								<Badge variant="secondary" className={cn('w-fit gap-1 text-[10px] font-semibold uppercase tracking-wider', meta.className)}>
 									{meta.icon}
-									{statusText(item, t)}
+									{isEncoding ? t('queue.item.statusEncoding') : isEncodingPending ? t('queue.item.statusEncodingPending') : statusText(item, t)}
 								</Badge>
 								{detail ? (
 									<span

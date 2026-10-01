@@ -141,4 +141,33 @@ describe('DownloadProfileDraft', () => {
 		const profile = downloadProfileFromDraft(draft, NOW, () => 'hidden-custom')
 		expect(profile.enabled).toBe(false)
 	})
+
+	it('handles video encoding options in the draft round-trip', () => {
+		let draft = createDownloadProfileDraft(null)
+		expect(draft.videoEncodeEnabled).toBe(false)
+
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-enabled', videoEncodeEnabled: true})
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-container', videoEncodeContainer: 'mkv'})
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-codec', videoEncodeCodec: 'hevc'})
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-rate-control', videoEncodeRateControl: 'bitrate'})
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-bitrate-kbps', videoEncodeBitrateKbps: 4500})
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-preset', videoEncodePreset: 'fast'})
+
+		const profile = downloadProfileFromDraft(draft, NOW, () => 'recode-profile')
+		expect(profile.videoEncode).toEqual({enabled: true, container: 'mkv', codec: 'hevc', rateControl: 'bitrate', crf: 23, bitrateKbps: 4500, preset: 'fast'})
+
+		const reloadedDraft = createDownloadProfileDraft(profile)
+		expect(reloadedDraft.videoEncodeEnabled).toBe(true)
+		expect(reloadedDraft.videoEncodeContainer).toBe('mkv')
+		expect(reloadedDraft.videoEncodeCodec).toBe('hevc')
+		expect(reloadedDraft.videoEncodeBitrateKbps).toBe(4500)
+	})
+
+	it('omits videoEncode when videoEncodeEnabled is false', () => {
+		let draft = createDownloadProfileDraft(null)
+		draft = updateDownloadProfileDraft(draft, {type: 'set-video-encode-enabled', videoEncodeEnabled: false})
+
+		const profile = downloadProfileFromDraft(draft, NOW, () => 'clean-profile')
+		expect(profile.videoEncode).toBeUndefined()
+	})
 })

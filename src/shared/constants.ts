@@ -1,4 +1,4 @@
-import type {SubtitleMode, SubtitleFormat, SponsorBlockMode, SponsorBlockCategory, UiTheme, BackdropRenderMode, NetworkPacingPreset, NativeAudioPreference, HotkeyAccelerator} from './schemas.js'
+import type {SubtitleMode, SubtitleFormat, SponsorBlockMode, SponsorBlockCategory, UiTheme, BackdropRenderMode, NetworkPacingPreset, NativeAudioPreference, HotkeyAccelerator, GpuAcceleration} from './schemas.js'
 import type {AppSettings} from './types.js'
 import {DEFAULT_FILENAME_TEMPLATE} from './filenameTemplate.js'
 
@@ -32,6 +32,9 @@ export const DEFAULTS: {
 	writeThumbnail: boolean
 	writeM3u: boolean
 	filenameTemplate: string
+	concurrentEncodes: number
+	gpuAcceleration: GpuAcceleration
+	gpuDeviceIndex: number
 } = {
 	subtitleMode: 'sidecar',
 	subtitleFormat: 'srt',
@@ -49,7 +52,10 @@ export const DEFAULTS: {
 	writeM3u: true,
 	hotkeyEnabled: true,
 	filenameTemplate: DEFAULT_FILENAME_TEMPLATE,
-	hotkeyAccelerator: 'CommandOrControl+Shift+D'
+	hotkeyAccelerator: 'CommandOrControl+Shift+D',
+	concurrentEncodes: 1,
+	gpuAcceleration: 'auto' as const,
+	gpuDeviceIndex: 0
 }
 
 // Single factory for the AppSettings shape — main process, tests, and
@@ -72,7 +78,10 @@ export function defaultAppSettings(downloadsDir: string): AppSettings {
 			analyticsEnabled: true,
 			filenameTemplate: DEFAULTS.filenameTemplate,
 			backdropRenderMode: DEFAULTS.backdropRenderMode,
-			nativeAudioPreference: DEFAULTS.nativeAudioPreference
+			nativeAudioPreference: DEFAULTS.nativeAudioPreference,
+			concurrentEncodes: DEFAULTS.concurrentEncodes,
+			gpuAcceleration: DEFAULTS.gpuAcceleration,
+			gpuDeviceIndex: DEFAULTS.gpuDeviceIndex
 		},
 		single: {},
 		playlist: {},
@@ -97,6 +106,8 @@ export const LIVE_CHAT_LANG = 'live_chat'
 export const NORMAL_LANE_CAP = 1
 export const MAX_CONCURRENT_DOWNLOADS = 4
 export const INTER_JOB_SLEEP_MS = 500
+export const DEFAULT_CONCURRENT_ENCODES = 1
+export const CONCURRENT_ENCODES_MAX = 8
 
 // How many spawn slots stay reserved above the normal-lane cap so a "pull now"
 // priority item can still start while the normal lane is saturated. Derived

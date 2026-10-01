@@ -67,14 +67,18 @@ export function conflictLabelKey(code: UserVisibleConflictCode): (typeof CONFLIC
 }
 
 function playlistPresetLabel(state: AppState, t: Translate): string {
-	const {playlistSelection} = state
+	const {playlistSelection, wizardEncodeEnabled, wizardVideoEncode} = state
 	if (!playlistSelection) return ''
 	if (playlistSelection.kind === 'audio') {
-		if (playlistSelection.format === 'best') return t('playlistPresets.audioFormat.best')
+		if (!wizardEncodeEnabled || playlistSelection.format === 'best') return t('playlistPresets.audioFormat.best')
 		return t('playlistPresets.audioFormatBitrate', {format: playlistSelection.format.toUpperCase(), kbps: playlistSelection.bitrateKbps ?? 192})
 	}
 	const tierLabel = t(`playlistPresets.tier.${playlistSelection.tier}`)
-	return playlistSelection.codec === 'mp4' ? `${t('playlistPresets.videoFormat.mp4')} · ${tierLabel}` : tierLabel
+	const base = playlistSelection.codec === 'mp4' ? `${t('playlistPresets.videoFormat.mp4')} · ${tierLabel}` : tierLabel
+	if (wizardEncodeEnabled && wizardVideoEncode?.enabled) {
+		return `${base} [REC: ${wizardVideoEncode.container.toUpperCase()} · ${wizardVideoEncode.codec.toUpperCase()}]`
+	}
+	return base
 }
 
 function buildSubtitleValue(state: AppState, effectiveSubtitleLanguages: string[], ctx: DownloadReviewLocaleContext): string {

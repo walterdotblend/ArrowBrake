@@ -27,10 +27,11 @@ export const SELECTED_ACTIONS: QueueActionDefinition[] = [
 	{id: 'remove', labelKey: 'queue.item.remove', Icon: Trash2, destructive: true}
 ]
 
-export const STATUS_FILTERS: {id: QueueStatusFilter; labelKey: 'queue.filterAll' | 'queue.item.statusPending' | 'queue.item.statusRunning' | 'queue.item.statusHeld' | 'queue.item.statusPaused' | 'queue.item.statusDone' | 'queue.item.statusError' | 'queue.item.statusCancelled'}[] = [
+export const STATUS_FILTERS: {id: QueueStatusFilter; labelKey: 'queue.filterAll' | 'queue.filterEncoding' | 'queue.item.statusPending' | 'queue.item.statusRunning' | 'queue.item.statusHeld' | 'queue.item.statusPaused' | 'queue.item.statusDone' | 'queue.item.statusError' | 'queue.item.statusCancelled'}[] = [
 	{id: 'all', labelKey: 'queue.filterAll'},
 	{id: 'pending', labelKey: 'queue.item.statusPending'},
 	{id: 'running', labelKey: 'queue.item.statusRunning'},
+	{id: 'encoding', labelKey: 'queue.filterEncoding'},
 	{id: 'paused-held', labelKey: 'queue.item.statusHeld'},
 	{id: 'paused-active', labelKey: 'queue.item.statusPaused'},
 	{id: 'done', labelKey: 'queue.item.statusDone'},
@@ -65,6 +66,13 @@ export function actionDisabledTooltip(action: QueueSelectedAction, disabled: boo
 	return action === 'change-output-target' && disabled ? t('queue.item.setLocationHint') : undefined
 }
 
+export function isEncodingQueueItem(item: QueueItem): boolean {
+	return item.status === 'running' && (item.lastStatus?.key === 'convertingVideo' || item.lastStatus?.key === 'encodingPending')
+}
+
 export function queueStatusFilterCount(filter: QueueStatusFilter, queue: QueueItem[]): number {
-	return filter === 'all' ? queue.length : queue.filter(item => item.status === filter).length
+	if (filter === 'all') return queue.length
+	if (filter === 'encoding') return queue.filter(isEncodingQueueItem).length
+	if (filter === 'running') return queue.filter(item => item.status === 'running' && !isEncodingQueueItem(item)).length
+	return queue.filter(item => item.status === filter).length
 }

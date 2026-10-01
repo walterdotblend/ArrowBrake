@@ -151,6 +151,20 @@ describe('planWorkflow — media', () => {
 		expect(plan.args).toContain('--write-auto-subs')
 		expect(plan.args).not.toContain('--embed-thumbnail')
 	})
+
+	it('plans video recoding with codec and CRF rate control', () => {
+		const plan = planWorkflow({kind: 'media', url: URL, output: {directory: '/out'}, selection: {formatId: '137+140'}, video: {recode: {container: 'mp4', codec: 'h264', rateControl: 'crf', crf: 23, preset: 'medium'}}})
+
+		expect(adjacent(plan.args, '--recode-video', 'mp4')).toBe(true)
+		expect(adjacent(plan.args, '--postprocessor-args', 'VideoConvertor:-c:v libx264 -crf 23 -preset medium')).toBe(true)
+	})
+
+	it('plans video recoding with codec and bitrate rate control', () => {
+		const plan = planWorkflow({kind: 'media', url: URL, output: {directory: '/out'}, selection: {formatId: '137+140'}, video: {recode: {container: 'mkv', codec: 'hevc', rateControl: 'bitrate', bitrateKbps: 4000, preset: 'fast'}}})
+
+		expect(adjacent(plan.args, '--recode-video', 'mkv')).toBe(true)
+		expect(adjacent(plan.args, '--postprocessor-args', 'VideoConvertor:-c:v libx265 -b:v 4000k -maxrate 4000k -bufsize 8000k -preset fast')).toBe(true)
+	})
 })
 
 describe('planWorkflow — subtitles', () => {

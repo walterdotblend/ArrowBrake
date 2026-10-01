@@ -103,6 +103,7 @@ export interface PhaseContext {
 	// has helped so far. Owned by DownloadService, shared by every job.
 	cookielessRetry: CookielessRetry
 	emitStatus(stage: StatusEvent['stage'], statusKey: StatusKey, params?: Record<string, string | number>, error?: LocalizedError, resumeContext?: QueueResumeContext): void
+	emitProgress?(percent: number, detail?: string): void
 	register(disposable: Disposable): void
 	safeConsume(text: string): void
 }

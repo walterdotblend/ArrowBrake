@@ -35,4 +35,29 @@ describe('StepPlaylistPresets', () => {
 		expect(screen.getByRole('button', {name: 'Continue'})).toBeEnabled()
 		expect(screen.getByRole('button', {name: 'Skip to confirm'})).toBeEnabled()
 	})
+
+	it('renders Codificar checkbox with direct download badge by default and reveals VideoEncodeCard when enabled', () => {
+		useAppStore.setState({wizardEncodeEnabled: false} as never)
+
+		const {rerender} = render(<StepPlaylistPresets />)
+
+		expect(screen.getByText('Descarga directa activa')).toBeInTheDocument()
+		expect(screen.queryByTestId('video-encode-card')).not.toBeInTheDocument()
+
+		useAppStore.setState({wizardEncodeEnabled: true} as never)
+		rerender(<StepPlaylistPresets />)
+
+		expect(screen.getByText('Recodificación activa')).toBeInTheDocument()
+		expect(screen.getByTestId('video-encode-card')).toBeInTheDocument()
+	})
+
+	it('gates lossy audio formats when Codificar is disabled', () => {
+		useAppStore.setState({wizardEncodeEnabled: false, playlistSelection: {kind: 'audio', format: 'best'}} as never)
+
+		render(<StepPlaylistPresets />)
+
+		// MP3 button should be aria-disabled when encode is off
+		const mp3Button = screen.getByRole('button', {name: /mp3/i})
+		expect(mp3Button).toHaveAttribute('aria-disabled', 'true')
+	})
 })

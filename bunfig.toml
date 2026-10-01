@@ -1,5 +1,5 @@
 [install]
-linker = "isolated"
+linker = "hoisted"
 # Block packages younger than 7 days (supply-chain protection).
 # Mirrors npm `minimum-release-age` (minutes) and pnpm `minimumReleaseAge` (minutes).
 minimumReleaseAge = 604800

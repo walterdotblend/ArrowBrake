@@ -17,6 +17,7 @@ interface AudioColumnProps {
 	mode: FormatSelectionView['mode']
 	audioSelection: AudioSelection
 	audioExtFilter: string | null
+	encodeEnabled?: boolean
 	onAudioExtFilterChange: (value: string | null) => void
 	onSelect: (sel: AudioSelection) => void
 }
@@ -45,7 +46,7 @@ function QualityBadge({quality, label}: {quality: AudioTrackQuality; label: stri
 	)
 }
 
-export function AudioColumn({view, mode, audioSelection, audioExtFilter, onAudioExtFilterChange, onSelect}: AudioColumnProps): ReactNode {
+export function AudioColumn({view, mode, audioSelection, audioExtFilter, encodeEnabled = false, onAudioExtFilterChange, onSelect}: AudioColumnProps): ReactNode {
 	const {t} = useTranslation()
 	const subtitleOnly = mode === 'subtitle-only'
 
@@ -54,30 +55,55 @@ export function AudioColumn({view, mode, audioSelection, audioExtFilter, onAudio
 
 	const pickConvert = (target: AudioConvertTarget): AudioSelection => (target === 'wav' ? {kind: 'convert-lossless', target: 'wav'} : {kind: 'convert-lossy', target, bitrateKbps: view.bitrateStrip.value})
 
+	const isPreset = (AUDIO_BITRATES as readonly number[]).includes(view.bitrateStrip.value)
+
 	const bitrateStrip = (
-		<div className={cn('flex items-center justify-between mt-2 px-1 transition-opacity', view.bitrateStrip.blocked && 'opacity-40 pointer-events-none')} data-testid="audio-bitrate-strip">
-			<span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-subtle)]">{t('wizard.formats.convert.bitrate')}</span>
-			<ToggleGroup
-				value={[String(view.bitrateStrip.value)]}
-				onValueChange={vals => {
-					if (audioSelection.kind !== 'convert-lossy') return
-					const next = Number(vals[0]) as AudioBitrate
-					if (!AUDIO_BITRATES.includes(next)) return
-					onSelect({kind: 'convert-lossy', target: audioSelection.target, bitrateKbps: next})
-				}}
-				spacing={1}
-				className="flex-wrap justify-end gap-[3px]"
-			>
-				{AUDIO_BITRATES.map(rate => (
-					<ToggleGroupItem key={rate} value={String(rate)} shape="chip" className="wizard-filter-chip min-h-6 rounded-full px-[10px] text-[11px] font-semibold">
-						{rate}
-					</ToggleGroupItem>
-				))}
-			</ToggleGroup>
+		<div className={cn('flex flex-col gap-1.5 mt-2 px-1 transition-opacity', view.bitrateStrip.blocked && 'opacity-40 pointer-events-none')} data-testid="audio-bitrate-strip">
+			<div className="flex items-center justify-between gap-1">
+				<span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-subtle)] shrink-0">{t('wizard.formats.convert.bitrate')}</span>
+				<ToggleGroup
+					value={isPreset ? [String(view.bitrateStrip.value)] : []}
+					onValueChange={vals => {
+						if (audioSelection.kind !== 'convert-lossy') return
+						const next = Number(vals[0]) as AudioBitrate
+						if (!AUDIO_BITRATES.includes(next as any)) return
+						onSelect({kind: 'convert-lossy', target: audioSelection.target, bitrateKbps: next})
+					}}
+					spacing={1}
+					className="flex-wrap justify-end gap-[3px]"
+				>
+					{AUDIO_BITRATES.map(rate => (
+						<ToggleGroupItem key={rate} value={String(rate)} shape="chip" className="wizard-filter-chip min-h-6 rounded-full px-[7px] text-[11px] font-semibold">
+							{rate}
+						</ToggleGroupItem>
+					))}
+				</ToggleGroup>
+			</div>
+			<div className="flex items-center justify-end gap-1.5">
+				<span className="text-[10px] text-[var(--text-subtle)]">Custom:</span>
+				<input
+					type="number"
+					min={32}
+					max={512}
+					step={16}
+					placeholder="kbps"
+					value={view.bitrateStrip.value || ''}
+					onChange={e => {
+						if (audioSelection.kind !== 'convert-lossy') return
+						const next = Number.parseInt(e.target.value, 10)
+						if (!Number.isNaN(next) && next >= 32 && next <= 512) {
+							onSelect({kind: 'convert-lossy', target: audioSelection.target, bitrateKbps: next})
+						}
+					}}
+					className="h-5 w-16 rounded border border-[var(--border-strong)] bg-background px-1.5 text-right text-[11px] font-mono focus:outline-none focus:ring-1 focus:ring-primary"
+					aria-label="Custom bitrate kbps"
+				/>
+				<span className="text-[10px] font-mono text-[var(--text-subtle)]">kbps</span>
+			</div>
 		</div>
 	)
 
-	const bitrateTooltipMsg = view.bitrateStrip.tooltipKey ? t(view.bitrateStrip.tooltipKey) : null
+	const bitrateTooltipMsg = !encodeEnabled ? t('wizard.formats.encodeCheckbox.audioTooltip') : view.bitrateStrip.tooltipKey ? t(view.bitrateStrip.tooltipKey) : null
 
 	return (
 		<div className="flex flex-col gap-0">
@@ -128,18 +154,21 @@ export function AudioColumn({view, mode, audioSelection, audioExtFilter, onAudio
 				{view.convertTargets.flatMap(target => {
 					const isChecked = isConvertChecked(target)
 					const meta = target === 'wav' ? t('wizard.formats.convert.uncompressed') : t('wizard.formats.convert.label')
+					const isTargetDisabled = subtitleOnly || view.convertDisabled || !encodeEnabled
+					const tooltipMsg = !encodeEnabled ? t('wizard.formats.encodeCheckbox.convertTooltip') : view.convertDisabled && !subtitleOnly ? t('wizard.formats.convert.requiresAudioOnly') : null
+
 					const radio = (
-						<RadioOption key={`convert-${target}`} checked={isChecked} disabled={subtitleOnly || view.convertDisabled} onClick={() => onSelect(pickConvert(target))} label={target}>
+						<RadioOption key={`convert-${target}`} checked={isChecked} disabled={isTargetDisabled} onClick={() => onSelect(pickConvert(target))} label={target}>
 							<span className="text-[11px] ml-auto whitespace-nowrap" style={{color: isChecked ? 'hsla(220,100%,70%,0.7)' : 'var(--text-subtle)'}}>
 								{meta}
 							</span>
 						</RadioOption>
 					)
 					return [
-						view.convertDisabled && !subtitleOnly ? (
+						tooltipMsg ? (
 							<Tooltip key={`convert-${target}`}>
 								<TooltipTrigger render={props => <div {...props}>{radio}</div>} />
-								<TooltipContent>{t('wizard.formats.convert.requiresAudioOnly')}</TooltipContent>
+								<TooltipContent>{tooltipMsg}</TooltipContent>
 							</Tooltip>
 						) : (
 							radio

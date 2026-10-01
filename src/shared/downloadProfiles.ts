@@ -14,13 +14,14 @@ function videoAudio(codec: 'best' | 'mp4', tiers: PlaylistVideoTier[]): VideoAud
 	return {kind: 'video-audio', codec, tiers, audio: {format: codec === 'mp4' ? 'm4a' : 'best'}}
 }
 
-function baseProfile(id: string, name: string, media: DownloadProfile['media'], icon: DownloadProfile['icon'], enabled = true): DownloadProfile {
+function baseProfile(id: string, name: string, media: DownloadProfile['media'], icon: DownloadProfile['icon'], enabled = true, videoEncode?: import('./types.js').VideoEncode): DownloadProfile {
 	return {
 		id,
 		name,
 		icon,
 		enabled,
 		media,
+		videoEncode,
 		subtitles: {enabled: false, languages: [], source: 'manual-first', mode: DEFAULTS.subtitleMode, format: DEFAULTS.subtitleFormat},
 		sponsorBlock: {mode: DEFAULTS.sponsorBlockMode, categories: [...DEFAULTS.sponsorBlockCategories]},
 		embed: {...BUILTIN_PROFILE_EMBED},
@@ -46,6 +47,7 @@ function videoAudioLabel(format: 'best' | 'm4a'): string {
 }
 
 export const BUILTIN_DOWNLOAD_PROFILES: readonly DownloadProfile[] = [
+	baseProfile('best-quality-small-size', 'Best Quality & Smallest Size', videoAudio('best', ['best']), 'video', true, {enabled: true, container: 'mkv', codec: 'auto', rateControl: 'crf', crf: 26, bitrateKbps: 2500, preset: 'medium'}),
 	baseProfile('best-quality', 'Best available', videoAudio('best', ['best']), 'video'),
 	baseProfile('best-2160', '4K UHD 2160p', videoAudio('best', ['2160']), 'video'),
 	baseProfile('best-1440', 'QHD 1440p', videoAudio('best', ['1440']), 'video'),

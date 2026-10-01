@@ -42,6 +42,15 @@ export function registerSettingsHandlers(deps: SettingsHandlerDeps): void {
 		if (data.common?.concurrentDownloads !== undefined) {
 			queueService.setConcurrentDownloads(updated.common.concurrentDownloads ?? NORMAL_LANE_CAP)
 		}
+		if (data.common?.concurrentEncodes !== undefined) {
+			queueService.setConcurrentEncodes(updated.common.concurrentEncodes ?? 1)
+		}
+		if (data.common?.gpuAcceleration !== undefined) {
+			queueService.setGpuAcceleration(updated.common.gpuAcceleration ?? 'auto')
+		}
+		if (data.common?.gpuDeviceIndex !== undefined) {
+			queueService.setGpuDeviceIndex(updated.common.gpuDeviceIndex ?? 0)
+		}
 		if (data.common?.autoRetryAttempts !== undefined) {
 			queueService.setAutoRetryAttempts(updated.common.autoRetryAttempts ?? 0)
 		}

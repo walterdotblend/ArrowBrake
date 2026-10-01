@@ -36,7 +36,9 @@ export function phasesFor(input: ResolvedStartDownloadInput): Phase[] {
 	// ranged-format, subtitle-only) still run preflight against the floor in
 	// checkDiskSpace so a near-full disk gets caught before yt-dlp spawns.
 	const expectedBytes = job.kind === 'single-format' ? job.expectedBytes : undefined
-	return [PreflightPhase(expectedBytes), ...PHASES[strategyFor(job)]]
+	const strategy = strategyFor(job)
+	const strategyPhases = PHASES[strategy]
+	return [PreflightPhase(expectedBytes), ...strategyPhases]
 }
 
 export {PhaseExecutor} from './PhaseExecutor.js'

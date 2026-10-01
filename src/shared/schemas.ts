@@ -62,9 +62,9 @@ export const SPONSORBLOCK_CATEGORIES = sponsorBlockCategorySchema.options
 // strip below the column; wav has no bitrate.
 const LOSSY_TARGET_VALUES = AUDIO_CONVERT_TARGETS.flatMap(s => (s.lossy ? [s.target] : [])) as ['mp3', 'm4a', 'opus']
 
-export const audioBitrateSchema = z.union([z.literal(128), z.literal(192), z.literal(256), z.literal(320)])
+export const AUDIO_BITRATES = [64, 96, 128, 160, 192, 256, 320] as const
+export const audioBitrateSchema = z.number().int().min(32).max(512)
 export type AudioBitrate = z.infer<typeof audioBitrateSchema>
-export const AUDIO_BITRATES: readonly AudioBitrate[] = [128, 192, 256, 320]
 export const DEFAULT_AUDIO_BITRATE: AudioBitrate = 192
 
 export const audioTrackQualitySchema = z.enum(['low', 'medium', 'high'])
@@ -86,6 +86,49 @@ const subfolderNameSchema = z
 
 export const audioConvertSchema = z.discriminatedUnion('target', [z.object({target: z.literal('wav')}), z.object({target: z.enum(LOSSY_TARGET_VALUES), bitrateKbps: audioBitrateSchema})])
 export type AudioConvert = z.infer<typeof audioConvertSchema>
+
+export const VIDEO_ENCODE_CONTAINERS = ['mp4', 'mkv', 'webm', 'mov', 'avi'] as const
+export const videoEncodeContainerSchema = z.enum(VIDEO_ENCODE_CONTAINERS)
+export type VideoEncodeContainer = z.infer<typeof videoEncodeContainerSchema>
+
+export const VIDEO_ENCODE_CODECS = [
+	'auto',
+	'h264_nvenc',
+	'hevc_nvenc',
+	'av1_nvenc',
+	'h264_qsv',
+	'hevc_qsv',
+	'av1_qsv',
+	'h264_amf',
+	'hevc_amf',
+	'av1_amf',
+	'h264',
+	'hevc',
+	'av1',
+	'vp9',
+	'copy'
+] as const
+export const videoEncodeCodecSchema = z.enum(VIDEO_ENCODE_CODECS)
+export type VideoEncodeCodec = z.infer<typeof videoEncodeCodecSchema>
+
+export const videoEncodeRateControlSchema = z.enum(['crf', 'bitrate'])
+export type VideoEncodeRateControl = z.infer<typeof videoEncodeRateControlSchema>
+
+export const videoEncodePresetSchema = z.enum(['ultrafast', 'fast', 'medium', 'slow'])
+export type VideoEncodePreset = z.infer<typeof videoEncodePresetSchema>
+
+export const videoEncodeSchema = z.object({
+	enabled: z.boolean(),
+	container: videoEncodeContainerSchema.default('mp4'),
+	codec: videoEncodeCodecSchema.default('auto'),
+	rateControl: videoEncodeRateControlSchema.default('crf'),
+	crf: z.number().int().min(0).max(51).default(23),
+	bitrateKbps: z.number().int().min(100).max(100000).default(2500),
+	preset: videoEncodePresetSchema.default('medium')
+})
+export type VideoEncode = z.infer<typeof videoEncodeSchema>
+
+export const DEFAULT_VIDEO_ENCODE: VideoEncode = {enabled: false, container: 'mp4', codec: 'auto', rateControl: 'crf', crf: 23, bitrateKbps: 2500, preset: 'medium'}
 
 export const playlistSelectionSchema = z.discriminatedUnion('kind', [z.object({kind: z.literal('video'), tier: playlistVideoTierSchema, codec: playlistVideoCodecSchema}), z.object({kind: z.literal('audio'), format: playlistAudioFormatSchema, bitrateKbps: audioBitrateSchema.optional()})])
 export type PlaylistSelection = z.infer<typeof playlistSelectionSchema>
@@ -148,6 +191,7 @@ export const downloadProfileSchema = z.object({
 	// keeps parsing and lands enabled — same migration lever as `filename` below.
 	enabled: z.boolean().default(true),
 	media: downloadProfileMediaSchema,
+	videoEncode: videoEncodeSchema.optional(),
 	subtitles: downloadProfileSubtitlesSchema,
 	output: downloadProfileOutputSchema,
 	// `.default` so profiles persisted before templates existed keep parsing
@@ -296,6 +340,14 @@ export const downloadConnectionsSchema = z.number().int().min(0).max(DOWNLOAD_CO
 export const CONCURRENT_DOWNLOADS_MAX = 8
 export const concurrentDownloadsSchema = z.number().int().min(1).max(CONCURRENT_DOWNLOADS_MAX)
 
+export const CONCURRENT_ENCODES_MAX = 8
+export const concurrentEncodesSchema = z.number().int().min(1).max(CONCURRENT_ENCODES_MAX)
+
+export const gpuAccelerationSchema = z.enum(['auto', 'nvidia', 'intel', 'amd', 'cpu'])
+export type GpuAcceleration = z.infer<typeof gpuAccelerationSchema>
+
+export const gpuDeviceIndexSchema = z.number().int().min(0).max(8)
+
 // Automatic retries per queue item after a transient failure. 0 means off —
 // failures wait for the user, which is the historical behavior. Bounded
 // because an unbounded loop against a site that keeps refusing is
@@ -385,6 +437,7 @@ export const STATUS_KEY = {
 	mergingFormats: 'mergingFormats',
 	extractingAudio: 'extractingAudio',
 	convertingVideo: 'convertingVideo',
+	encodingPending: 'encodingPending',
 	embeddingMetadata: 'embeddingMetadata',
 	movingFiles: 'movingFiles',
 	fetchingSubtitles: 'fetchingSubtitles',
@@ -464,7 +517,8 @@ export const preparedJobSchema = z.discriminatedUnion('kind', [
 		subtitles: subtitleOptionsSchema.optional(),
 		sponsorBlock: sponsorBlockOptionsSchema,
 		embed: embedOptionsSchema,
-		expectedBytes: z.number().positive().optional()
+		expectedBytes: z.number().positive().optional(),
+		videoEncode: videoEncodeSchema.optional()
 	}),
 	z.object({kind: z.literal('audio-convert'), ...extractorIdentitySchema, audioConvert: audioConvertSchema, preset: presetOrCustomSchema, filenameTemplate: z.string().min(1).optional(), subtitles: subtitleOptionsSchema.optional(), sponsorBlock: sponsorBlockOptionsSchema, embed: embedOptionsSchema}),
 	z.object({
@@ -475,6 +529,7 @@ export const preparedJobSchema = z.discriminatedUnion('kind', [
 		formatSort: z.string().min(1).optional(),
 		mergeOutputFormat: z.string().min(1).optional(),
 		audioConvert: audioConvertSchema.optional(),
+		videoEncode: videoEncodeSchema.optional(),
 		filenameTemplate: z.string().min(1),
 		subtitles: subtitleOptionsSchema.optional(),
 		sponsorBlock: sponsorBlockOptionsSchema,
@@ -529,6 +584,9 @@ const commonSettingsSchema = z.object({
 	pacingSleepSubtitles: pacingSleepSecondsSchema.optional(),
 	downloadConnections: downloadConnectionsSchema.optional(),
 	concurrentDownloads: concurrentDownloadsSchema.optional(),
+	concurrentEncodes: concurrentEncodesSchema.optional(),
+	gpuAcceleration: gpuAccelerationSchema.optional(),
+	gpuDeviceIndex: gpuDeviceIndexSchema.optional(),
 	autoRetryAttempts: autoRetryAttemptsSchema.optional(),
 	clipboardWatchEnabled: z.boolean(),
 	hotkeyEnabled: z.boolean(),

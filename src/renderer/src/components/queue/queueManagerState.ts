@@ -2,7 +2,7 @@ import type {QueueItemStatus} from '@shared/types.js'
 import {createListSelectionState, listSelectionReducer, pruneSet, type ListSelectionAction, type ListSelectionState} from '../shared/listSelection.js'
 import {loadQueueTablePreferences, sanitizeQueueTablePreferences, type QueueTablePreferences} from './queueTablePreferences.js'
 
-export type QueueStatusFilter = 'all' | QueueItemStatus
+export type QueueStatusFilter = 'all' | 'encoding' | QueueItemStatus
 
 export interface QueueManagerState {
 	filter: QueueStatusFilter

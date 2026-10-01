@@ -1,5 +1,5 @@
 import {DEFAULTS} from '@shared/constants.js'
-import type {AudioBitrate, DownloadProfile, DownloadProfileAudioFormat, DownloadProfileIcon, DownloadProfileSubtitleSource, PlaylistVideoCodec, PlaylistVideoTier, SponsorBlockMode, SubtitleFormat, SubtitleMode} from '@shared/types.js'
+import type {AudioBitrate, DownloadProfile, DownloadProfileAudioFormat, DownloadProfileIcon, DownloadProfileSubtitleSource, PlaylistVideoCodec, PlaylistVideoTier, SponsorBlockMode, SubtitleFormat, SubtitleMode, VideoEncodeCodec, VideoEncodeContainer, VideoEncodePreset, VideoEncodeRateControl} from '@shared/types.js'
 import {DEFAULT_AUDIO_BITRATE, MAX_SUBTITLE_LANGUAGES} from '@shared/schemas.js'
 import {isValidSubfolder, safeFolderName} from '@shared/subfolder.js'
 import {type FilenameTemplateFailure, validateFilenameTemplate} from '@shared/filenameTemplate.js'
@@ -16,6 +16,13 @@ export interface DownloadProfileDraft {
 	mediaMode: DownloadProfileMediaMode
 	codec: PlaylistVideoCodec
 	resolution: PlaylistVideoTier
+	videoEncodeEnabled: boolean
+	videoEncodeContainer: VideoEncodeContainer
+	videoEncodeCodec: VideoEncodeCodec
+	videoEncodeRateControl: VideoEncodeRateControl
+	videoEncodeCrf: number
+	videoEncodeBitrateKbps: number
+	videoEncodePreset: VideoEncodePreset
 	audioFormat: DownloadProfileAudioFormat
 	audioQuality: DownloadProfileAudioQuality
 	subtitleEnabled: boolean
@@ -41,6 +48,13 @@ export type DownloadProfileDraftAction =
 	| {type: 'set-media-mode'; mediaMode: DownloadProfileMediaMode}
 	| {type: 'set-codec'; codec: PlaylistVideoCodec}
 	| {type: 'set-resolution'; resolution: PlaylistVideoTier}
+	| {type: 'set-video-encode-enabled'; videoEncodeEnabled: boolean}
+	| {type: 'set-video-encode-container'; videoEncodeContainer: VideoEncodeContainer}
+	| {type: 'set-video-encode-codec'; videoEncodeCodec: VideoEncodeCodec}
+	| {type: 'set-video-encode-rate-control'; videoEncodeRateControl: VideoEncodeRateControl}
+	| {type: 'set-video-encode-crf'; videoEncodeCrf: number}
+	| {type: 'set-video-encode-bitrate-kbps'; videoEncodeBitrateKbps: number}
+	| {type: 'set-video-encode-preset'; videoEncodePreset: VideoEncodePreset}
 	| {type: 'set-audio-format'; audioFormat: DownloadProfileAudioFormat}
 	| {type: 'set-audio-quality'; audioQuality: DownloadProfileAudioQuality}
 	| {type: 'set-subtitle-enabled'; subtitleEnabled: boolean}
@@ -117,6 +131,13 @@ export function createDownloadProfileDraft(initialProfile: DownloadProfile | nul
 		mediaMode: initialProfile?.media.kind ?? 'video-audio',
 		codec,
 		resolution,
+		videoEncodeEnabled: initialProfile?.videoEncode?.enabled ?? false,
+		videoEncodeContainer: initialProfile?.videoEncode?.container ?? 'mp4',
+		videoEncodeCodec: initialProfile?.videoEncode?.codec ?? 'h264',
+		videoEncodeRateControl: initialProfile?.videoEncode?.rateControl ?? 'crf',
+		videoEncodeCrf: initialProfile?.videoEncode?.crf ?? 23,
+		videoEncodeBitrateKbps: initialProfile?.videoEncode?.bitrateKbps ?? 2500,
+		videoEncodePreset: initialProfile?.videoEncode?.preset ?? 'medium',
 		audioFormat: initialAudioFormat(initialProfile),
 		audioQuality: initialProfile?.media.kind === 'audio-only' ? bitrateToQuality(initialProfile.media.audio.bitrateKbps) : '192',
 		subtitleEnabled: initialProfile ? initialProfile.subtitles.enabled || initialProfile.media.kind === 'subtitles-only' : true,
@@ -184,6 +205,20 @@ export function updateDownloadProfileDraft(draft: DownloadProfileDraft, action: 
 			return {...draft, saveThumbnail: action.saveThumbnail}
 		case 'set-sponsor-block-mode':
 			return {...draft, sponsorBlockMode: action.sponsorBlockMode}
+		case 'set-video-encode-enabled':
+			return {...draft, videoEncodeEnabled: action.videoEncodeEnabled}
+		case 'set-video-encode-container':
+			return {...draft, videoEncodeContainer: action.videoEncodeContainer}
+		case 'set-video-encode-codec':
+			return {...draft, videoEncodeCodec: action.videoEncodeCodec}
+		case 'set-video-encode-rate-control':
+			return {...draft, videoEncodeRateControl: action.videoEncodeRateControl}
+		case 'set-video-encode-crf':
+			return {...draft, videoEncodeCrf: action.videoEncodeCrf}
+		case 'set-video-encode-bitrate-kbps':
+			return {...draft, videoEncodeBitrateKbps: action.videoEncodeBitrateKbps}
+		case 'set-video-encode-preset':
+			return {...draft, videoEncodePreset: action.videoEncodePreset}
 	}
 }
 
@@ -222,6 +257,7 @@ export function downloadProfileFromDraft(draft: DownloadProfileDraft, now: strin
 					: draft.mediaMode === 'video-audio'
 						? {kind: draft.mediaMode, codec: draft.codec, tiers: [draft.resolution], audio: {format: videoAudioFormat(draft)}}
 						: {kind: draft.mediaMode, codec: draft.codec, tiers: [draft.resolution]},
+		videoEncode: showVideo && draft.videoEncodeEnabled ? {enabled: true, container: draft.videoEncodeContainer, codec: draft.videoEncodeCodec, rateControl: draft.videoEncodeRateControl, crf: draft.videoEncodeCrf, bitrateKbps: draft.videoEncodeBitrateKbps, preset: draft.videoEncodePreset} : undefined,
 		subtitles: {enabled: subtitlesEnabled, languages: subtitlesEnabled ? draft.subtitleLanguages : [], source: draft.subtitleSource, mode: draft.subtitleDelivery, format: draft.subtitleFormat},
 		output: draft.destination.trim() ? {kind: 'fixed', dir: draft.destination.trim()} : {kind: 'default'},
 		filename: draft.filenameTemplate.trim() ? {kind: 'custom', template: draft.filenameTemplate.trim()} : {kind: 'default'},

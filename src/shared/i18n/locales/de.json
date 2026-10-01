@@ -5,11 +5,11 @@
 		"logs": "Protokolle",
 		"saveDiagnostics": "Diagnosedatei speichern",
 		"saveDiagnosticsDescription": "Fasst Protokolle und App-Details in einer Datei im Downloads-Ordner zusammen, bereit zum Anhängen an ein GitHub-Issue. Der Name des Benutzerordners wird entfernt; Videolinks und -titel bleiben erhalten.",
-		"feedbackNudge": "Gefällt dir Arroxy? Ich freue mich über dein Feedback! 💬",
+		"feedbackNudge": "Gefällt dir ArrowBrake? Ich freue mich über dein Feedback! 💬",
 		"zoomIn": "Vergrößern",
 		"zoomOut": "Verkleinern"
 	},
-	"about": {"button": "Info", "openTitle": "Über Arroxy", "tagline": "Schneller, freundlicher Downloader für YouTube und über 2000 weitere Seiten.", "websiteLink": "Website", "githubLink": "GitHub", "licenseLine": "MIT-Lizenz · von Antonio Orionus", "thirdPartyNotices": "Drittanbieter-Hinweise anzeigen"},
+	"about": {"button": "Info", "openTitle": "Über ArrowBrake", "tagline": "Schneller, freundlicher Downloader für YouTube und über 2000 weitere Seiten.", "websiteLink": "Website", "githubLink": "GitHub", "licenseLine": "MIT-Lizenz · von Antonio Orionus", "thirdPartyNotices": "Drittanbieter-Hinweise anzeigen"},
 	"titleBar": {"close": "Schließen", "minimize": "Minimieren", "maximize": "Maximieren", "restore": "Wiederherstellen"},
 	"splash": {
 		"greeting": "Hey, schön dich wiederzusehen!",
@@ -116,7 +116,7 @@
 			"nestedPlaylistHint_other": "{{count}} davon sind Wiedergabelisten, keine Videos — füge die Links einzeln ein, um sie herunterzuladen.",
 			"probeLimitAlertTitle": "Playlist-Scan ist begrenzt",
 			"probeLimitAlertTitleGeneric": "Scan ist begrenzt",
-			"probeLimitAlertDesc": "Arroxy hat mehr als {{count}} Einträge gefunden, daher verbirgt das aktuelle Scan-Limit den Rest.",
+			"probeLimitAlertDesc": "ArrowBrake hat mehr als {{count}} Einträge gefunden, daher verbirgt das aktuelle Scan-Limit den Rest.",
 			"multiProfileEntry": "Profile pro Element zuweisen",
 			"multiProfileEntryTooltip": "Überspringt Qualität, SponsorBlock, Ausgabe und Speichern — weist stattdessen jedem Element ein Download-Profil zu",
 			"removeFromListCount_one": "{{count}} aus der Liste entfernen",
@@ -129,7 +129,7 @@
 		},
 		"bulk": {
 			"title": "Bulk-URLs",
-			"description": "Füge Video-, Playlist-, Kanal-, Such- oder Audio-URLs ein. Arroxy bereinigt Duplikate vor dem Einreihen.",
+			"description": "Füge Video-, Playlist-, Kanal-, Such- oder Audio-URLs ein. ArrowBrake bereinigt Duplikate vor dem Einreihen.",
 			"textareaLabel": "URL-Liste",
 			"textareaPlaceholder": "https://video.example/one\nhttps://video.example/two\nhttps://video.example/three",
 			"acceptedCount": "Bereit",
@@ -149,11 +149,11 @@
 			"pickFromPlaylist": "Aus Playlist auswählen",
 			"quickWholePlaylist": "Ganze Playlist herunterladen",
 			"playlistLimit": "Playlist-Prüflimit: {{count}} Einträge",
-			"quickLimitDescription": "Maximale Anzahl der Einträge, die Arroxy scannt, bevor eine Playlist, ein Kanal oder ein Suchergebnis in die Warteschlange kommt.",
+			"quickLimitDescription": "Maximale Anzahl der Einträge, die ArrowBrake scannt, bevor eine Playlist, ein Kanal oder ein Suchergebnis in die Warteschlange kommt.",
 			"singleTooltip": "Verwendet den Einzelvideo-Modus von yt-dlp, sodass die an diese URL angehängte Playlist ignoriert wird.",
 			"quickSingleTooltip": "Stellt einen Download in die Warteschlange und ignoriert die Playlist, die an diese URL angehängt ist.",
 			"playlistTooltip": "Verwendet den Playlist-Modus von yt-dlp und lädt bis zu deinem Playlist-Prüflimit, bevor die Auswahl angezeigt wird.",
-			"quickPlaylistTooltip": "Stellt jeden geladenen Playlist-Eintrag mit dem aktiven Schnelldownload-Profil in die Warteschlange. Wenn der Scan dein Limit erreicht, fragt Arroxy vor dem Einreihen nach."
+			"quickPlaylistTooltip": "Stellt jeden geladenen Playlist-Eintrag mit dem aktiven Schnelldownload-Profil in die Warteschlange. Wenn der Scan dein Limit erreicht, fragt ArrowBrake vor dem Einreihen nach."
 		},
 		"url": {
 			"heading": "Von URL herunterladen",
@@ -199,12 +199,12 @@
 			"bulkButton": "Bulk-URLs",
 			"bulkTooltip": "Mehrere URLs hinzufügen und in die Warteschlange stellen.",
 			"features": {
-				"heading": "Was Arroxy laden kann",
+				"heading": "Was ArrowBrake laden kann",
 				"youtube": {"heading": "YouTube", "video": "Videos", "channel": "Kanäle", "playlist": "Wiedergabelisten", "short": "Shorts", "music": "Musik", "podcast": "Podcasts"},
 				"anySite": {"heading": "2000+ Seiten", "video": "Videos", "videoPlaylist": "Video-Playlists", "musicPlaylist": "Musik-Playlists"},
 				"always": {"audioOnly": "Nur Audio", "subtitles": "Untertitel"}
 			},
-			"mascotIdle": "Wirf einen Link rein und lass Arroxy ihn holen ✨",
+			"mascotIdle": "Wirf einen Link rein und lass ArrowBrake ihn holen ✨",
 			"mascotBusy": "Lade im Hintergrund… ich kann mehrere Dinge gleichzeitig 😎",
 			"advanced": "Erweitert",
 			"settings": {"inputHeading": "Eingabe", "behaviorHeading": "Downloadverhalten", "behaviorDescription": "Globales Verhalten, das auch profilgesteuerte Downloads betrifft."},
@@ -221,7 +221,7 @@
 			},
 			"hotkey": {
 				"sectionTitle": "Globales Tastenkürzel",
-				"sectionDescription": "Lädt jeden kopierten Link aus jeder App herunter, ohne Arroxy zu öffnen.",
+				"sectionDescription": "Lädt jeden kopierten Link aus jeder App herunter, ohne ArrowBrake zu öffnen.",
 				"toggle": "Globales Tastenkürzel aktivieren",
 				"toggleDescription": "Drücke das Kürzel mit einem Video-Link in der Zwischenablage.",
 				"changeShortcut": "Kürzel ändern",
@@ -229,7 +229,7 @@
 				"test": "Testen",
 				"conflict": "Dieses Kürzel wird bereits von einer anderen App verwendet — wähle ein anderes.",
 				"hintLabel": "Oder drücke",
-				"hintTooltip": "Kopiere irgendwo einen Videolink, drücke dieses Kürzel, und Arroxy reiht ihn mit deinem aktiven Profil ein — du musst nicht zwischen Fenstern wechseln.",
+				"hintTooltip": "Kopiere irgendwo einen Videolink, drücke dieses Kürzel, und ArrowBrake reiht ihn mit deinem aktiven Profil ein — du musst nicht zwischen Fenstern wechseln.",
 				"hintTooltipSettings": "Ändere es in den Einstellungen oder schalte es dort aus.",
 				"reset": "Auf Standard zurücksetzen"
 			},
@@ -257,14 +257,14 @@
 			"proxy": {"label": "Proxy URL", "description": "Datenverkehr über einen Proxy leiten — nützlich für geo-gesperrte Inhalte.", "placeholder": "http://host:port", "clear": "Löschen"},
 			"backdrop": {
 				"panelTitle": "Darstellung und Leistung",
-				"panelDescription": "Wähle, wie viel Bewegung Arroxy für den animierten Hintergrund verwendet.",
+				"panelDescription": "Wähle, wie viel Bewegung ArrowBrake für den animierten Hintergrund verwendet.",
 				"modeLabel": "Hintergrundqualität",
 				"modeDescription": "Von der stärksten Animation zur besten Leistung.",
 				"cssOnlyLabel": "Beste Leistung",
 				"cssOnlyDescription": "Nur CSS, kein canvas-Rendering.",
 				"gpuLabel": "Am schönsten",
 				"gpuDescription": "Animierter WebGL-Hintergrund, wenn unterstützt.",
-				"runtimeFallbackNotice": "Hardware-WebGL ist auf diesem Gerät nicht verfügbar, daher verwendet Arroxy den Performance-Hintergrund."
+				"runtimeFallbackNotice": "Hardware-WebGL ist auf diesem Gerät nicht verfügbar, daher verwendet ArrowBrake den Performance-Hintergrund."
 			},
 			"limitRate": {
 				"label": "Download-Geschwindigkeitslimit",
@@ -277,7 +277,7 @@
 			},
 			"playlistProbeLimit": {
 				"label": "Playlist-Einträge scannen",
-				"description": "Maximale Anzahl der Einträge, die Arroxy beim Öffnen einer Playlist, eines Kanals oder eines Suchergebnisses lädt.",
+				"description": "Maximale Anzahl der Einträge, die ArrowBrake beim Öffnen einer Playlist, eines Kanals oder eines Suchergebnisses lädt.",
 				"option": "{{count}} Einträge",
 				"current": "Aktuelles Limit: {{count}} Einträge",
 				"customValue": "Benutzerdefiniert: {{count}} Einträge",
@@ -287,7 +287,7 @@
 				"customDialogCancel": "Abbrechen",
 				"customDialogSave": "Limit speichern",
 				"invalid": "Verwende eine ganze Zahl von 1 bis 5000",
-				"tooltip": "Entspricht yt-dlp --playlist-end: Arroxy fragt nur so viele Playlist-, Kanal- oder Suchergebnisse ab, bevor die Auswahl angezeigt wird."
+				"tooltip": "Entspricht yt-dlp --playlist-end: ArrowBrake fragt nur so viele Playlist-, Kanal- oder Suchergebnisse ab, bevor die Auswahl angezeigt wird."
 			},
 			"nativeAudioPreference": {"label": "Native Audioeinstellung", "description": "Steuert, was „Bestes nativ“ auswählt. Manuelle Audiozeilen und M4A/AAC bleiben explizit.", "compatible": "Kompatibles Stereo", "surround": "Surround / Dolby bevorzugen"},
 			"autoRetry": {"label": "Fehlgeschlagene Downloads wiederholen", "description": "Versucht es nach einem Netzwerk- oder Serverproblem automatisch erneut und wartet vor jedem Versuch länger. Von der Seite blockierte Downloads werden nie automatisch wiederholt.", "unit": "mal"},
@@ -295,13 +295,13 @@
 			"downloadConnections": {"label": "Download-Verbindungen", "description": "Beschleunigt große Downloads, indem mehrere Teile eines Videos gleichzeitig geladen werden. Höhere Werte erhöhen die Wahrscheinlichkeit, dass eine Seite dich drosselt.", "unit": "Verbindungen"},
 			"networkPacing": {
 				"heading": "Sanftes Herunterladen",
-				"description": "Fügt bei jedem Download kleine Pausen ein, damit Arroxy die Seite nicht zu aggressiv belastet. Werte in Sekunden.",
-				"presetLabel": "Wie vorsichtig soll Arroxy sein?",
+				"description": "Fügt bei jedem Download kleine Pausen ein, damit ArrowBrake die Seite nicht zu aggressiv belastet. Werte in Sekunden.",
+				"presetLabel": "Wie vorsichtig soll ArrowBrake sein?",
 				"tooltip": "Diese Pausen liegen innerhalb jedes Downloads. Wie viele Downloads gleichzeitig laufen, wird separat unter „Gleichzeitige Downloads“ eingestellt.",
 				"summary": "Pausen: {{requests}} zwischen Abfragen, {{downloads}} vor Medienbeginn, {{subtitles}} vor Untertiteldateien.",
 				"presets": {"off": "Aus", "balanced": "Ausgewogen", "careful": "Vorsichtig", "custom": "Benutzerdefiniert"},
 				"tooltips": {
-					"off": "Nutzt nur die kleinen Basispausen, die Arroxy für Medien und Untertitel beibehält.",
+					"off": "Nutzt nur die kleinen Basispausen, die ArrowBrake für Medien und Untertitel beibehält.",
 					"balanced": "Standard. Fügt kurze Pausen zwischen Abfragen und vor Medienbeginn hinzu.",
 					"careful": "Fügt längere Pausen für große Playlists oder Netzwerke ein, die häufig an Limits stoßen.",
 					"custom": "Passe die erweiterten Download-Steuerungen selbst an."
@@ -314,9 +314,9 @@
 		},
 		"quickProgress": {
 			"title": "Schnelldownload wird vorbereitet",
-			"description": "Arroxy liest den Link und wendet {{profileName}} an.",
+			"description": "ArrowBrake liest den Link und wendet {{profileName}} an.",
 			"currentFallback": "Aktueller Link",
-			"waitHint": "Lass dies geöffnet, während Arroxy die Warteschlange vorbereitet.",
+			"waitHint": "Lass dies geöffnet, während ArrowBrake die Warteschlange vorbereitet.",
 			"failedCount_one": "{{count}} fehlgeschlagen",
 			"failedCount_other": "{{count}} fehlgeschlagen",
 			"cancel": "Vorbereitung abbrechen",
@@ -586,10 +586,10 @@
 	},
 	"update": {
 		"message": {
-			"generic": "Arroxy {{version}} ist verfügbar — du hast {{currentVersion}}.",
-			"homebrew": "Arroxy {{version}} ist verfügbar — mit Homebrew aktualisieren.",
-			"macosDirect": "Arroxy {{version}} ist verfügbar — lade die neue DMG herunter.",
-			"portable": "Arroxy {{version}} ist verfügbar — lade den neuen Build herunter."
+			"generic": "ArrowBrake {{version}} ist verfügbar — du hast {{currentVersion}}.",
+			"homebrew": "ArrowBrake {{version}} ist verfügbar — mit Homebrew aktualisieren.",
+			"macosDirect": "ArrowBrake {{version}} ist verfügbar — lade die neue DMG herunter.",
+			"portable": "ArrowBrake {{version}} ist verfügbar — lade den neuen Build herunter."
 		},
 		"install": "Installieren & neu starten",
 		"downloading": "Wird heruntergeladen…",
@@ -601,7 +601,7 @@
 		"installFailed": "Update fehlgeschlagen",
 		"retry": "Erneut versuchen"
 	},
-	"releaseNotes": {"title": "Neu in Arroxy {{version}}", "description": "Du verwendest ein frisches Update. Hier sind die Highlights.", "fullNotes": "Vollständige Versionshinweise ↗", "continue": "Weiter"},
+	"releaseNotes": {"title": "Neu in ArrowBrake {{version}}", "description": "Du verwendest ein frisches Update. Hier sind die Highlights.", "fullNotes": "Vollständige Versionshinweise ↗", "continue": "Weiter"},
 	"status": {
 		"preparingBinaries": "Binärdateien werden vorbereitet…",
 		"mintingToken": "YouTube-Token wird erzeugt…",
@@ -642,15 +642,15 @@
 			"queued": "Download aus der Zwischenablage hinzugefügt",
 			"alreadyQueued": "Bereits in der Warteschlange — keine Kopie hinzugefügt",
 			"invalidClipboard": "Kein Link in der Zwischenablage — kopiere zuerst einen",
-			"multipleUrls": "Mehrere Links kopiert — „Bulk-URLs“ in Arroxy verwenden",
-			"needsReview": "Dieser Link braucht eine kurze Prüfung — Arroxy öffnen und ihn erneut einfügen",
+			"multipleUrls": "Mehrere Links kopiert — „Bulk-URLs“ in ArrowBrake verwenden",
+			"needsReview": "Dieser Link braucht eine kurze Prüfung — ArrowBrake öffnen und ihn erneut einfügen",
 			"busy": "Der vorherige Link wird noch verarbeitet",
-			"submissionFailed": "Dieser Link konnte nicht hinzugefügt werden — versuche es erneut in Arroxy"
+			"submissionFailed": "Dieser Link konnte nicht hinzugefügt werden — versuche es erneut in ArrowBrake"
 		}
 	},
 	"errors": {
 		"ytdlp": {
-			"botBlock": "Bot-Schutz ausgelöst. Die verwendete IP ist höchstwahrscheinlich als verdächtig markiert (Rechenzentrumsbereich oder stark genutzter VPN-Ausgangsknoten). Wechsle deine IP oder wähle einen anderen VPN-Endpunkt und versuche es erneut. Falls das Problem weiterhin besteht, könnte es sich um eine vorübergehende Änderung seitens YouTube handeln – Arroxy aktualisiert yt-dlp beim Start automatisch, sodass der Fix automatisch angewendet wird, sobald er upstream verfügbar ist.",
+			"botBlock": "Bot-Schutz ausgelöst. Die verwendete IP ist höchstwahrscheinlich als verdächtig markiert (Rechenzentrumsbereich oder stark genutzter VPN-Ausgangsknoten). Wechsle deine IP oder wähle einen anderen VPN-Endpunkt und versuche es erneut. Falls das Problem weiterhin besteht, könnte es sich um eine vorübergehende Änderung seitens YouTube handeln – ArrowBrake aktualisiert yt-dlp beim Start automatisch, sodass der Fix automatisch angewendet wird, sobald er upstream verfügbar ist.",
 			"ipBlock": "Deine IP-Adresse scheint von YouTube blockiert zu sein. Versuch es später oder nutze ein VPN.",
 			"rateLimit": "YouTube drosselt die Anfragen. Warte eine Minute und versuch es dann erneut.",
 			"ageRestricted": "Dieses Video ist altersbeschränkt und kann ohne angemeldetes Konto nicht heruntergeladen werden.",
@@ -661,7 +661,7 @@
 			"chunkTransferFailure": "Der Server hat den Download wiederholt mittendrin abgebrochen und yt-dlp hat nach mehreren Versuchen aufgegeben. Das betrifft meist die größten Videoformate (4K HDR / VP9 mit hoher Bitrate). Versuche es erneut, wechsle das Netzwerk/VPN oder wähle eine niedrigere Auflösung.",
 			"missingDependency": "yt-dlp konnte ffmpeg oder ffprobe nicht finden. Repariere die gebündelten Binärdateien oder lege einen FFmpeg-Speicherort fest und versuche es erneut.",
 			"postprocessFailure": "yt-dlp hat den Download abgeschlossen, aber die Nachbearbeitung (Merge / Mux / Konvertierung) ist fehlgeschlagen. Oft ist das ein vorübergehendes ffmpeg-Problem — versuche es erneut, und wenn es bestehen bleibt, probiere eine andere Formatkombination.",
-			"parse": "Die Antwort der Seite konnte nicht analysiert werden. Der Extraktor von yt-dlp ist möglicherweise veraltet. Arroxy aktualisiert yt-dlp automatisch beim Start — versuche es in ein paar Minuten erneut, sobald der Fix eintrifft.",
+			"parse": "Die Antwort der Seite konnte nicht analysiert werden. Der Extraktor von yt-dlp ist möglicherweise veraltet. ArrowBrake aktualisiert yt-dlp automatisch beim Start — versuche es in ein paar Minuten erneut, sobald der Fix eintrifft.",
 			"network": "Netzwerkfehler. Überprüfe deine Verbindung und versuche es erneut.",
 			"drmProtected": "Dieses Video ist DRM-geschützt. yt-dlp kann DRM nicht entfernen, daher kann die Datei nicht heruntergeladen werden.",
 			"loginRequired": "Dieses Video erfordert ein angemeldetes Konto. Richte eine cookies.txt ein (Einstellungen → Cookies) und versuche es erneut.",
@@ -697,7 +697,7 @@
 		"mp4Cap": "H.264 über 1080p ist auf YouTube nicht verfügbar — automatisch auf 1080p begrenzt"
 	},
 	"formatLabel": {"audioFallback": "Audio", "audioOnlyDot": "Nur Audio · {{audio}}", "videoDot": "{{resolution}} · {{audio}}"},
-	"tray": {"tooltip": "Arroxy", "menu": {"statusIdle": "Inaktiv", "statusActive_one": "1 lädt herunter · {{percent}}%", "statusActive_other": "{{count}} laden herunter · {{percent}}%", "downloadFromClipboard": "Aus der Zwischenablage herunterladen", "open": "Arroxy öffnen", "quit": "Arroxy beenden"}},
+	"tray": {"tooltip": "ArrowBrake", "menu": {"statusIdle": "Inaktiv", "statusActive_one": "1 lädt herunter · {{percent}}%", "statusActive_other": "{{count}} laden herunter · {{percent}}%", "downloadFromClipboard": "Aus der Zwischenablage herunterladen", "open": "ArrowBrake öffnen", "quit": "ArrowBrake beenden"}},
 	"dialogs": {
 		"quitWithActiveDownloads": {
 			"message_one": "{{count}} Download läuft",
@@ -707,25 +707,25 @@
 			"pause": "Downloads pausieren & beenden",
 			"keep": "Weiter herunterladen"
 		},
-		"closeToTray": {"message": "Arroxy beim Schließen in den Infobereich minimieren?", "detail": "Arroxy läuft weiter und schließt aktive Downloads ab. Ändern Sie dies in den erweiterten Einstellungen.", "hide": "In Infobereich minimieren", "quit": "Beenden", "remember": "Nicht mehr fragen"},
-		"rendererCrashed": {"message": "Arroxy hat ein Problem festgestellt", "detail": "Der Renderer-Prozess ist abgestürzt ({{reason}}). Neu laden, um es erneut zu versuchen.", "reload": "Neu laden", "quit": "Beenden"}
+		"closeToTray": {"message": "ArrowBrake beim Schließen in den Infobereich minimieren?", "detail": "ArrowBrake läuft weiter und schließt aktive Downloads ab. Ändern Sie dies in den erweiterten Einstellungen.", "hide": "In Infobereich minimieren", "quit": "Beenden", "remember": "Nicht mehr fragen"},
+		"rendererCrashed": {"message": "ArrowBrake hat ein Problem festgestellt", "detail": "Der Renderer-Prozess ist abgestürzt ({{reason}}). Neu laden, um es erneut zu versuchen.", "reload": "Neu laden", "quit": "Beenden"}
 	},
 	"share": {
-		"title": "Arroxy teilen",
-		"description": "Arroxy ist kostenlos und Open-Source. Durch das Teilen helfen mehr Menschen, es zu entdecken.",
+		"title": "ArrowBrake teilen",
+		"description": "ArrowBrake ist kostenlos und Open-Source. Durch das Teilen helfen mehr Menschen, es zu entdecken.",
 		"copyLink": "Link kopieren",
 		"copied": "Kopiert!",
-		"defaultMessage": "Arroxy — Kostenloser Open-Source-Video-Downloader für Windows, macOS & Linux. Funktioniert mit YouTube, Vimeo, Twitch und 2000+ weiteren Websites.\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
-		"footerTooltip": "Arroxy teilen",
+		"defaultMessage": "ArrowBrake — Kostenloser Open-Source-Video-Downloader für Windows, macOS & Linux. Funktioniert mit YouTube, Vimeo, Twitch und 2000+ weiteren Websites.\n4K · HDR · MP3 · Shorts · Subtitles · SponsorBlock",
+		"footerTooltip": "ArrowBrake teilen",
 		"footerLabel": "Teilen",
-		"shareAction": "Arroxy teilen"
+		"shareAction": "ArrowBrake teilen"
 	},
 	"filenameTemplate": {
 		"label": "Dateinamenvorlage",
 		"description": "Lege fest, wie heruntergeladene Dateien benannt werden. Klicke auf einen Platzhalter, um ihn einzufügen. Nutze /, um Downloads in Ordner zu sortieren.",
 		"profileOverrideLabel": "Dateinamenvorlage",
 		"profileOverrideDescription": "Leer lassen, um die globale Vorlage zu übernehmen.",
-		"idWarning": "Ohne {id} kann Arroxy bereits heruntergeladene Playlist-Einträge nicht erkennen und keine .m3u-Playlists erstellen.",
+		"idWarning": "Ohne {id} kann ArrowBrake bereits heruntergeladene Playlist-Einträge nicht erkennen und keine .m3u-Playlists erstellen.",
 		"m3uDisabled": "Nicht verfügbar, weil deine Dateinamenvorlage entweder {id} nicht enthält oder Downloads in Ordner sortiert.",
 		"previewSingle": "Einzelnes Video",
 		"previewPlaylist": "In einer Wiedergabeliste",

@@ -56,6 +56,10 @@ export class DownloadService extends EventEmitter {
 		this.lifecycle = new JobLifecycle(this.recentJobsStore)
 	}
 
+	get ffmpegPath(): string | null {
+		return this.ytDlp.ffmpegPath
+	}
+
 	// Raised/lowered in lockstep with the queue scheduler's ceiling when the
 	// user changes the concurrent-downloads setting. Lowering never touches
 	// running jobs — it only refuses the next spawn past the new ceiling.
@@ -197,6 +201,7 @@ export class DownloadService extends EventEmitter {
 			ytDlp: this.ytDlp,
 			cookielessRetry: this.cookielessRetry,
 			emitStatus: (stage, statusKey, params?, error?, resumeContext?) => this.emitStatus(job.id, stage, statusKey, params, error, resumeContext),
+			emitProgress: (percent, detail) => this.emit('progress', {jobId: job.id, line: detail ?? '', at: nowIso(), percent}),
 			register: disposable =>
 				active.disposables.defer(async () => {
 					try {

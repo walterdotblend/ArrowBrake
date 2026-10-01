@@ -1,6 +1,6 @@
 {
-  "appId": "com.arroxy.app",
-  "productName": "Arroxy",
+  "appId": "com.arrowbrake.app",
+  "productName": "ArrowBrake",
   "afterPack": "./build/afterPack.mjs",
   "beforeBuild": "./build/beforeBuild.mjs",
   "toolsets": {

@@ -2,9 +2,9 @@ import {useEffect, useState, type ReactNode} from 'react'
 import {useTranslation} from 'react-i18next'
 import {AlertTriangle, FileArchive, FileText, Gauge} from 'lucide-react'
 import {DEFAULTS, NORMAL_LANE_CAP, RECOMMENDED_AUTO_RETRY_ATTEMPTS, RECOMMENDED_DOWNLOAD_CONNECTIONS} from '@shared/constants.js'
-import {AUTO_RETRY_ATTEMPTS_MAX, autoRetryAttemptsSchema, CONCURRENT_DOWNLOADS_MAX, concurrentDownloadsSchema, DOWNLOAD_CONNECTIONS_MAX, downloadConnectionsSchema, NATIVE_AUDIO_PREFERENCES} from '@shared/schemas.js'
+import {AUTO_RETRY_ATTEMPTS_MAX, autoRetryAttemptsSchema, CONCURRENT_DOWNLOADS_MAX, concurrentDownloadsSchema, CONCURRENT_ENCODES_MAX, concurrentEncodesSchema, DOWNLOAD_CONNECTIONS_MAX, downloadConnectionsSchema, NATIVE_AUDIO_PREFERENCES} from '@shared/schemas.js'
 import {validateFilenameTemplate} from '@shared/filenameTemplate.js'
-import type {BackdropRenderMode, CookiesBrowser, CookiesMode, NativeAudioPreference} from '@shared/types.js'
+import type {BackdropRenderMode, CookiesBrowser, CookiesMode, GpuAcceleration, NativeAudioPreference} from '@shared/types.js'
 import {formatHomeRelativePath} from '@renderer/lib/utils.js'
 import {useAppStore} from '../../store/useAppStore.js'
 import type {AdvancedSettingsTarget} from '../../store/types.js'
@@ -133,6 +133,8 @@ export function DownloadProfilesSettingsTab(): ReactNode {
 		setLimitRate,
 		setDownloadConnections,
 		setConcurrentDownloads,
+		setConcurrentEncodes,
+		setGpuAcceleration,
 		setAutoRetryAttempts,
 		setBackdropRenderMode,
 		setNativeAudioPreference,
@@ -345,6 +347,59 @@ export function DownloadProfilesSettingsTab(): ReactNode {
 						onCommit={value => void setConcurrentDownloads(value)}
 						testId="concurrent-downloads-input"
 					/>
+
+					<NumericSettingRow
+						id="profiles-settings-concurrent-encodes"
+						label={t('wizard.url.concurrentEncodes.label')}
+						description={t('wizard.url.concurrentEncodes.description')}
+						unit={t('wizard.url.concurrentEncodes.unit')}
+						value={common?.concurrentEncodes}
+						emptyValue={1}
+						placeholder={1}
+						max={CONCURRENT_ENCODES_MAX}
+						schema={concurrentEncodesSchema}
+						onCommit={value => void setConcurrentEncodes(value)}
+						testId="concurrent-encodes-input"
+					/>
+
+					<Field className="gap-2" data-testid="gpu-acceleration-section">
+						<FieldContent className="gap-0.5">
+							<FieldTitle id="profiles-settings-gpu-acceleration" className="text-[13px] font-medium text-foreground">
+								{t('wizard.url.gpuAcceleration.label')}
+							</FieldTitle>
+							<FieldDescription className="text-[11px] text-[var(--text-subtle)]">{t('wizard.url.gpuAcceleration.description')}</FieldDescription>
+						</FieldContent>
+						<Select
+							value={common?.gpuAcceleration ?? 'auto'}
+							onValueChange={value => {
+								if (value) void setGpuAcceleration(value as GpuAcceleration)
+							}}
+						>
+							<SelectTrigger id="profiles-settings-gpu-acceleration" className="w-full">
+								<SelectValue>
+									{selected => {
+										const labels: Record<string, string> = {
+											auto: t('wizard.url.gpuAcceleration.options.auto'),
+											nvidia: t('wizard.url.gpuAcceleration.options.nvidia'),
+											intel: t('wizard.url.gpuAcceleration.options.intel'),
+											amd: t('wizard.url.gpuAcceleration.options.amd'),
+											cpu: t('wizard.url.gpuAcceleration.options.cpu')
+										}
+										return selected ? (labels[selected] ?? selected) : t('wizard.url.gpuAcceleration.options.auto')
+									}}
+								</SelectValue>
+							</SelectTrigger>
+							<SelectContent align="start">
+								<SelectGroup>
+									<SelectItem value="auto">{t('wizard.url.gpuAcceleration.options.auto')}</SelectItem>
+									<SelectItem value="nvidia">{t('wizard.url.gpuAcceleration.options.nvidia')}</SelectItem>
+									<SelectItem value="intel">{t('wizard.url.gpuAcceleration.options.intel')}</SelectItem>
+									<SelectItem value="amd">{t('wizard.url.gpuAcceleration.options.amd')}</SelectItem>
+									<SelectItem value="cpu">{t('wizard.url.gpuAcceleration.options.cpu')}</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</Field>
 
 					<NumericSettingRow
 						id="profiles-settings-auto-retry"

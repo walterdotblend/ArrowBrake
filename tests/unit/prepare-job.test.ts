@@ -35,6 +35,14 @@ describe('prepareJob', () => {
 			if (job.kind !== 'single-format') throw new Error('unreachable')
 			expect(job.subtitles).toBeUndefined()
 		})
+
+		it('attaches videoEncode when provided in single-format', () => {
+			const videoEncode = {enabled: true, container: 'mkv' as const, codec: 'hevc' as const, rateControl: 'crf' as const, crf: 20, bitrateKbps: 2500, preset: 'medium' as const}
+			const job = prepareJob({...BASE, mode: 'single', formatId: '137+140', videoEncode, activePreset: null, filenameTemplate: '{title}'})
+			if (job.kind !== 'single-format') throw new Error('unreachable')
+			expect(job.videoEncode).toEqual(videoEncode)
+			expect(preparedJobSchema.safeParse(job).success).toBe(true)
+		})
 	})
 
 	describe('audio-convert kind', () => {
@@ -81,11 +89,21 @@ describe('prepareJob', () => {
 				formatSort: 'res:1080,fps',
 				mergeOutputFormat: undefined,
 				audioConvert: undefined,
+				videoEncode: undefined,
 				filenameTemplate: '01 - {title}',
 				subtitles: undefined,
 				sponsorBlock: {mode: 'off'},
 				embed: EMBED_ALL
 			})
+			expect(preparedJobSchema.safeParse(job).success).toBe(true)
+		})
+
+		it('attaches videoEncode in ranged-format when provided', () => {
+			const sel = {kind: 'video' as const, tier: '1080' as const, codec: 'best' as const}
+			const videoEncode = {enabled: true, container: 'mp4' as const, codec: 'h264' as const, rateControl: 'crf' as const, crf: 23, bitrateKbps: 4000, preset: 'fast' as const}
+			const job = prepareJob({...BASE, mode: 'playlist', playlistSelection: sel, videoEncode, filenameTemplate: '01 - {title}'})
+			if (job.kind !== 'ranged-format') throw new Error('unreachable')
+			expect(job.videoEncode).toEqual(videoEncode)
 			expect(preparedJobSchema.safeParse(job).success).toBe(true)
 		})
 
