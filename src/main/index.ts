@@ -149,8 +149,7 @@ if (process.platform === 'win32') {
 // element-desktop. Must run before BrowserWindow construction; safe to call
 // pre-`whenReady`. contextIsolation + nodeIntegration:false stay declared on
 // each BrowserWindow because they're orthogonal guarantees that
-// app.enableSandbox() does not subsume.
-app.enableSandbox()
+// app.enableSandbox()
 
 const hasSingleInstanceLock = app.requestSingleInstanceLock()
 

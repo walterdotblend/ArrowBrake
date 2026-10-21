@@ -41,6 +41,14 @@ export default async function beforeBuild(context) {
   console.log(`[beforeBuild] context.arch=${context.arch} → ${archName} (host=${process.arch})`);
   const cwd = context.appDir ?? process.cwd();
   const script = path.join(cwd, 'scripts', 'build', 'fetch-embedded.sh');
+  // Check if payload is already present (e.g. on Windows without bash installed)
+  try {
+    assertEmbeddedPayload(cwd, platform, archName);
+    console.log(`[beforeBuild] embedded payload already present for ${platform}-${archName}, skipping fetch`);
+    return true;
+  } catch {
+    // Need to fetch
+  }
   console.log(`[beforeBuild] fetch ffmpeg/ffprobe for ${platform}-${archName} (context.arch=${context.arch}, host=${process.arch})`);
   execFileSync('bash', [script, platform, archName], { stdio: 'inherit', cwd });
   assertEmbeddedPayload(cwd, platform, archName);
