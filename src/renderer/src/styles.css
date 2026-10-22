@@ -32,11 +32,11 @@
 	--text-label--font-weight: 700;
 	--text-caption: 0.6875rem;
 	--text-caption--line-height: 1.3;
-	/* Primary brand color: Arroxi Blue — the One Voice, identical in both skies */
-	--brand: hsl(220, 100%, 56%);
-	--brand-dim: hsl(220 100% 56% / 0.12);
-	--brand-hover: hsl(220, 100%, 65%);
-	--icon-tile-ink: hsl(220 100% 94%);
+	/* Primary brand color: ArrowBrake Orange */
+	--brand: hsl(28, 100%, 54%);
+	--brand-dim: hsl(28 100% 54% / 0.14);
+	--brand-hover: hsl(32, 100%, 60%);
+	--icon-tile-ink: hsl(28 100% 94%);
 	--text-glass-muted: hsl(229 36% 78%);
 	/* --brand-glow and --glow-border are mode-aware; defined per sky in :root / .dark */
 	/* Status colors from Arroxi brand palette */
@@ -1182,19 +1182,19 @@ body {
 	--card-foreground: hsl(226, 48%, 11%);
 	--popover: hsl(0, 0%, 100%);
 	--popover-foreground: hsl(226, 48%, 11%);
-	--primary: hsl(220, 100%, 56%);
-	--primary-foreground: hsl(240, 40%, 96%);
+	--primary: hsl(28, 100%, 54%);
+	--primary-foreground: hsl(0, 0%, 100%);
 	--secondary: hsl(220, 30%, 97%);
 	--secondary-foreground: hsl(226, 48%, 11%);
 	--muted: hsl(220, 30%, 97%);
 	--muted-foreground: hsl(225, 22%, 38%);
-	--accent: hsl(220, 20%, 92%);
-	--accent-foreground: hsl(226, 48%, 11%);
+	--accent: hsl(28, 100%, 96%);
+	--accent-foreground: hsl(28, 100%, 30%);
 	--destructive: hsl(349, 100%, 55%);
 	--border: hsl(220, 18%, 88%);
 	--border-strong: hsl(220, 18%, 80%);
 	--input: hsl(220, 18%, 88%);
-	--ring: hsl(220, 100%, 56%);
+	--ring: hsl(28, 100%, 54%);
 	--text-subtle: hsl(225, 18%, 46%);
 	--text-glass-muted: hsl(225 30% 34%);
 	--icon-tile-ink: hsl(220 100% 48%);
@@ -1304,12 +1304,12 @@ body {
 	--radius: 1rem;
 	--sidebar: hsl(0, 0%, 100%);
 	--sidebar-foreground: hsl(240, 35%, 12%);
-	--sidebar-primary: hsl(220, 100%, 56%);
-	--sidebar-primary-foreground: hsl(240, 40%, 96%);
-	--sidebar-accent: hsl(220, 20%, 92%);
-	--sidebar-accent-foreground: hsl(240, 35%, 12%);
+	--sidebar-primary: hsl(28, 100%, 54%);
+	--sidebar-primary-foreground: hsl(0, 0%, 100%);
+	--sidebar-accent: hsl(28, 30%, 94%);
+	--sidebar-accent-foreground: hsl(28, 100%, 30%);
 	--sidebar-border: hsl(220, 18%, 88%);
-	--sidebar-ring: hsl(220, 100%, 56%);
+	--sidebar-ring: hsl(28, 100%, 54%);
 }
 
 .dark {
@@ -1321,19 +1321,19 @@ body {
 	--card-foreground: hsl(240, 40%, 96%);
 	--popover: hsl(226, 38%, 9%);
 	--popover-foreground: hsl(240, 40%, 96%);
-	--primary: hsl(220, 100%, 56%);
-	--primary-foreground: hsl(240, 40%, 96%);
+	--primary: hsl(28, 100%, 54%);
+	--primary-foreground: hsl(0, 0%, 100%);
 	--secondary: hsl(226, 30%, 9%);
 	--secondary-foreground: hsl(240, 40%, 96%);
 	--muted: hsl(226, 30%, 9%);
 	--muted-foreground: hsl(228, 24%, 69%);
-	--accent: hsl(226, 28%, 11%);
-	--accent-foreground: hsl(240, 40%, 96%);
+	--accent: hsl(28, 100%, 14%);
+	--accent-foreground: hsl(28, 100%, 80%);
 	--destructive: hsl(349, 100%, 61%);
 	--border: hsla(0, 0%, 100%, 0.08);
 	--border-strong: hsla(0, 0%, 100%, 0.13);
 	--input: hsla(0, 0%, 100%, 0.08);
-	--ring: hsl(220, 100%, 56%);
+	--ring: hsl(28, 100%, 54%);
 	--text-subtle: hsl(228, 15%, 60%);
 	--text-glass-muted: hsl(228 34% 78%);
 	--icon-tile-ink: hsl(220 100% 94%);
@@ -1361,7 +1361,7 @@ body {
 	--glow-gradient: linear-gradient(135deg, hsl(192 100% 82% / 0.76), hsl(214 100% 68% / 0.34) 46%, hsl(268 96% 76% / 0.62));
 	--glow-gradient-hot: linear-gradient(120deg, hsl(188 100% 82% / 0.86), hsl(210 100% 70% / 0.62) 48%, hsl(278 98% 76% / 0.78));
 	--inner-bloom: hsl(212 100% 52% / 0.26);
-	--brand-glow: hsl(218 100% 55% / 0.34);
+	--brand-glow: hsl(28 100% 55% / 0.4);
 	--splash-progress-track: hsl(0 0% 100% / 0.09);
 	--panel-glow: 0 0 42px -16px hsl(212 100% 54% / 0.36), 0 18px 54px -20px hsl(228 92% 2% / 0.96);
 	--quick-card-ink: hsl(240 40% 96%);
@@ -1442,12 +1442,12 @@ body {
 	--chart-5: oklch(0.269 0 0);
 	--sidebar: hsl(225, 28%, 13%);
 	--sidebar-foreground: hsl(240, 40%, 96%);
-	--sidebar-primary: hsl(220, 100%, 56%);
-	--sidebar-primary-foreground: hsl(240, 40%, 96%);
-	--sidebar-accent: hsl(225, 16%, 16%);
-	--sidebar-accent-foreground: hsl(240, 40%, 96%);
+	--sidebar-primary: hsl(28, 100%, 54%);
+	--sidebar-primary-foreground: hsl(0, 0%, 100%);
+	--sidebar-accent: hsl(28, 40%, 16%);
+	--sidebar-accent-foreground: hsl(28, 100%, 80%);
 	--sidebar-border: hsla(0, 0%, 100%, 0.08);
-	--sidebar-ring: hsl(220, 100%, 56%);
+	--sidebar-ring: hsl(28, 100%, 54%);
 }
 
 /* Warmup verification has no byte count to report, so the bar carries the fact

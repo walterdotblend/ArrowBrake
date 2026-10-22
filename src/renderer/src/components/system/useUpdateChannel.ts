@@ -16,7 +16,8 @@ export function useUpdateChannel(): UpdateChannelState {
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
-		return window.appApi.updater.onUpdateAvailable(setInfo)
+		// Disabled update check banner from Arroxy in ArrowBrake fork
+		return () => {}
 	}, [])
 
 	function install(): void {

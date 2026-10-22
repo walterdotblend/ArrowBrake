@@ -28,7 +28,8 @@ export function useWhatsNewDialog(changelog: string, options: UseWhatsNewDialogO
 	const lastShownVersion = common?.lastReleaseNotesVersionShown
 	const digest = useMemo(() => releaseNotesSince(changelog, {appVersion, lastShownVersion}), [appVersion, changelog, lastShownVersion])
 	const eligible = initialized && common && startupReady ? shouldShowWhatsNew({appVersion, lastShownVersion, launchCount: common.launchCount, notes: digest}) : false
-	const dialogOpen = eligible && digest?.version !== dismissedVersion
+	// Disabled startup news dialog in ArrowBrake (eligible kept for state tracking)
+	const dialogOpen = false && eligible && digest?.version !== dismissedVersion
 
 	function close(): void {
 		if (!digest) return
