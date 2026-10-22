@@ -1,10 +1,8 @@
-import {lazy, Suspense, useEffect, useState, type ReactNode} from 'react'
-import log from 'electron-log/renderer.js'
-import {Cpu, Info, MessageCircle, Paintbrush, Share2} from 'lucide-react'
-import IconDiscord from '~icons/simple-icons/discord'
+import {useEffect, useState, type ReactNode} from 'react'
+import {Cpu, Paintbrush} from 'lucide-react'
 import {useTranslation} from 'react-i18next'
 import {useShallow} from 'zustand/react/shallow'
-import {DEFAULTS, DISCORD_URL} from '@shared/constants.js'
+import {DEFAULTS} from '@shared/constants.js'
 import {ZOOM_MIN, ZOOM_MAX, ZOOM_STEP, type UiTheme} from '@shared/schemas.js'
 import type {BackdropRenderMode, GraphicsPolicy} from '@shared/types.js'
 import {useAppStore} from './store/useAppStore.js'
@@ -13,14 +11,11 @@ import type {BackdropColorScheme} from './components/layout/background/types.js'
 import {TitleBar} from './components/layout/TitleBar.js'
 import {WizardPanel} from './components/layout/WizardPanel.js'
 import {WarmupSplash} from './components/system/WarmupSplash.js'
-import {FeedbackNudge} from './components/system/FeedbackNudge.js'
 import {UpdateBanner} from './components/system/UpdateBanner.js'
 import {Toaster} from './components/ui/sonner.js'
 import {useToastSink} from './lib/toastSink.js'
 import {ThemeToggle} from './components/system/ThemeToggle.js'
 import {LanguagePicker} from './components/system/LanguagePicker.js'
-import {AboutDialog} from './components/system/AboutDialog.js'
-import {FeedbackDialog} from './components/system/FeedbackDialog.js'
 import {useUpdateChannel} from './components/system/useUpdateChannel.js'
 import {WhatsNewDialog} from './components/system/WhatsNewDialog.js'
 import {useWhatsNewDialog} from './components/system/useWhatsNewDialog.js'
@@ -31,14 +26,7 @@ import {TooltipProvider} from './components/ui/tooltip.js'
 import {cn} from './lib/utils.js'
 import changelogText from '../../../CHANGELOG.md?raw'
 
-const SHOW_SCENARIO_GALLERY = import.meta.env.MODE === 'browser-mock'
-const ShareDialog = lazy(() => import('./components/system/ShareDialog.js').then(module => ({default: module.ShareDialog})))
-const ScenarioGallery = lazy(() => import('./dev/ScenarioGallery.js').then(module => ({default: module.ScenarioGallery})))
-const FOOTER_ACTION_BUTTON_CLASS = 'footer-action-button h-6 rounded-md px-1.5 text-[13px] text-muted-foreground max-sm:size-6 max-sm:px-0'
-const FOOTER_COMPACT_LABEL_CLASS = 'max-sm:sr-only'
-const feedbackLogger = log.scope('feedback')
 type BackdropPreviewMode = 'gpu' | 'css'
-const DEFAULT_FEEDBACK_NUDGE_DELAY_MS = 45_000
 
 const BACKDROP_PREVIEW_MODES = [
 	{description: 'WebGL shader preview: hardware when available, software allowed in this stage.', icon: Cpu, id: 'gpu', label: 'WebGL shader'},
@@ -67,10 +55,6 @@ function previewModeToRenderMode(mode: BackdropPreviewMode): 'css-only' | 'gpu' 
 	return 'gpu'
 }
 
-function openDiscord(): void {
-	void window.appApi.shell.openExternal(DISCORD_URL)
-}
-
 function exitBackdropStage(): void {
 	const url = new URL(window.location.href)
 	url.searchParams.delete('backdrop')
@@ -85,10 +69,6 @@ function shouldRenderStartupSplash(): boolean {
 function effectiveBackdropRenderMode(preferredMode: BackdropRenderMode | null, graphicsPolicy: GraphicsPolicy | null): BackdropRenderMode {
 	if (!preferredMode || !graphicsPolicy) return 'css-only'
 	return graphicsPolicy.backdrop.forceRenderMode ?? preferredMode
-}
-
-function resolveFeedbackNudgeDelay(injectedDelay: number | undefined): number {
-	return typeof injectedDelay === 'number' && Number.isFinite(injectedDelay) && injectedDelay >= 0 ? injectedDelay : DEFAULT_FEEDBACK_NUDGE_DELAY_MS
 }
 
 export function App(): ReactNode {
@@ -107,14 +87,12 @@ export function App(): ReactNode {
 			graphicsPolicy: state.graphicsPolicy
 		}))
 	)
-	const {uiZoom, setUiZoom, uiTheme, setAboutDialogOpen, openShareDialog, shareDialogOpen} = useAppStore(
-		useShallow(state => ({uiZoom: state.uiZoom, setUiZoom: state.setUiZoom, uiTheme: state.uiTheme, setAboutDialogOpen: state.setAboutDialogOpen, openShareDialog: state.openShareDialog, shareDialogOpen: state.shareDialogOpen}))
+	const {uiZoom, setUiZoom, uiTheme} = useAppStore(
+		useShallow(state => ({uiZoom: state.uiZoom, setUiZoom: state.setUiZoom, uiTheme: state.uiTheme}))
 	)
 	const update = useUpdateChannel()
 	// Routes notify.ts to the toast surface for as long as the app is mounted.
 	useToastSink()
-	const [showNudge, setShowNudge] = useState(false)
-	const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false)
 	const [colorScheme, setColorScheme] = useState<BackdropColorScheme>(() => (document.documentElement.classList.contains('dark') ? 'dark' : 'light'))
 	const [backdropPreviewMode, setBackdropPreviewMode] = useState<BackdropPreviewMode>(() => backdropPreviewModeFromUrl())
 	const showStartupSplash = shouldRenderStartupSplash()
@@ -144,18 +122,6 @@ export function App(): ReactNode {
 			return () => mq.removeEventListener('change', apply)
 		}
 	}, [uiTheme])
-
-	useEffect(() => {
-		const delay = resolveFeedbackNudgeDelay(window.__NUDGE_DELAY_MS)
-		const t = setTimeout(() => setShowNudge(true), delay)
-		return () => clearTimeout(t)
-	}, [])
-
-	useEffect(() => {
-		if (!showNudge) return
-		const t = setTimeout(() => setShowNudge(false), 8_000)
-		return () => clearTimeout(t)
-	}, [showNudge])
 
 	// Backdrop isolation stage (browser-mock only): strips all chrome so the animated
 	// background can be tuned on its own. Reach it via `?backdrop=1` or the gallery button.
@@ -238,61 +204,10 @@ export function App(): ReactNode {
 							<LanguagePicker />
 						</div>
 					</div>
-					<div className="flex shrink-0 items-center gap-0.5 sm:gap-1" data-testid="footer-actions">
-						<Button type="button" variant="ghost" size="xs" className={cn(FOOTER_ACTION_BUTTON_CLASS, 'max-sm:hidden')} onClick={() => setAboutDialogOpen(true)} title={t('about.openTitle')} data-testid="btn-about">
-							<Info data-icon="inline-start" aria-hidden />
-							{t('about.button')}
-						</Button>
-						<Button type="button" variant="ghost" size="xs" className={FOOTER_ACTION_BUTTON_CLASS} onClick={() => openShareDialog('footer')} title={t('share.footerTooltip')} data-testid="btn-share">
-							<Share2 data-icon="inline-start" aria-hidden />
-							<span className={FOOTER_COMPACT_LABEL_CLASS} data-testid="btn-share-label">
-								{t('share.footerLabel')}
-							</span>
-						</Button>
-						<Button type="button" variant="ghost" size="xs" className={FOOTER_ACTION_BUTTON_CLASS} onClick={openDiscord} title="Discord" aria-label="Discord" data-testid="btn-discord">
-							<IconDiscord data-icon="inline-start" aria-hidden />
-							<span className={FOOTER_COMPACT_LABEL_CLASS} data-testid="btn-discord-label">
-								Discord
-							</span>
-						</Button>
-						<div className="relative inline-flex h-6 items-center">
-							<FeedbackNudge visible={showNudge} message={t('app.feedbackNudge')} />
-							<Button
-								type="button"
-								variant="ghost"
-								size="xs"
-								className={cn(FOOTER_ACTION_BUTTON_CLASS, showNudge && 'feedback-btn-nudging')}
-								onClick={() => {
-									feedbackLogger.info('Feedback button clicked', {source: 'footer', nudgeVisible: showNudge})
-									setShowNudge(false)
-									setFeedbackDialogOpen(true)
-								}}
-								aria-label={t('app.feedback')}
-								data-testid="btn-feedback"
-							>
-								<MessageCircle data-icon="inline-start" aria-hidden />
-								<span className={FOOTER_COMPACT_LABEL_CLASS} data-testid="btn-feedback-label">
-									{t('app.feedback')}
-								</span>
-							</Button>
-						</div>
-					</div>
 				</footer>
 
 				{showStartupSplash && <WarmupSplash initialized={initialized} warmupBlocking={warmupBlocking} warmupDiagnostics={warmupDiagnostics} warmupProgress={warmupProgress} showGreeting={shouldShowSplashGreeting(settings)} onDismissed={() => setSplashDismissed(true)} onCancel={cancelWarmup} />}
-				<AboutDialog />
-				{shareDialogOpen ? (
-					<Suspense fallback={null}>
-						<ShareDialog />
-					</Suspense>
-				) : null}
-				<FeedbackDialog open={feedbackDialogOpen} onOpenChange={setFeedbackDialogOpen} />
 				<WhatsNewDialog open={whatsNew.open} digest={whatsNew.digest} onClose={whatsNew.close} onOpenFullNotes={whatsNew.openFullNotes} />
-				{SHOW_SCENARIO_GALLERY ? (
-					<Suspense fallback={null}>
-						<ScenarioGallery />
-					</Suspense>
-				) : null}
 				<Toaster theme={colorScheme} />
 			</div>
 		</TooltipProvider>
