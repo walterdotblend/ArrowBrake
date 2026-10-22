@@ -81,50 +81,57 @@ export function VideoEncodeCard({videoEncode, durationSeconds, originalFilesizeB
 			return null
 		}
 
+		// Source stream average bitrate
+		const sourceAvgKbps = (durationSeconds && durationSeconds > 0 && originalFilesizeBytes && originalFilesizeBytes > 0)
+			? Math.max(Math.round(((originalFilesizeBytes * 8) / durationSeconds) / 1000), 100)
+			: null
+
 		let videoKbps: number
 		if (videoEncode.rateControl === 'bitrate') {
 			videoKbps = videoEncode.bitrateKbps ?? 2500
 		} else {
 			// CRF estimation
 			const crf = videoEncode.crf ?? 23
-			let baseBitrate = 2200 // Default base kbps for 1080p
 			const c = videoEncode.codec
+
+			// Codec efficiency factor relative to source
+			let codecEfficiency = 0.85
 			if (c === 'h264' || c === 'h264_nvenc' || c === 'h264_qsv' || c === 'h264_amf') {
-				baseBitrate = 2600
+				codecEfficiency = 0.80
 			} else if (c === 'hevc' || c === 'hevc_nvenc' || c === 'hevc_qsv' || c === 'hevc_amf') {
-				baseBitrate = 1700
+				codecEfficiency = 0.55
 			} else if (c === 'vp9') {
-				baseBitrate = 1900
-			} else if (c === 'av1' || c === 'av1_nvenc' || c === 'av1_qsv' || c === 'av1_amf') {
-				baseBitrate = 1300
+				codecEfficiency = 0.60
+			} else if (c === 'av1' || c === 'av1_nvenc' || c === 'av1_qsv' || c === 'av1_amf' || c === 'auto') {
+				codecEfficiency = 0.42
 			}
 
-			const h = videoHeight && videoHeight > 0 ? videoHeight : 1080
-			// Scale realistically with resolution: 720p is ~44% the pixels of 1080p, 480p is ~20%, 144p is ~2%
-			const resFactor = Math.pow(Math.max(h, 144) / 1080, 1.35)
-			const crfFactor = Math.pow(2, (23 - crf) / 6)
+			// CRF factor: each 6 points of CRF halves or doubles bitrate
+			const crfFactor = Math.pow(2, (24 - crf) / 6)
 			const speedFactor = videoEncode.preset === 'slow' ? 0.92 : videoEncode.preset === 'ultrafast' ? 1.15 : videoEncode.preset === 'fast' ? 1.05 : 1.0
 
-			videoKbps = Math.round(baseBitrate * resFactor * crfFactor * speedFactor)
+			if (sourceAvgKbps) {
+				// Base video bitrate directly on source video bitrate (subtract ~20% for audio)
+				const sourceVideoKbps = Math.max(Math.round(sourceAvgKbps * 0.80), 50)
+				videoKbps = Math.round(sourceVideoKbps * codecEfficiency * crfFactor * speedFactor)
+			} else {
+				// Generic resolution-based fallback when no duration/filesize is known
+				const h = videoHeight && videoHeight > 0 ? videoHeight : 1080
+				const resFactor = Math.pow(Math.max(h, 144) / 1080, 1.3)
+				videoKbps = Math.round(2400 * codecEfficiency * resFactor * crfFactor * speedFactor)
+			}
 		}
 
-		// Audio overhead scales down with video resolution to prevent tiny resolutions (like 144p/240p) from inflating
-		const audioOverhead = videoHeight && videoHeight <= 360 ? 48 : videoHeight && videoHeight <= 720 ? 96 : 160
-		const totalKbps = videoKbps + audioOverhead
+		// Audio overhead scales with video resolution
+		const audioOverhead = sourceAvgKbps
+			? Math.min(Math.round(sourceAvgKbps * 0.20), 128)
+			: videoHeight && videoHeight <= 360 ? 32 : videoHeight && videoHeight <= 720 ? 64 : 128
+
+		const totalKbps = Math.max(videoKbps + audioOverhead, 30)
 		const rateText = totalKbps >= 1000 ? `~${(totalKbps / 1000).toFixed(2)} Mbps` : `~${totalKbps} kbps`
 
 		if (durationSeconds && durationSeconds > 0) {
-			let estimatedBytes = (totalKbps * 1000 / 8) * durationSeconds
-
-			// Clamp: If original filesize is known, a re-encode at standard/efficient CRF should NEVER be heavier than the original stream
-			if (originalFilesizeBytes && originalFilesizeBytes > 0 && videoEncode.rateControl === 'crf') {
-				const crf = videoEncode.crf ?? 23
-				if (crf >= 20 && estimatedBytes > originalFilesizeBytes) {
-					// Cap estimated size to avoid absurd inflation on heavily compressed YouTube streams
-					estimatedBytes = Math.round(originalFilesizeBytes * (crf >= 28 ? 0.45 : crf >= 25 ? 0.65 : 0.85))
-				}
-			}
-
+			const estimatedBytes = (totalKbps * 1000 / 8) * durationSeconds
 			const sizeText = `~${formatBytes(estimatedBytes)}`
 			let diffBadge: {text: string; isReduction: boolean} | null = null
 
@@ -198,36 +205,6 @@ export function VideoEncodeCard({videoEncode, durationSeconds, originalFilesizeB
 		}
 	}
 
-	// Calculate CRF that dynamically targets a specific reduction (e.g. 0.75 for 75% of original weight, 0.50 for 50%, 0.25 for 25%)
-	const calculateTargetCrf = (targetRatio: number, codec: VideoEncodeCodec): number => {
-		if (!originalFilesizeBytes || !durationSeconds || durationSeconds <= 0 || originalFilesizeBytes <= 0) {
-			// Fallbacks if duration/file size not known
-			if (codec.includes('av1')) return targetRatio <= 0.3 ? 32 : 28
-			if (codec.includes('hevc')) return targetRatio <= 0.5 ? 26 : 24
-			return targetRatio <= 0.75 ? 24 : 22
-		}
-		const sourceAvgKbps = Math.max(Math.round(((originalFilesizeBytes * 8) / durationSeconds) / 1000) - 160, 200)
-		const targetVideoKbps = Math.max(Math.round(sourceAvgKbps * targetRatio), 150)
-		
-		let baseBitrate = 2200
-		if (codec === 'h264' || codec === 'h264_nvenc' || codec === 'h264_qsv' || codec === 'h264_amf') {
-			baseBitrate = 2600
-		} else if (codec === 'hevc' || codec === 'hevc_nvenc' || codec === 'hevc_qsv' || codec === 'hevc_amf') {
-			baseBitrate = 1700
-		} else if (codec === 'vp9') {
-			baseBitrate = 1900
-		} else if (codec === 'av1' || codec === 'av1_nvenc' || codec === 'av1_qsv' || codec === 'av1_amf') {
-			baseBitrate = 1300
-		}
-		const h = videoHeight && videoHeight > 0 ? videoHeight : 1080
-		const resFactor = Math.pow(Math.max(h, 240) / 1080, 1.25)
-		
-		const ratio = targetVideoKbps / (baseBitrate * resFactor)
-		if (ratio <= 0) return 28
-		const calculatedCrf = Math.round(23 - 6 * (Math.log(ratio) / Math.LN2))
-		return Math.min(Math.max(calculatedCrf, 18), 36)
-	}
-
 	return (
 		<div className={cn('rounded-xl border border-[var(--border-strong)] bg-card/60 p-3.5 shadow-sm flex flex-col gap-3', className)} data-testid="video-encode-card">
 			<div className="flex items-center justify-between border-b border-[var(--border-strong)] pb-2">
@@ -254,13 +231,12 @@ export function VideoEncodeCard({videoEncode, durationSeconds, originalFilesizeB
 					<button
 						type="button"
 						onClick={() => {
-							const targetCrf = calculateTargetCrf(0.75, 'h264_nvenc')
-							onChange({container: 'mp4', codec: 'h264_nvenc', rateControl: 'crf', crf: targetCrf, preset: 'medium'})
+							onChange({container: 'mp4', codec: 'h264_nvenc', rateControl: 'crf', crf: 22, preset: 'medium'})
 						}}
 						title={t('wizard.url.videoEncode.quickPresets.h264CompatTooltip')}
 						className={cn(
 							'flex flex-col items-start gap-0.5 rounded-lg border p-2 text-left transition-all hover:border-primary/50 hover:bg-card',
-							(videoEncode.codec === 'h264_nvenc' || videoEncode.codec === 'h264') && videoEncode.container === 'mp4'
+							(videoEncode.codec === 'h264_nvenc' || videoEncode.codec === 'h264') && videoEncode.crf === 22 && videoEncode.container === 'mp4'
 								? 'border-primary bg-card shadow-[0_0_10px_var(--brand-glow)]'
 								: 'border-border bg-card/60'
 						)}
@@ -272,13 +248,12 @@ export function VideoEncodeCard({videoEncode, durationSeconds, originalFilesizeB
 					<button
 						type="button"
 						onClick={() => {
-							const targetCrf = calculateTargetCrf(0.50, 'av1_nvenc')
-							onChange({container: 'mkv', codec: 'av1_nvenc', rateControl: 'crf', crf: targetCrf, preset: 'medium'})
+							onChange({container: 'mkv', codec: 'av1_nvenc', rateControl: 'crf', crf: 26, preset: 'medium'})
 						}}
 						title={t('wizard.url.videoEncode.quickPresets.av1EfficientTooltip')}
 						className={cn(
 							'relative flex flex-col items-start gap-0.5 overflow-hidden rounded-lg border p-2 text-left transition-all hover:border-primary/50 hover:bg-card',
-							(videoEncode.codec === 'av1_nvenc' || videoEncode.codec === 'av1') && (videoEncode.crf ?? 26) <= calculateTargetCrf(0.38, 'av1_nvenc')
+							(videoEncode.codec === 'av1_nvenc' || videoEncode.codec === 'av1') && videoEncode.crf === 26
 								? 'border-primary bg-card shadow-[0_0_10px_var(--brand-glow)]'
 								: 'border-border bg-card/60'
 						)}
@@ -293,13 +268,12 @@ export function VideoEncodeCard({videoEncode, durationSeconds, originalFilesizeB
 					<button
 						type="button"
 						onClick={() => {
-							const targetCrf = calculateTargetCrf(0.25, 'av1_nvenc')
-							onChange({container: 'mkv', codec: 'av1_nvenc', rateControl: 'crf', crf: targetCrf, preset: 'medium'})
+							onChange({container: 'mkv', codec: 'av1_nvenc', rateControl: 'crf', crf: 32, preset: 'medium'})
 						}}
 						title={t('wizard.url.videoEncode.quickPresets.av1LightTooltip')}
 						className={cn(
 							'flex flex-col items-start gap-0.5 rounded-lg border p-2 text-left transition-all hover:border-primary/50 hover:bg-card',
-							(videoEncode.codec === 'av1_nvenc' || videoEncode.codec === 'av1') && (videoEncode.crf ?? 26) > calculateTargetCrf(0.38, 'av1_nvenc')
+							(videoEncode.codec === 'av1_nvenc' || videoEncode.codec === 'av1') && videoEncode.crf === 32
 								? 'border-primary bg-card shadow-[0_0_10px_var(--brand-glow)]'
 								: 'border-border bg-card/60'
 						)}
